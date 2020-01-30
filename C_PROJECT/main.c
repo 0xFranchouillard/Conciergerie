@@ -34,17 +34,9 @@
 //----------------------------------------------------------
 #include <stdint.h>
 #include <malloc.h>
-#define _height 928
-#define _width 928
-#define _bitsperpixel 24
-#define _planes 1
-#define _compression 0
-#define _pixelbytesize _height*_width*_bitsperpixel/8
-#define _filesize _pixelbytesize+sizeof(bitmap)
-#define _xpixelpermeter 0x130B //2835 , 72 DPI
-#define _ypixelpermeter 0x130B //2835 , 72 DPI
-#define pixel 0x00
+
 #pragma pack(push,1)
+
 typedef struct{
     /*uint8_t*/char signature[2];
     uint32_t filesize;
@@ -69,7 +61,7 @@ typedef struct {
     bitmapinfoheader bitmapinfoheader;
 } bitmap;
 #pragma pack(pop)
-//-------------------------------------------------
+//---------------------------------------------------
 
 // Function prototypes
 static void doBasicDemo(void);
@@ -88,7 +80,7 @@ int main(int argc,char **argv) {
 
 // Creates a single QR Code, then prints it to the console.
 static void doBasicDemo(void) {
-	const char *text = "Hello, world!";                // User-supplied text
+	const char *text = "Issou Cyrille ! Sa va le C ? Demain on fait du Java";                // User-supplied text
 	enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;  // Error correction level
 
 	// Make and print the QR Code symbol
@@ -158,7 +150,20 @@ static void doBasicDemo(void) {
 // Prints the given QR Code to the console.
 static void printQr(const uint8_t qrcode[]) {
 
-    FILE *fp = fopen("test.bmp","wb");
+    int size = qrcodegen_getSize(qrcode);
+	int border = 2;
+
+	#define _height (size+border*2)*16
+    #define _width (size+border*2)*16
+    #define _bitsperpixel 24
+    #define _planes 1
+    #define _compression 0
+    #define _pixelbytesize _height*_width*_bitsperpixel/8
+    #define _filesize _pixelbytesize+sizeof(bitmap)
+    #define _xpixelpermeter 0x130B //2835 , 72 DPI
+    #define _ypixelpermeter 0x130B //2835 , 72 DPI
+
+    FILE *fp = fopen("QrCode.bmp","wb");
     bitmap *pbitmap  = (bitmap*)calloc(1,sizeof(bitmap));
     /*uint8_t*/char *pixelbuffer = (/*uint8_t*/char*)malloc(_pixelbytesize);
     strcpy(pbitmap->fileheader.signature,"BM");
@@ -175,12 +180,8 @@ static void printQr(const uint8_t qrcode[]) {
     pbitmap->bitmapinfoheader.xpixelpermeter = _xpixelpermeter ;
     pbitmap->bitmapinfoheader.numcolorspallette = 0;
     fwrite (pbitmap, 1, sizeof(bitmap),fp);
-    //memset(pixelbuffer,pixel2,_pixelbytesize);
 
-    char codetest[29*29];
-
-    int size = qrcodegen_getSize(qrcode);
-	int border = 4;
+	char codetest[(size+border*2)*(size+border*2)];
 
     int w=0;
 	for (int y = -border; y < size + border; y++) {
@@ -198,13 +199,13 @@ static void printQr(const uint8_t qrcode[]) {
 
     w=0;
 	long long k=0;
-	for (int i=0; i<29; i++) {
-        for(int m=0; m<32; m++) {
-            for (int j=0; j<29; j++) {
+	for (int i=0; i<(size+border*2); i++) {
+        for(int m=0; m<(_height/(size+border*2)); m++) {
+            for (int j=0; j<(size+border*2); j++) {
             //printf("%c ",codetest[w]);
 
                 if(codetest[w]=='n'){
-                    for(int n=0; n<32; n++) {
+                    for(int n=0; n<(_height/(size+border*2)); n++) {
                         pixelbuffer[k]=0x00;
                         pixelbuffer[k+1]=0x00;
                         pixelbuffer[k+2]=0x00;
@@ -212,7 +213,7 @@ static void printQr(const uint8_t qrcode[]) {
                         k=k+3;
                     }
                 } else {
-                    for(int n=0; n<32; n++) {
+                    for(int n=0; n<(_height/(size+border*2)); n++) {
                         pixelbuffer[k]=0xFF;
                         pixelbuffer[k+1]=0xFF;
                         pixelbuffer[k+2]=0xFF;
@@ -224,7 +225,7 @@ static void printQr(const uint8_t qrcode[]) {
                 w++;
 
             }
-            w=29*i;
+            w=(size+border*2)*i;
 		}
 		//fputs("\n", stdout);
 	}
