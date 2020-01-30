@@ -1,41 +1,26 @@
-/*
- * QR Code generator (C)
- *
- * Run this command-line program with no arguments. The program
- * computes a demonstration QR Codes and print it to the console.
- *
- * Copyright (c) Project Nayuki. (MIT License)
- * https://www.nayuki.io/page/qr-code-generator-library
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- * - The above copyright notice and this permission notice shall be included in
- *   all copies or substantial portions of the Software.
- * - The Software is provided "as is", without warranty of any kind, express or
- *   implied, including but not limited to the warranties of merchantability,
- *   fitness for a particular purpose and noninfringement. In no event shall the
- *   authors or copyright holders be liable for any claim, damages or other
- *   liability, whether in an action of contract, tort or otherwise, arising from,
- *   out of or in connection with the Software or the use or other dealings in the
- *   Software.
- */
-#include <stdbool.h>
-#include <stddef.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <winsock.h>
+#include <MYSQL/mysql.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <malloc.h>
 #include "qrcodegen.h"
 #include "qrcodegen.c"
 
-//----------------------------------------------------------
-#include <stdint.h>
-#include <malloc.h>
-
 #pragma pack(push,1)
+
+#define _height (size+border*2)*16
+#define _width (size+border*2)*16
+#define _bitsperpixel 24
+#define _planes 1
+#define _compression 0
+#define _pixelbytesize _height*_width*_bitsperpixel/8
+#define _filesize _pixelbytesize+sizeof(bitmap)
+#define _xpixelpermeter 0x130B //2835 , 72 DPI
+#define _ypixelpermeter 0x130B //2835 , 72 DPI
 
 typedef struct{
     /*uint8_t*/char signature[2];
@@ -43,6 +28,7 @@ typedef struct{
     uint32_t reserved;
     uint32_t fileoffset_to_pixelarray;
 } fileheader;
+
 typedef struct{
     uint32_t dibheadersize;
     uint32_t width;
@@ -56,112 +42,64 @@ typedef struct{
     uint32_t numcolorspallette;
     uint32_t mostimpcolor;
 } bitmapinfoheader;
+
 typedef struct {
     fileheader fileheader;
     bitmapinfoheader bitmapinfoheader;
 } bitmap;
-#pragma pack(pop)
-//---------------------------------------------------
 
-// Function prototypes
-static void doBasicDemo(void);
-//static void doMaskDemo(void);
+typedef struct Inputs Inputs;
+struct Inputs
+{
+    gpointer entry1;
+    gpointer entry2;
+    gpointer checkbutton1;
+};
+
+#pragma pack(pop)
+
+void on_window_connect_destroy();
+static void doBasicDemo(char* mail,int id);
 static void printQr(const uint8_t qrcode[]);
 
+void sign_in(GtkWidget *entry,Inputs *In)
+{
+   char * log = gtk_entry_get_text (GTK_ENTRY (In->entry1));
+   char * passwd = gtk_entry_get_text (GTK_ENTRY ((*In).entry2));
+   bool adm = gtk_toggle_button_get_active(In->checkbutton1);
+   printf("%s\n%s\n%d\n",log,passwd,adm);
+   char * request = (char *)malloc(256);
+   int id = 1;
 
-// The main application program.
-int main(int argc,char **argv) {
-	doBasicDemo();
-	//doMaskDemo();
-	return 0;
+    sprintf(request,"INSERT INTO utilisateur(idUtilisateur,nom,email,qrCode) VALUES ('%d','%s','%s','%s')",id,log,log,passwd);
+
+    MYSQL mysql;
+    mysql_init(&mysql);
+    mysql_options(&mysql,MYSQL_READ_DEFAULT_GROUP,"option");
+    if(mysql_real_connect(&mysql,"localhost","root","","mydb",3306,NULL,0)){
+            mysql_query(&mysql, request);
+            doBasicDemo(log,id);
+    }else{printf("non ok ");}
 }
 
-/*---- Demo suite ----*/
-
-// Creates a single QR Code, then prints it to the console.
-static void doBasicDemo(void) {
-	const char *text = "Issou Cyrille ! Sa va le C ? Demain on fait du Java";                // User-supplied text
+static void doBasicDemo(char *mail, int id) {
+    char * value = (char *)malloc(256);
+    sprintf(value,"https://51.77.221.39/verif.php?mail='%s'&id='%d'",mail,id);
 	enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;  // Error correction level
 
 	// Make and print the QR Code symbol
 	uint8_t qrcode[qrcodegen_BUFFER_LEN_MAX];
 	uint8_t tempBuffer[qrcodegen_BUFFER_LEN_MAX];
-	bool ok = qrcodegen_encodeText(text, tempBuffer, qrcode, errCorLvl,
+	bool ok = qrcodegen_encodeText(value, tempBuffer, qrcode, errCorLvl,
 		qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
 	if (ok)
 		printQr(qrcode);
 }
 
-// Creates QR Codes with the same size and contents but different mask patterns.
-/*static void doMaskDemo(void) {
-	{  // Project Nayuki URL
-		uint8_t qrcode[qrcodegen_BUFFER_LEN_MAX];
-		uint8_t tempBuffer[qrcodegen_BUFFER_LEN_MAX];
-		bool ok;
-
-		ok = qrcodegen_encodeText("https://www.nayuki.io/", tempBuffer, qrcode,
-			qrcodegen_Ecc_HIGH, qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
-		if (ok)
-			printQr(qrcode);
-
-		ok = qrcodegen_encodeText("https://www.nayuki.io/", tempBuffer, qrcode,
-			qrcodegen_Ecc_HIGH, qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_3, true);
-		if (ok)
-			printQr(qrcode);
-	}
-
-	{  // Chinese text as UTF-8
-		const char *text =
-			"\xE7\xB6\xAD\xE5\x9F\xBA\xE7\x99\xBE\xE7\xA7\x91\xEF\xBC\x88\x57\x69\x6B\x69\x70"
-			"\x65\x64\x69\x61\xEF\xBC\x8C\xE8\x81\x86\xE8\x81\xBD\x69\x2F\xCB\x8C\x77\xC9\xAA"
-			"\x6B\xE1\xB5\xBB\xCB\x88\x70\x69\xCB\x90\x64\x69\x2E\xC9\x99\x2F\xEF\xBC\x89\xE6"
-			"\x98\xAF\xE4\xB8\x80\xE5\x80\x8B\xE8\x87\xAA\xE7\x94\xB1\xE5\x85\xA7\xE5\xAE\xB9"
-			"\xE3\x80\x81\xE5\x85\xAC\xE9\x96\x8B\xE7\xB7\xA8\xE8\xBC\xAF\xE4\xB8\x94\xE5\xA4"
-			"\x9A\xE8\xAA\x9E\xE8\xA8\x80\xE7\x9A\x84\xE7\xB6\xB2\xE8\xB7\xAF\xE7\x99\xBE\xE7"
-			"\xA7\x91\xE5\x85\xA8\xE6\x9B\xB8\xE5\x8D\x94\xE4\xBD\x9C\xE8\xA8\x88\xE7\x95\xAB";
-		uint8_t qrcode[qrcodegen_BUFFER_LEN_MAX];
-		uint8_t tempBuffer[qrcodegen_BUFFER_LEN_MAX];
-		bool ok;
-
-		ok = qrcodegen_encodeText(text, tempBuffer, qrcode,
-			qrcodegen_Ecc_MEDIUM, qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_0, true);
-		if (ok)
-			printQr(qrcode);
-
-		ok = qrcodegen_encodeText(text, tempBuffer, qrcode,
-			qrcodegen_Ecc_MEDIUM, qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_1, true);
-		if (ok)
-			printQr(qrcode);
-
-		ok = qrcodegen_encodeText(text, tempBuffer, qrcode,
-			qrcodegen_Ecc_MEDIUM, qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_5, true);
-		if (ok)
-			printQr(qrcode);
-
-		ok = qrcodegen_encodeText(text, tempBuffer, qrcode,
-			qrcodegen_Ecc_MEDIUM, qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_7, true);
-		if (ok)
-			printQr(qrcode);
-	}
-}*/
-
-/*---- Utilities ----*/
-
-// Prints the given QR Code to the console.
 static void printQr(const uint8_t qrcode[]) {
 
     int size = qrcodegen_getSize(qrcode);
 	int border = 2;
-
-	#define _height (size+border*2)*16
-    #define _width (size+border*2)*16
-    #define _bitsperpixel 24
-    #define _planes 1
-    #define _compression 0
-    #define _pixelbytesize _height*_width*_bitsperpixel/8
-    #define _filesize _pixelbytesize+sizeof(bitmap)
-    #define _xpixelpermeter 0x130B //2835 , 72 DPI
-    #define _ypixelpermeter 0x130B //2835 , 72 DPI
 
     FILE *fp = fopen("QrCode.bmp","wb");
     bitmap *pbitmap  = (bitmap*)calloc(1,sizeof(bitmap));
@@ -194,9 +132,7 @@ static void printQr(const uint8_t qrcode[]) {
             }
             w++;
 		}
-		//fputs("\n", stdout);
 	}
-
     w=0;
 	long long k=0;
 	for (int i=0; i<(size+border*2); i++) {
@@ -221,9 +157,7 @@ static void printQr(const uint8_t qrcode[]) {
                         k=k+3;
                     }
                 }
-
                 w++;
-
             }
             w=(size+border*2)*i;
 		}
@@ -236,3 +170,36 @@ static void printQr(const uint8_t qrcode[]) {
     free(pbitmap);
     free(pixelbuffer);
 }
+
+int main(int argc, char *argv[]){
+
+    GtkBuilder *gtkBuilder;
+    GtkWidget *window_connect;
+    GtkWidget *button1;
+    GtkBox *box1;
+
+    gtk_init(&argc, &argv);
+    gtkBuilder = gtk_builder_new();
+    gtk_builder_add_from_file(gtkBuilder, "gui.glade", NULL);
+
+    window_connect = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "window_connect"));
+    button1 = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button1"));
+
+    Inputs Input;
+    Input.entry1=gtk_builder_get_object (gtkBuilder, "entry1");
+    Input.entry2=gtk_builder_get_object (gtkBuilder, "entry2");
+    Input.checkbutton1=gtk_builder_get_object (gtkBuilder, "checkbutton1");
+
+    gtk_builder_connect_signals(gtkBuilder, NULL);
+    g_signal_connect (G_OBJECT (window_connect), "destroy", (GCallback)on_window_connect_destroy, NULL);
+    g_signal_connect (G_OBJECT (button1), "clicked", (GCallback)sign_in, &Input);
+    g_object_unref(gtkBuilder);
+    gtk_widget_show(window_connect);
+    gtk_main();
+    return 0;
+}
+void on_window_connect_destroy()
+{
+    gtk_main_quit();
+}
+
