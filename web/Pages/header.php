@@ -25,21 +25,12 @@
             <li class="link_header">
                 <a href="#" class="link">Nous contacter</a>&nbsp&nbsp&nbsp|
             </li>
-            <?php if(!$connected){ ?>
-                <li class="link_header">
-                    <a href="connection.php" class="link">Se connecter</a>&nbsp&nbsp&nbsp|
-                </li>
-                <li class="link_header">
-                    <a href="connection.php" class="link">S'inscrire</a>
-                </li>
-            <?php } else { ?>
-                <li class="link_header">
-                    <a href="#" class="link">Mon Profil</a>&nbsp&nbsp&nbsp|
-                </li>
-                <li class="link_header">
-                    <a href="#" class="link">Deconnexion</a>
-                </li>
-            <?php } ?>
+            <li class="link_header">
+                <a href="#" class="link">Se connecter</a>&nbsp&nbsp&nbsp|
+            </li>
+            <li class="link_header">
+                <a href="#" class="link">S'inscrire</a>
+            </li>
         <ul>
     </nav>
 </header>

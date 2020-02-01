@@ -1,7 +1,3 @@
-<?php
-  session_start();
-  $connected = isset($_SESSION['email']) ? true : false;
-?>
 <!DOCTYPE html>
 <html>
     <head>
