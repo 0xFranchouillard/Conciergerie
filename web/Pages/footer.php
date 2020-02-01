@@ -8,10 +8,17 @@
             <a href="#" class="col link_footer">Information Tarif</a>
             <a href="#" class="col link_footer">Nous contacter</a>
         </div>
-        <div class="row">
-            <a href="#" class="col link_footer">Se connecter</a>
-            <a href="#" class="col link_footer">S'inscrire</a>
-        </div>
+        <?php if(!$connected){ ?>
+            <div class="row">
+                <a href="connection.php" class="col link_footer">Se connecter</a>
+                <a href="connection.php" class="col link_footer">S'inscrire</a>
+            </div>
+        <?php } else{ ?>
+            <div class="row">
+                <a href="#" class="col link_footer">Mon Profil</a>
+                <a href="#" class="col link_footer">Deconnexion</a>
+            </div>
+        <?php } ?>
     </div>
     <br/>
     <br/>
