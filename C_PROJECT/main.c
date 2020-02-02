@@ -1,4 +1,3 @@
-#include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <winsock.h>
@@ -7,8 +6,10 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <malloc.h>
+#include <time.h>
 #include "qrcodegen.h"
 #include "qrcodegen.c"
+#include <gtk/gtk.h>
 
 #pragma pack(push, 1)
 
@@ -66,8 +67,11 @@ struct Inputs {
 void on_window_connect_destroy();
 
 static void doBasicDemo(char *mail, int id, char* PATH);
-
 static void printQr(const uint8_t qrcode[], char* PATH);
+
+
+
+
 
 void sign_in(GtkWidget *entry, Inputs *In) {
     char *lastName = gtk_entry_get_text(GTK_ENTRY(In->entry1));
@@ -81,11 +85,13 @@ void sign_in(GtkWidget *entry, Inputs *In) {
     char *function = "PRESTATAIRE";
     char *PATH = (char *) malloc(256);
     sprintf(PATH,"qrcode_%s.bmp",email);
-
-    char *request = (char *) malloc(256);
     char* idUser = "NULL";
-
-    sprintf(request, "INSERT INTO useraccount(idUser,lastName,firstName,email,fonction,statut,address,telephoneNumber,qrcode,professionName,cityName) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",idUser,lastName,firstName,email,function,status,address,telephoneNumber,PATH,professionName,cityName);
+    char *request = (char *) malloc(256);
+    srand (time(NULL));
+    char* password;
+    password = malloc(sizeof(char)*5);
+    sprintf(password,"%d",rand()%100000);
+    sprintf(request, "INSERT INTO useraccount(idUser,lastName,firstName,email,fonction,statut,address,telephoneNumber,qrcode,professionName,cityName,password) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",idUser,lastName,firstName,email,function,status,address,telephoneNumber,PATH,professionName,cityName,password);
     printf("%s\n",request);
 
     MYSQL mysql;
