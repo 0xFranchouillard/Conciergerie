@@ -52,6 +52,12 @@ typedef struct Inputs Inputs;
 struct Inputs {
     gpointer entry1;
     gpointer entry2;
+    gpointer entry3;
+    gpointer entry4;
+    gpointer entry5;
+    gpointer entry6;
+    gpointer entry7;
+    gpointer city;
     gpointer checkbutton1;
 };
 
@@ -59,33 +65,41 @@ struct Inputs {
 
 void on_window_connect_destroy();
 
-static void doBasicDemo(char *mail, int id);
+static void doBasicDemo(char *mail, int id, char* PATH);
 
-static void printQr(const uint8_t qrcode[]);
+static void printQr(const uint8_t qrcode[], char* PATH);
 
 void sign_in(GtkWidget *entry, Inputs *In) {
-    char *log = gtk_entry_get_text(GTK_ENTRY(In->entry1));
-    char *passwd = gtk_entry_get_text(GTK_ENTRY((*In).entry2));
-    bool adm = gtk_toggle_button_get_active(In->checkbutton1);
-    printf("%s\n%s\n%d\n", log, passwd, adm);
-    char *request = (char *) malloc(256);
-    int id = 1;
+    char *lastName = gtk_entry_get_text(GTK_ENTRY(In->entry1));
+    char *firstName = gtk_entry_get_text(GTK_ENTRY((*In).entry2));
+    char *email = gtk_entry_get_text(GTK_ENTRY((*In).entry3));
+    char *professionName = gtk_entry_get_text(GTK_ENTRY((*In).entry4));
+    char *status = gtk_entry_get_text(GTK_ENTRY((*In).entry5));
+    char *telephoneNumber = gtk_entry_get_text(GTK_ENTRY((*In).entry6));
+    char *address = gtk_entry_get_text(GTK_ENTRY((*In).entry7));
+    char *cityName = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(In->city));
+    char *function = "PRESTATAIRE";
+    char *PATH = (char *) malloc(256);
+    sprintf(PATH,"qrcode_%s.bmp",email);
 
-    sprintf(request, "INSERT INTO utilisateur(idUtilisateur,nom,email,qrCode) VALUES ('%d','%s','%s','%s')", id, log,
-            log, passwd);
+    char *request = (char *) malloc(256);
+    char* idUser = "NULL";
+
+    sprintf(request, "INSERT INTO useraccount(idUser,lastName,firstName,email,fonction,statut,address,telephoneNumber,qrcode,professionName,cityName) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",idUser,lastName,firstName,email,function,status,address,telephoneNumber,PATH,professionName,cityName);
+    printf("%s\n",request);
 
     MYSQL mysql;
     mysql_init(&mysql);
     mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "option");
     if (mysql_real_connect(&mysql, "localhost", "root", "", "mydb", 3306, NULL, 0)) {
         mysql_query(&mysql, request);
-        doBasicDemo(log, id);
+        doBasicDemo(email, idUser, PATH);
     } else { printf("non ok "); }
 }
 
-static void doBasicDemo(char *mail, int id) {
+static void doBasicDemo(char *email, int idUser,char* PATH) {
     char *value = (char *) malloc(256);
-    sprintf(value, "https://51.77.221.39/verif.php?mail='%s'&id='%d'", mail, id);
+    sprintf(value, "https://51.77.221.39/verif.php?email='%s'&idUser='%d'", email, idUser);
     enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;  // Error correction level
 
     // Make and print the QR Code symbol
@@ -94,15 +108,14 @@ static void doBasicDemo(char *mail, int id) {
     bool ok = qrcodegen_encodeText(value, tempBuffer, qrcode, errCorLvl,
                                    qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
     if (ok)
-        printQr(qrcode);
+        printQr(qrcode,PATH);
 }
 
-static void printQr(const uint8_t qrcode[]) {
+static void printQr(const uint8_t qrcode[],char *PATH) {
 
     int size = qrcodegen_getSize(qrcode);
     int border = 2;
-
-    FILE *fp = fopen("QrCode.bmp", "wb");
+    FILE *fp = fopen(PATH, "wb");
     bitmap *pbitmap = (bitmap *) calloc(1, sizeof(bitmap));
     /*uint8_t*/char *pixelbuffer = (/*uint8_t*/char *) malloc(_pixelbytesize);
     strcpy(pbitmap->fileheader.signature, "BM");
@@ -189,6 +202,12 @@ int main(int argc, char *argv[]) {
     Inputs Input;
     Input.entry1 = gtk_builder_get_object(gtkBuilder, "entry1");
     Input.entry2 = gtk_builder_get_object(gtkBuilder, "entry2");
+    Input.entry3 = gtk_builder_get_object(gtkBuilder, "entry3");
+    Input.entry4 = gtk_builder_get_object(gtkBuilder, "entry4");
+    Input.entry5 = gtk_builder_get_object(gtkBuilder, "entry5");
+    Input.entry6 = gtk_builder_get_object(gtkBuilder, "entry6");
+    Input.entry7 = gtk_builder_get_object(gtkBuilder, "entry7");
+    Input.city = gtk_builder_get_object(gtkBuilder, "city");
     Input.checkbutton1 = gtk_builder_get_object(gtkBuilder, "checkbutton1");
 
     gtk_builder_connect_signals(gtkBuilder, NULL);
