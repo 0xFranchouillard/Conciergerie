@@ -90,7 +90,7 @@ void sign_in(GtkWidget *entry, Inputs *In) {
     password = malloc(sizeof(char)*5);
     sprintf(password,"%d",rand()%100000);
 
-    sprintf(request, "INSERT INTO useraccount(userID,lastName,firstName,email,password,address,phoneNumber,qrcode,city,userFonction) VALUES ('%s','%s','%s','%s','%s','%s','%d','%s','%s','%d')",idUser,lastName,firstName,email,password,address,phoneNumber,PATH,city,1);
+    sprintf(request, "INSERT INTO useraccount(userID,lastName,firstName,email,password,address,phoneNumber,qrcode,city,userFunction) VALUES ('%s','%s','%s','%s','%s','%s','%d','%s','%s','%d')",idUser,lastName,firstName,email,password,address,phoneNumber,PATH,city,1);
     printf("%s\n",request);
 
     MYSQL mysql;
