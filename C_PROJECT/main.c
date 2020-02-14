@@ -68,8 +68,7 @@ void on_window_connect_destroy();
 
 static void doBasicDemo(char *mail, int id, char* PATH);
 static void printQr(const uint8_t qrcode[], char* PATH);
-
-
+int return_last_id();
 
 
 
@@ -77,21 +76,21 @@ void sign_in(GtkWidget *entry, Inputs *In) {
     char *lastName = gtk_entry_get_text(GTK_ENTRY(In->entry1));
     char *firstName = gtk_entry_get_text(GTK_ENTRY((*In).entry2));
     char *email = gtk_entry_get_text(GTK_ENTRY((*In).entry3));
-    char *professionName = gtk_entry_get_text(GTK_ENTRY((*In).entry4));
-    char *status = gtk_entry_get_text(GTK_ENTRY((*In).entry5));
-    char *telephoneNumber = gtk_entry_get_text(GTK_ENTRY((*In).entry6));
-    char *address = gtk_entry_get_text(GTK_ENTRY((*In).entry7));
-    char *cityName = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(In->city));
-    char *function = "PRESTATAIRE";
+    //char *professionName = gtk_entry_get_text(GTK_ENTRY((*In).entry4));
+    char *address = gtk_entry_get_text(GTK_ENTRY((*In).entry5));
+    char *phoneNumber = gtk_entry_get_text(GTK_ENTRY((*In).entry6));
+    char *city = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(In->city));
     char *PATH = (char *) malloc(256);
     sprintf(PATH,"qrcode_%s.bmp",email);
     char* idUser = "NULL";
+
     char *request = (char *) malloc(256);
     srand (time(NULL));
     char* password;
     password = malloc(sizeof(char)*5);
     sprintf(password,"%d",rand()%100000);
-    sprintf(request, "INSERT INTO useraccount(idUser,lastName,firstName,email,fonction,statut,address,telephoneNumber,qrcode,professionName,cityName,password) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",idUser,lastName,firstName,email,function,status,address,telephoneNumber,PATH,professionName,cityName,password);
+
+    sprintf(request, "INSERT INTO useraccount(userID,lastName,firstName,email,password,address,phoneNumber,qrcode,city,userFonction) VALUES ('%s','%s','%s','%s','%s','%s','%d','%s','%s','%d')",idUser,lastName,firstName,email,password,address,phoneNumber,PATH,city,1);
     printf("%s\n",request);
 
     MYSQL mysql;
@@ -105,7 +104,7 @@ void sign_in(GtkWidget *entry, Inputs *In) {
 
 static void doBasicDemo(char *email, int idUser,char* PATH) {
     char *value = (char *) malloc(256);
-    sprintf(value, "https://51.77.221.39/verif.php?email='%s'&idUser='%d'", email, idUser);
+    sprintf(value, "https://51.77.221.39/verif.php?email='%s'", email);
     enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;  // Error correction level
 
     // Make and print the QR Code symbol
@@ -191,6 +190,42 @@ static void printQr(const uint8_t qrcode[],char *PATH) {
     free(pixelbuffer);
 }
 
+int return_last_id() {
+    char * request = NULL;
+    int id;
+    MYSQL_RES * result;
+    request = malloc(sizeof(char) * 256);
+    if(request == NULL) {
+        printf("Allocation error");
+        exit(0);
+    }
+    sprintf(request, "SELECT userID FROM useraccount ORDER BY userID DESC LIMIT 1");
+
+    MYSQL mysql;
+    mysql_init(&mysql);
+    mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "option");
+
+    if (mysql_real_connect(&mysql, "localhost", "root", "", "mydb", 3306, NULL, 0)) {
+        mysql_query(&mysql, request);
+    }
+    free(request);
+
+    int num_fields = mysql_num_fields(result);
+    MYSQL_ROW row;
+    if(mysql_num_rows(result) > 0) {
+        while ((row = mysql_fetch_row(result))) {
+            for(int i = 0; i < num_fields; i++) {
+                id = (int)row[i];
+            }
+        }
+    }
+    else {
+        printf("\nERROR\n");
+    }
+    mysql_free_result(result);
+    return atoi(id);
+}
+
 int main(int argc, char *argv[]) {
 
     GtkBuilder *gtkBuilder;
@@ -212,7 +247,6 @@ int main(int argc, char *argv[]) {
     Input.entry4 = gtk_builder_get_object(gtkBuilder, "entry4");
     Input.entry5 = gtk_builder_get_object(gtkBuilder, "entry5");
     Input.entry6 = gtk_builder_get_object(gtkBuilder, "entry6");
-    Input.entry7 = gtk_builder_get_object(gtkBuilder, "entry7");
     Input.city = gtk_builder_get_object(gtkBuilder, "city");
     Input.checkbutton1 = gtk_builder_get_object(gtkBuilder, "checkbutton1");
 
@@ -222,10 +256,14 @@ int main(int argc, char *argv[]) {
     g_object_unref(gtkBuilder);
     gtk_widget_show(window_connect);
     gtk_main();
+
+    int id = 5;
+    id = return_last_id();
+    printf("id = %d",id);
+
     return 0;
 }
 
 void on_window_connect_destroy() {
     gtk_main_quit();
 }
-

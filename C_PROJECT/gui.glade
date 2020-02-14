@@ -66,18 +66,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry5">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkEntry" id="entry6">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -86,7 +74,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">5</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child>
@@ -106,11 +94,11 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">6</property>
+                <property name="position">5</property>
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry7">
+              <object class="GtkEntry" id="entry5">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="invisible_char">●</property>
@@ -118,8 +106,11 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">7</property>
+                <property name="position">6</property>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -202,19 +193,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label8">
-            <property name="width_request">100</property>
-            <property name="height_request">80</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Statut</property>
-          </object>
-          <packing>
-            <property name="x">13</property>
-            <property name="y">116</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkLabel" id="label9">
             <property name="width_request">100</property>
             <property name="height_request">80</property>
@@ -224,7 +202,7 @@
           </object>
           <packing>
             <property name="x">33</property>
-            <property name="y">140</property>
+            <property name="y">119</property>
           </packing>
         </child>
         <child>
@@ -236,8 +214,8 @@
             <property name="label" translatable="yes">Ville</property>
           </object>
           <packing>
-            <property name="x">7</property>
-            <property name="y">163</property>
+            <property name="x">9</property>
+            <property name="y">146</property>
           </packing>
         </child>
         <child>
@@ -265,7 +243,7 @@
           </object>
           <packing>
             <property name="x">19</property>
-            <property name="y">191</property>
+            <property name="y">168</property>
           </packing>
         </child>
       </object>
