@@ -30,7 +30,7 @@ typedef struct {
     int activityID;
 }Inputs;
 
-void sign_in(GtkWidget *entry, Inputs *In);
+void sign_in(GtkButton *button1, Inputs *In);
 int return_last_id(const char *table, const char *tableID);
 
 #endif // REGISTRATION_H_INCLUDED

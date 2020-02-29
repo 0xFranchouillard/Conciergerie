@@ -2,7 +2,7 @@
 #include "registration_verif.h"
 
 
-void sign_in(GtkWidget *entry, Inputs *In) {
+void sign_in(GtkButton *button1, Inputs *In) {
 
     const char *lastName = gtk_entry_get_text(GTK_ENTRY(In->lastName));
     const char *firstName = gtk_entry_get_text(GTK_ENTRY(In->firstName));
