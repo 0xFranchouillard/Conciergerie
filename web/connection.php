@@ -8,6 +8,8 @@ if($connected==true){
 	exit;
 }
 
+include('verif_connexion.php');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,16 +26,16 @@ if($connected==true){
 		<section id="connection" class="body_section">
 			<h1>Connexion :</h1>
 			<br/>
-			<form action="" method="post">
+			<form action="" method="POST">
 				<div class="container">
 					<div class="row">
 						<div class="col">
-							<input type="email" name="email_connection" placeholder="identifiant" id="email_connection">
+							<input type="email" name="email" placeholder="identifiant" id="email">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<input type="password" name="mdp_connection" placeholder="Mot de Passe" id="mdp_connection">
+							<input type="password" name="password" placeholder="Mot de Passe" id="password">
 						</div>
 					</div>
 					<div class="row">
@@ -41,15 +43,15 @@ if($connected==true){
 							<input type="submit" name="connection" value="Connexion">
 						</div>
 					</div>
-					<?php if(isset($error_connection)) { ?>
-						<div class="row">
-							<div class="col">
-								<?php echo '<h6 style="color: #b52626">'.$error_connection.'</h6>'; ?>
-							</div>
-						</div>
-					<?php } ?>
 				</div>
 			</form>
+            <?php if(isset($GLOBALS['error'])) { ?>
+                <div class="row">
+                    <div class="col">
+                        <?php '<h6 style="color: #b52626">'.$GLOBALS['error'].'</h6>'; ?>
+                    </div>
+                </div>
+            <?php } ?>
 		</section>
 		<section id="registration" class="body_section">
 			<h1>Inscription :</h1>

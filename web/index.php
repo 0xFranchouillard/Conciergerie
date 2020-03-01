@@ -1,6 +1,9 @@
 <?php
-  session_start();
-  $connected = isset($_SESSION['email']) ? true : false;
+
+session_start();
+
+$connected = isset($_SESSION['email']) ? true : false;
+
 ?>
 <!DOCTYPE html>
 <html>

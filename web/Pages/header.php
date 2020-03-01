@@ -37,7 +37,7 @@
                     <a href="#" class="link">Mon Profil</a>&nbsp&nbsp&nbsp|
                 </li>
                 <li class="link_header">
-                    <a href="#" class="link">Deconnexion</a>
+                    <a href="../Pages/deconnexion.php" class="link">Deconnexion</a>
                 </li>
             <?php } ?>
         <ul>
