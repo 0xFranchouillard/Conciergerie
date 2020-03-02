@@ -145,15 +145,12 @@ class User
             $query = substr($query, 0, strlen($query) - 1);
             $query .= " WHERE userID = ".$this->userID;
         }
-        echo $query;
         $stmt = $this->conn->prepare($query);
         // execute query
         if ($stmt->execute()) {
-            echo "OK";
-            return TRUE;
+            return json_encode(["error" => "Account has been updated ! "]);
         } else {
-            echo "KO";
-            return FALSE;
+            return json_encode(["error" => "Fatal Error"]);
         }
 
     }

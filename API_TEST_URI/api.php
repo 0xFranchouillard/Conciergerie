@@ -190,54 +190,68 @@ class API
                 if (isset($_POST['lastName']) && !empty($_POST['lastName']))
                     $User->lastName = htmlspecialchars($_POST['lastName']);
                     else
-                        $err += ["lastName" => "err"];
+                        $err += ["lastName" => "Not found."];
                     if (isset($_POST['firstName']) && !empty($_POST['firstName']))
                         $User->firstName = htmlspecialchars($_POST['firstName']);
                         else
-                            $err += ["firstName" => "err"];
+                            $err += ["firstName" => "Not found."];
                         if (isset($_POST['email']) && !empty($_POST['email']))
                             $User->email = htmlspecialchars($_POST['email']);
                             else
-                                $err += ["email" => "err"];
+                                $err += ["email" => "Not found."];
                             if (isset($_POST['password']) && !empty($_POST['password']))
                                 $User->password = htmlspecialchars($_POST['password']);
                                 else
-                                    $err += ["password" => "err"];
+                                    $err += ["password" => "Not found."];
                                 if (isset($_POST['userFunction']) && !empty($_POST['userFunction']))
                                     $User->userFunction = htmlspecialchars($_POST['userFunction']);
                                     else
-                                        $err += ["userFunction" => "err"];
+                                        $err += ["userFunction" => "Not found."];
                                     if (isset($_POST['city']) && !empty($_POST['city']))
                                         $User->city = htmlspecialchars($_POST['city']);
                                         else
-                                            $err += ["city" => "err"];
+                                            $err += ["city" => "Not found."];
                                         if (isset($_POST['address']) && !empty($_POST['address']))
                                             $User->address = htmlspecialchars($_POST['address']);
                                             else
-                                                $err += ["address" => "err"];
+                                                $err += ["address" => "Not found."];
                                             if (isset($_POST['phoneNumber']) && !empty($_POST['phoneNumber']))
                                                 $User->phoneNumber = htmlspecialchars($_POST['phoneNumber']);
                                                 else
-                                                    $err += ["phoneNumber" => "err"];
+                                                    $err += ["phoneNumber" => "Not found."];
                                                 if (isset($_POST['qrCode']) && !empty($_POST['qrCode']))
                                                     $User->qrCode = htmlspecialchars($_POST['qrCode']);
                                                     else
-                                                        $err += ["qrCode" => "err"];
-            /*$error = "";
-            foreach ($err as $key => $value) {
-                $error .= json_encode($key." => ".$value);
+                                                        $err += ["qrCode" => "Not found."];
+
+
+            $User->hash = $_POST['hash'];
+            if($err){
+                echo json_encode($err);
+                exit();
+            }
+            $s_params = array();
+            $params['email'] = "\"".$_POST['email']."\"";
+            $stmt = $User->read2($params,$s_params);
+            if(($stmt)->rowCount() > 0) {
+                echo json_encode(["error" => "Email already used !"]);
+                exit();
             }
 
-            //$error = substr($error, 0, strlen($error) - 1);
-
-            printf(($error));
-            */
-
             $stmt = $User->create();
-
             echo $User->read_info($stmt);
 
             exit();
+            /*$error = "";
+foreach ($err as $key => $value) {
+    $error .= json_encode($key." => ".$value);
+}
+
+//$error = substr($error, 0, strlen($error) - 1);
+
+printf(($error));
+*/
+
         });
 
 
@@ -270,7 +284,7 @@ class API
                     $params[$key] = $data[$key];
             }
             $User->userID = $id;
-            $User->update($params);
+            echo $User->update($params);
 
 
 

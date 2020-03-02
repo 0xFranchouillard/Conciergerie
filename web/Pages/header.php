@@ -34,7 +34,7 @@
                 </li>
             <?php } else { ?>
                 <li class="link_header">
-                    <a href="#" class="link">Mon Profil</a>&nbsp&nbsp&nbsp|
+                    <a href="../user_profil.php" class="link">Mon Profil</a>&nbsp&nbsp&nbsp|
                 </li>
                 <li class="link_header">
                     <a href="../Pages/deconnexion.php" class="link">Deconnexion</a>

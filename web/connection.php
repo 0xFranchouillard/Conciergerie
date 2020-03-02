@@ -9,6 +9,7 @@ if($connected==true){
 }
 
 include('verif_connexion.php');
+include('verif_inscription.php');
 
 ?>
 <!DOCTYPE html>
@@ -75,7 +76,7 @@ include('verif_connexion.php');
 					</div>
 					<div class="row">
 						<div class="col">
-							<input type="text" name="telephone" placeholder="Numéro de téléphone" id="telephone">
+							<input type="text" name="phoneNumber" placeholder="Numéro de téléphone" id="phoneNumber">
 						</div>
 					</div>
 					<div class="row">
@@ -85,12 +86,12 @@ include('verif_connexion.php');
 					</div>
 					<div class="row">
 						<div class="col">
-							<input type="password" name="mdp" placeholder="Mot de Passe" id="mdp">
+							<input type="password" name="password" placeholder="Mot de Passe" id="password">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<input type="password" name="mdp2" placeholder="Confirmer mot de Passe" id="mdp2">
+							<input type="password" name="pwd" placeholder="Confirmer mot de Passe" id="pwd">
 						</div>
 					</div>
 					<div class="row">
