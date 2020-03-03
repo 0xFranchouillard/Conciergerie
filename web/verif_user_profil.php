@@ -52,7 +52,12 @@ if (isset($_POST['update'])){
         $user_infos = json_decode($json, true);
 
                 foreach ($user_infos as $key => $value){
-                    echo '<h6 style="color: #b52626">'.$value.'</h6>';
+                    if ($key == "false")
+                        $GLOBALS['false'] .= $value . "</br>";
+                    elseif ($key == "error")
+                        $GLOBALS['error'] .= $value . "</br>";
+                    elseif ($key == "valid")
+                        $GLOBALS['valid'] .= $value . "</br>";
                 }
                 //echo '<h6 style="color: #b52626">'.$user_infos['error'].'</h6>';exit();
 
@@ -70,19 +75,19 @@ if (isset($_POST['update'])){
     $passwd = htmlspecialchars($_POST['passwd']);
     $old_password = htmlspecialchars($_POST['old_password']);
 
-    if ($passwd == $password){
+    if ($passwd == $password) {
 
         $json = file_get_contents(
-            'http://localhost/Conciergerie/API_TEST_URI/v1/users/'.$_SESSION['userID'],
-            FALSE,$context);
+            'http://localhost/Conciergerie/API_TEST_URI/v1/users/' . $_SESSION['userID'],
+            FALSE, $context);
 
         $user_infos = json_decode($json, true);
-        if($old_password == $user_infos[0]["password"]){
+        if ($old_password == $user_infos[0]["password"]) {
             $post = ['password' => $password];
 
             $data = http_build_query($post);
 
-            $context =stream_context_create(array(
+            $context = stream_context_create(array(
                     'http' => array(
                         'method' => 'PUT',
                         'header' => "Content-type: application/x-www-form-urlencoded\r\nContent-Length: " . strlen($data) . "\r\n",
@@ -92,54 +97,18 @@ if (isset($_POST['update'])){
             );
 
             $json = file_get_contents(
-                'http://localhost/Conciergerie/API_TEST_URI/v1/users/'.$_SESSION['userID'],
-                FALSE,$context);
+                'http://localhost/Conciergerie/API_TEST_URI/v1/users/' . $_SESSION['userID'],
+                FALSE, $context);
 
             $user_infos = json_decode($json, true);
 
-            foreach ($user_infos as $key => $value){
-                echo '<h6 style="color: #b52626">'.$value.'</h6>';
+            foreach ($user_infos as $key => $value) {
+                if ($value != "Fatal Error")
+                    $_SESSION['password'] = $password;
+                $GLOBALS['error_pwd'] = $value;
             }
         }
     }
-
 }
-$password = htmlspecialchars($_POST['password']);
-$passwd = htmlspecialchars($_POST['passwd']);
-$old_password = htmlspecialchars($_POST['old_password']);
-
-if ($passwd == $password){
-
-    $json = file_get_contents(
-        'http://localhost/Conciergerie/API_TEST_URI/v1/users/'.$_SESSION['userID'],
-        FALSE,$context);
-
-    $user_infos = json_decode($json, true);
-    if($old_password == $user_infos[0]["password"]){
-        $post = ['password' => $password];
-
-        $data = http_build_query($post);
-
-        $context =stream_context_create(array(
-                'http' => array(
-                    'method' => 'PUT',
-                    'header' => "Content-type: application/x-www-form-urlencoded\r\nContent-Length: " . strlen($data) . "\r\n",
-                    'content' => $data,
-                )
-            )
-        );
-
-        $json = file_get_contents(
-            'http://localhost/Conciergerie/API_TEST_URI/v1/users/'.$_SESSION['userID'],
-            FALSE,$context);
-
-        $user_infos = json_decode($json, true);
-
-        foreach ($user_infos as $key => $value){
-            echo '<h6 style="color: #b52626">'.$value.'</h6>';
-        }
-    }
-}
-
 // ['data'][0]['iduser
 ?>

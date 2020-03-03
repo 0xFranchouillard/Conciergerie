@@ -52,14 +52,21 @@ if (isset($_POST['registration'])){
             FALSE,$context);
 
         $user_infos = json_decode($json, true);
-        foreach ($user_infos as $key => $value)
-        if(!$key) {echo "IIK";
-            echo '<h6 style="color: #0eb500">Inscription réussie !</h6>';exit();
-        }else{
+
             foreach ($user_infos as $key => $value){
-                echo $key.'=>'.$value;
-            }
-            //echo '<h6 style="color: #b52626">'.$user_infos['error'].'</h6>';exit();
+                if($key == "error") {
+                    $GLOBALS['error_registration'] .= $value . "</br>";
+                    $GLOBALS['valid_registration'] .= $key . "</br>";
+
+                }else{
+                    $GLOBALS['valid_registration'] .= $lastname. "'s Account has been created</br>";
+                    sleep(2);
+                    session_start();
+                    $_SESSION["useID"] = $value;
+                    $_SESSION["email"] = $email;
+                    $_SESSION["password"] = $password;
+                    $_SESSION["valid_mail"] = 0;
+                }
         }
         /*
         $url = 'http://localhost/Conciergerie/API_TEST_URI/v1/users';

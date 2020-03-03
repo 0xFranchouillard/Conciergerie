@@ -4,6 +4,7 @@ $connected = isset($_SESSION['email']) ? true : false;
 
 include 'Pages/header.php';
 include 'Pages/connection_DB.php';
+include('verif_user_profil.php');
 
 $user = $_SESSION['email'];
 $passwd = $_SESSION['password'];
@@ -31,7 +32,7 @@ $user_infos = json_decode($json, true);
         <section class="row d-flex justify-content-center">
             <div class="col-md-5 d-flex justify-content-center">
                 <div id="user_profil_form">
-                    <form method="POST" action="verif_user_profil.php">
+                    <form method="POST" action="">
                         <h3 class="title_my_row">Vos informations</h3>
                         <div class="d-flex justify-content-center">
                             <div class="form-group row user_profil_input_row">
@@ -57,7 +58,15 @@ $user_infos = json_decode($json, true);
                                     <div class="form-group">
                                         <input type="text" class="form-control input_247px" placeholder="Numéro de téléphone" aria-label="num_tel" aria-describedby="basic-addon1" value="<?= $user_infos[0]['phoneNumber'];?>" name="phoneNumber" />
                                     </div>
-
+                                    <?php if(isset($GLOBALS['error'])) { ?>
+                                        <?= '<h6 style="color: #b52626">'.$GLOBALS['error'].'</h6>'; ?>
+                                    <?php } ?>
+                                    <?php if(isset($GLOBALS['valid'])) { ?>
+                                        <?= '<h6 style="color: #00b504">' .$GLOBALS['valid'].'</h6>'; ?>
+                                    <?php } ?>
+                                    <?php if(isset($GLOBALS['false'])) { ?>
+                                        <?= '<h6 style="color: #b3982e">' .$GLOBALS['false'].'</h6>'; ?>
+                                    <?php } ?>
                                     <input class="btn btn-secondary" type="submit" name="update" value="Valider les changements" />
                                     <a href="ua_delete.php"><input class="btn btn-secondary" type="button" value="Supprimer son compte" /></a>
 
@@ -82,8 +91,10 @@ $user_infos = json_decode($json, true);
                                     <div class="form-group">
                                         <input type='password' class="form-control" placeholder="Confirmation mot de passe"  aria-describedby="basic-addon1"  name="passwd"/>
                                     </div>
-
-                                    <input class="btn btn-secondary" value="Modifier le mot de passe" type='submit' value="updatemdp" />
+                                    <?php if(isset($GLOBALS['error_pwd'])) { ?>
+                                        <?= '<h6 style="color: #b52626">'.$GLOBALS['error_pwd'].'</h6>'; ?>
+                                    <?php } ?>
+                                    <input class="btn btn-secondary" value="Modifier le mot de passe" type='submit' name="updatemdp" />
                                 </div>
                             </div>
                         </div>

@@ -13,9 +13,9 @@ if (isset($_POST['connection']) && isset($_POST['email']) && !empty($_POST['emai
         $_SESSION['email'] = $user_infos[0]['email'];
         $_SESSION['userID'] = $user_infos[0]['userID'];
         $_SESSION['password'] = $user_infos[0]['password'];
-        header('Location: connection.php');
+        header('Location: index.php');
     }elseif ($user_infos['error'] != NULL)
-        echo '<h6 style="color: #b52626">'.$user_infos['error'].'</h6>';
+        $GLOBALS['error_connexion'] = $user_infos['error'];
 }
 
 

@@ -119,7 +119,7 @@ class User
         $stmt = $this->conn->prepare($query);
         // execute query
         if ($stmt->execute()) {
-            echo json_encode(["userID"=>$this->userID],JSON_PRETTY_PRINT);
+            return json_encode(["userID"=>"$this->userID"],JSON_PRETTY_PRINT);
 
             //$query = "SELECT userID FROM " . $this->table_name . " WHERE email = '$this->email' ORDER BY userID DESC LIMIT 1";
             //$stmt = $this->conn->prepare($query);
@@ -141,14 +141,14 @@ class User
                     $query .= " `" . $key . "` = \"" . $value . "\",";
             }
             if($query == "UPDATE " . $this->table_name . " SET")
-                return FALSE;
+                return json_encode(["false" => "nothing to modified"]);
             $query = substr($query, 0, strlen($query) - 1);
             $query .= " WHERE userID = ".$this->userID;
         }
         $stmt = $this->conn->prepare($query);
         // execute query
         if ($stmt->execute()) {
-            return json_encode(["error" => "Account has been updated ! "]);
+            return json_encode(["valid" => "Account has been updated ! "]);
         } else {
             return json_encode(["error" => "Fatal Error"]);
         }

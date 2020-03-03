@@ -238,8 +238,7 @@ class API
                 exit();
             }
 
-            $stmt = $User->create();
-            echo $User->read_info($stmt);
+            echo $stmt = $User->create();
 
             exit();
             /*$error = "";
@@ -277,12 +276,13 @@ printf(($error));
             $stmt = $User->read2($params, $s_params);
             $d = ($User->read_put($stmt));
 
-            $params = array();
+            //$params = array();
 
             foreach ($d as $key => $value) {
                 if($data[$key] != $value)
                     $params[$key] = $data[$key];
             }
+
             $User->userID = $id;
             echo $User->update($params);
 

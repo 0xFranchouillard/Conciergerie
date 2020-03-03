@@ -1,4 +1,6 @@
 <?php
+include('verif_inscription.php');
+
 session_start();
 $connected = isset($_SESSION['email']) ? true : false;
 
@@ -9,7 +11,6 @@ if($connected==true){
 }
 
 include('verif_connexion.php');
-include('verif_inscription.php');
 
 ?>
 <!DOCTYPE html>
@@ -46,12 +47,8 @@ include('verif_inscription.php');
 					</div>
 				</div>
 			</form>
-            <?php if(isset($GLOBALS['error'])) { ?>
-                <div class="row">
-                    <div class="col">
-                        <?php '<h6 style="color: #b52626">'.$GLOBALS['error'].'</h6>'; ?>
-                    </div>
-                </div>
+            <?php if(isset($GLOBALS['error_connexion'])) { ?>
+                <?= '<h6 style="color: #b52626">'.$GLOBALS['error_connexion'].'</h6>'; ?>
             <?php } ?>
 		</section>
 		<section id="registration" class="body_section">
@@ -99,13 +96,12 @@ include('verif_inscription.php');
 							<input type="submit" name="registration" value="S'inscrire">
 						</div>
 					</div>
-					<?php if(isset($error_registration)) { ?>
-						<div class="row">
-							<div class="col">
-								<?php echo '<h6 style="color: #b52626">'.$error_registration.'</h6>'; ?>
-							</div>
-						</div>
-					<?php } ?>
+                    <?php if(isset($GLOBALS['error_registration'])) { ?>
+                        <?= '<h6 style="color: #b52626">'.$GLOBALS['error_registration'].'</h6>'; ?>
+                    <?php } ?>
+                    <?php if(isset($GLOBALS['valid_registration'])) { ?>
+                        <?= '<h6 style="color: #0eb502">' .$GLOBALS['valid_registration'].'</h6>'; ?>
+                    <?php } ?>
 				</div>
 			</form>
 		</section>
