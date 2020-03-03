@@ -2,6 +2,7 @@
 session_start();
 
 if (isset($_POST['update'])){
+
     if(isset($_POST['lastName']) && !empty($_POST['lastName'])
         && isset($_POST['firstName']) && !empty($_POST['firstName'])
         && isset($_POST['email']) && !empty($_POST['email'])
@@ -56,8 +57,11 @@ if (isset($_POST['update'])){
                         $GLOBALS['false'] .= $value . "</br>";
                     elseif ($key == "error")
                         $GLOBALS['error'] .= $value . "</br>";
-                    elseif ($key == "valid")
+                    elseif ($key == "valid") {
                         $GLOBALS['valid'] .= $value . "</br>";
+                        session_start();
+                        $_SESSION['email'] = $email;
+                    }
                 }
                 //echo '<h6 style="color: #b52626">'.$user_infos['error'].'</h6>';exit();
 
@@ -101,11 +105,14 @@ if (isset($_POST['update'])){
                 FALSE, $context);
 
             $user_infos = json_decode($json, true);
-
-            foreach ($user_infos as $key => $value) {
-                if ($value != "Fatal Error")
+            foreach ($user_infos as $key => $value){
+                if ($key == "error")
+                    $GLOBALS['error_pwd'] .= $value . "</br>";
+                elseif ($key == "valid") {
+                    $GLOBALS['valid_pwd'] .= $value . "</br>";
+                    session_start();
                     $_SESSION['password'] = $password;
-                $GLOBALS['error_pwd'] = $value;
+                }
             }
         }
     }

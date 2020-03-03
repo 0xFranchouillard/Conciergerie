@@ -1,10 +1,11 @@
 <?php
+include('verif_user_profil.php');
+
 session_start();
 $connected = isset($_SESSION['email']) ? true : false;
 
 include 'Pages/header.php';
 include 'Pages/connection_DB.php';
-include('verif_user_profil.php');
 
 $user = $_SESSION['email'];
 $passwd = $_SESSION['password'];
@@ -75,7 +76,7 @@ $user_infos = json_decode($json, true);
                         </div>
                     </form>
 
-                    <form method="POST" action="verif_user_profil.php">
+                    <form method="POST" action="">
                         <div class="d-flex justify-content-center">
                             <div class="form-group row user_profil_input_row">
                                 <div class="mx-auto user_profil_align">
@@ -93,6 +94,9 @@ $user_infos = json_decode($json, true);
                                     </div>
                                     <?php if(isset($GLOBALS['error_pwd'])) { ?>
                                         <?= '<h6 style="color: #b52626">'.$GLOBALS['error_pwd'].'</h6>'; ?>
+                                    <?php } ?>
+                                    <?php if(isset($GLOBALS['valid_pwd'])) { ?>
+                                        <?= '<h6 style="color: #00b504">' .$GLOBALS['valid_pwd'].'</h6>'; ?>
                                     <?php } ?>
                                     <input class="btn btn-secondary" value="Modifier le mot de passe" type='submit' name="updatemdp" />
                                 </div>

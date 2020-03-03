@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4fc9e492-55b5-4081-a1fe-abcbaedfa560" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/connection.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/user_profil.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/verif_connexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_connexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/verif_inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_inscription.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/verif_user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_user_profil.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -84,7 +79,7 @@
       <workItem from="1582836459616" duration="15065000" />
       <workItem from="1583085844114" duration="2611000" />
       <workItem from="1583092743680" duration="8213000" />
-      <workItem from="1583181525243" duration="5721000" />
+      <workItem from="1583181525243" duration="5851000" />
     </task>
     <servers />
   </component>
