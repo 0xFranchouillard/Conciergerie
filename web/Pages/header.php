@@ -34,10 +34,10 @@
                 </li>
             <?php } else { ?>
                 <li class="link_header">
-                    <a href="../user_profil.php" class="link">Mon Profil</a>&nbsp&nbsp&nbsp|
+                    <a href="../web/user_profil.php" class="link">Mon Profil</a>&nbsp&nbsp&nbsp|
                 </li>
                 <li class="link_header">
-                    <a href="../Pages/deconnexion.php" class="link">Deconnexion</a>
+                    <a href="../web/Pages/deconnexion.php" class="link">Deconnexion</a>
                 </li>
             <?php } ?>
         <ul>

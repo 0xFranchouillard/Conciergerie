@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fc9e492-55b5-4081-a1fe-abcbaedfa560" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Intervention.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Planning.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Service.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../web/api_link.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/Pages/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/Pages/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/connection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/user_profil.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/verif_inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_inscription.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/verif_user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_user_profil.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,17 +60,33 @@
       <command value="cmd" />
     </option>
   </component>
-  <component name="RunManager" selected="PHP Script.User.php">
+  <component name="RunManager" selected="PHP Built-in Web Server.api">
     <configuration name="api.php" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/API_TEST_URI/api.php" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="User.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/User.php">
+    <configuration default="true" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" singleton="false" document_root="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
+    <configuration name="api" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" document_root="$PROJECT_DIR$" host="localhost/Conciergerie/API_TEST_URI/v1">
+      <method v="2" />
+    </configuration>
+    <configuration name="User.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/User.php">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="PHP" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="JavaScript Debug.api.php" />
+      <item itemvalue="PHP Built-in Web Server.api" />
+      <item itemvalue="PHP Script.User.php" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="PHP Script.User.php" />
         <item itemvalue="JavaScript Debug.api.php" />
+        <item itemvalue="PHP Script.User.php" />
       </list>
     </recent_temporary>
   </component>
@@ -79,7 +105,7 @@
       <workItem from="1582836459616" duration="15065000" />
       <workItem from="1583085844114" duration="2611000" />
       <workItem from="1583092743680" duration="8213000" />
-      <workItem from="1583181525243" duration="5851000" />
+      <workItem from="1583181525243" duration="17272000" />
     </task>
     <servers />
   </component>
@@ -95,6 +121,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="683" y="145" key="#PHP/0.0.1920.1080@0.0.1920.1080" timestamp="1582199433157" />
+    <state x="524" y="50" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583272229371">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="524" y="50" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1583272229371" />
     <state x="765" y="259" key="#com.intellij.ide.util.MemberChooser" timestamp="1582725036833">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -111,22 +141,22 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="298" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1582897530998" />
-    <state width="1877" height="363" key="GridCell.Tab.0.bottom" timestamp="1582382047376">
+    <state width="1877" height="295" key="GridCell.Tab.0.bottom" timestamp="1583495950319">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="363" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1582382047376" />
-    <state width="1877" height="363" key="GridCell.Tab.0.center" timestamp="1582382047376">
+    <state width="1877" height="295" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1583495950319" />
+    <state width="1877" height="295" key="GridCell.Tab.0.center" timestamp="1583495950319">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="363" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1582382047376" />
-    <state width="1877" height="363" key="GridCell.Tab.0.left" timestamp="1582382047376">
+    <state width="1877" height="295" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1583495950319" />
+    <state width="1877" height="295" key="GridCell.Tab.0.left" timestamp="1583495950319">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="363" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1582382047376" />
-    <state width="1877" height="363" key="GridCell.Tab.0.right" timestamp="1582382047376">
+    <state width="1877" height="295" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1583495950319" />
+    <state width="1877" height="295" key="GridCell.Tab.0.right" timestamp="1583495950319">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="363" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1582382047376" />
+    <state width="1877" height="295" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1583495950319" />
     <state width="1877" height="363" key="GridCell.Tab.1.bottom" timestamp="1582382047376">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -143,10 +173,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="363" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1582382047376" />
-    <state x="1268" y="378" key="NewPhpClassDialog" timestamp="1582723837330">
+    <state x="1268" y="378" key="NewPhpClassDialog" timestamp="1583497648617">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="1268" y="378" key="NewPhpClassDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1582723837330" />
+    <state x="1268" y="378" key="NewPhpClassDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1583497648617" />
     <state x="1274" y="475" key="NewPhpFileDialog" timestamp="1582490884701">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

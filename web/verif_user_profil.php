@@ -1,83 +1,92 @@
 <?php
 session_start();
 
-if (isset($_POST['update'])){
-
-    if(isset($_POST['lastName']) && !empty($_POST['lastName'])
-        && isset($_POST['firstName']) && !empty($_POST['firstName'])
-        && isset($_POST['email']) && !empty($_POST['email'])
-        //&& isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['passwd']) && !empty($_POST['passwd'])
-        //&& isset($_POST['userFunction']) && !empty($_POST['userFunction'])
-        && isset($_POST['city']) && !empty($_POST['city'])
-        && isset($_POST['address']) && !empty($_POST['address'])
-        && isset($_POST['phoneNumber']) && !empty($_POST['phoneNumber'])){
-        //&& isset($_POST['qrCode']) && !empty($_POST['qrCode'])){
-
-        $lastname = htmlspecialchars($_POST['lastName']);
-        $firstName = htmlspecialchars($_POST['firstName']);
-        $email = htmlspecialchars($_POST['email']);
-        //$userFunction = htmlspecialchars($_POST['userFunction']);
-        $city = htmlspecialchars($_POST['city']);
-        $address = htmlspecialchars($_POST['address']);
-        $phoneNumber = htmlspecialchars($_POST['phoneNumber']);
-        //$qrCode = htmlspecialchars($_POST['qrCode']);
-        //$userFunction = "1";
-        $city = "PARIS";
-        $qrCode = "bn";
-        $hash = "bjk";
-        $post = array(
-            'lastName' => $lastname,
-            'firstName' => $firstName,
-            'email' => $email,
-            //'password' => $password,
-            //'userFunction' => $userFunction,
-            'city' => $city,
-            'address' => $address,
-            'phoneNumber' => $phoneNumber
-            //'qrCode' => $qrCode,
-            //'hash' => $hash
-        );
-        $data = http_build_query($post);
-        $context =stream_context_create(array(
-                'http' => array(
-                    'method' => 'PUT',
-                    'header' => "Content-type: application/x-www-form-urlencoded\r\nContent-Length: " . strlen($data) . "\r\n",
-                    'content' => $data,
-                )
+function send_data($post)
+{
+    $data = http_build_query($post);
+    $context = stream_context_create(array(
+            'http' => array(
+                'method' => 'PUT',
+                'header' => "Content-type: application/x-www-form-urlencoded\r\nContent-Length: " . strlen($data) . "\r\n",
+                'content' => $data,
             )
-        );
-        $json = file_get_contents(
-            'http://localhost/Conciergerie/API_TEST_URI/v1/users/'.$_SESSION['userID'],
-            FALSE,$context);
+        )
+    );
+    $json = file_get_contents(
+        'http://localhost/Conciergerie/API_TEST_URI/v1/users/' .$_SESSION['userID'],
+        FALSE, $context);
 
-        $user_infos = json_decode($json, true);
+    $user_infos = json_decode($json, true);
 
-                foreach ($user_infos as $key => $value){
-                    if ($key == "false")
-                        $GLOBALS['false'] .= $value . "</br>";
-                    elseif ($key == "error")
-                        $GLOBALS['error'] .= $value . "</br>";
-                    elseif ($key == "valid") {
-                        $GLOBALS['valid'] .= $value . "</br>";
-                        session_start();
-                        $_SESSION['email'] = $email;
-                    }
-                }
-                //echo '<h6 style="color: #b52626">'.$user_infos['error'].'</h6>';exit();
+    if(!$_GET['password']){
 
-
-
+        foreach ($user_infos as $key => $value) {
+            //if ($key == "false")
+            //  $GLOBALS['false'] .= $value . "</br>";
+            /*else*/
+            if ($key == "error")
+                echo $GLOBALS['error'] .= $value . "</br>";
+            elseif ($key == "valid") {
+                echo $GLOBALS['valid'] .= $value . "</br>";
+                if ($GLOBALS['email'])
+                    $_SESSION['email'] = $GLOBALS['email'];
+            }
+        }
     }else{
-        echo "NON OK";
-    }
-}elseif (isset($_POST['updatemdp'])
-    && isset($_POST['old_password']) && !empty($_POST['old_password'])
-    && isset($_POST['passwd']) && !empty($_POST['passwd'])
-    && isset($_POST['password']) && !empty($_POST['password'])){
 
-    $password = htmlspecialchars($_POST['password']);
-    $passwd = htmlspecialchars($_POST['passwd']);
-    $old_password = htmlspecialchars($_POST['old_password']);
+        foreach ($user_infos as $key => $value){
+            if ($key == "error")
+                $GLOBALS['error_pwd'] .= $value . "</br>";
+            elseif ($key == "valid") {
+                $GLOBALS['valid_pwd'] .= $value . "</br>";
+                session_start();
+                $_SESSION['password'] = $post['password'];
+            }
+        }
+    }
+}
+$post = array();
+    if (isset($_GET['lastName']) && !empty($_GET['lastName'])) {
+
+        $lastname = htmlspecialchars($_GET['lastName']);
+        $post += ['lastName' => $lastname];
+
+    }
+    if (isset($_GET['firstName']) && !empty($_GET['firstName'])) {
+        $firstName = htmlspecialchars($_GET['firstName']);
+        $post += ['firstName' => $firstName];
+
+
+    }
+    if (isset($_GET['email']) && !empty($_GET['email'])) {
+        $GLOBALS['email'] = htmlspecialchars($_GET['email']);
+        $post += ['email' => $GLOBALS['email']];
+
+    }
+    if (isset($_GET['city']) && !empty($_GET['city'])) {
+        $city = htmlspecialchars($_GET['city']);
+        $post += ['city' => $city];
+
+    }
+    if (isset($_GET['address']) && !empty($_GET['address'])) {
+        $address = htmlspecialchars($_GET['address']);
+        $post += ['address' => $address];
+
+    }
+    if (isset($_GET['phoneNumber']) && !empty($_GET['phoneNumber'])) {
+        $phoneNumber = htmlspecialchars($_GET['phoneNumber']);
+        $post += ['phoneNumber' => "$phoneNumber"];
+    }
+
+    send_data($post);
+
+if(isset($_GET['old_password']) && !empty($_GET['old_password'])
+    && isset($_GET['passwd']) && !empty($_GET['passwd'])
+    && isset($_GET['password']) && !empty($_GET['password'])) {
+
+    $password = htmlspecialchars($_GET['password']);
+    $passwd = htmlspecialchars($_GET['passwd']);
+    $old_password = htmlspecialchars($_GET['old_password']);
 
     if ($passwd == $password) {
 
@@ -88,32 +97,8 @@ if (isset($_POST['update'])){
         $user_infos = json_decode($json, true);
         if ($old_password == $user_infos[0]["password"]) {
             $post = ['password' => $password];
-
-            $data = http_build_query($post);
-
-            $context = stream_context_create(array(
-                    'http' => array(
-                        'method' => 'PUT',
-                        'header' => "Content-type: application/x-www-form-urlencoded\r\nContent-Length: " . strlen($data) . "\r\n",
-                        'content' => $data,
-                    )
-                )
-            );
-
-            $json = file_get_contents(
-                'http://localhost/Conciergerie/API_TEST_URI/v1/users/' . $_SESSION['userID'],
-                FALSE, $context);
-
-            $user_infos = json_decode($json, true);
-            foreach ($user_infos as $key => $value){
-                if ($key == "error")
-                    $GLOBALS['error_pwd'] .= $value . "</br>";
-                elseif ($key == "valid") {
-                    $GLOBALS['valid_pwd'] .= $value . "</br>";
-                    session_start();
-                    $_SESSION['password'] = $password;
-                }
-            }
+            $GLOBALS['put_pwd'] = true;
+            send_data($post);
         }
     }
 }

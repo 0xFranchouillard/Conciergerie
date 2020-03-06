@@ -9,6 +9,7 @@ if($connected==true){
 	header('Location: index.php');
 	exit;
 }
+$agencies = json_decode(file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/agency", false));
 
 include('verif_connexion.php');
 
@@ -81,6 +82,18 @@ include('verif_connexion.php');
 							<input type="text" name="address" placeholder="Adresse" id="address">
 						</div>
 					</div>
+                    <div class="row">
+                        <div class="col">
+                        <select name="agency" id="agency">
+                            <option>Choix de l'agence</option>
+                            <?php
+                            for ($i = 0 ; $i < count($agencies) ; $i++){
+                                echo '<option>'.$agencies[$i].'</option>';
+                            }
+                            ?>
+                        </select>
+                        </div>
+                    </div>
 					<div class="row">
 						<div class="col">
 							<input type="password" name="password" placeholder="Mot de Passe" id="password">

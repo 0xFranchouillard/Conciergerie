@@ -80,6 +80,34 @@ class API
 
         });
 
+        $router->addRoute('GET', '/v1/agency', function() {
+            $database = new Db();
+            $db = $database->getConnection();
+            $reqType = $db->prepare("SELECT name FROM agency");
+            $reqType->execute();
+            while($agency = $reqType->fetch()){
+                $data[] = $agency[0];
+            }
+            echo json_encode($data);
+        });
+        $router->addRoute('GET', '/v1/planning', function() {
+            $database = new Db();
+            $db = $database->getConnection();
+            $Planning = new User($db);
+            $params = array();
+            $s_params = array();
+
+                $stmt = $Planning->read2($params,$s_params);
+
+                if(($stmt)->rowCount() <= 0) {
+                    echo json_encode(["error" => "Wrong password !"]);
+                    exit();
+                }
+
+                echo $Planning->read_info($stmt);
+                exit();
+
+        });
         $router->addRoute('GET', '/v1/users', function() {
             $database = new Db();
             $db = $database->getConnection();
@@ -223,6 +251,10 @@ class API
                                                     $User->qrCode = htmlspecialchars($_POST['qrCode']);
                                                     else
                                                         $err += ["qrCode" => "Not found."];
+                                                    if (isset($_POST['agency']) && !empty($_POST['agency']))
+                                                        $User->agency = htmlspecialchars($_POST['agency']);
+                                                        else
+                                                            $err += ["agency" => "Not found."];
 
 
             $User->hash = $_POST['hash'];

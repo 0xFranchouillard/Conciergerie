@@ -8,7 +8,8 @@ if (isset($_POST['registration'])){
     //&& isset($_POST['userFunction']) && !empty($_POST['userFunction'])
     //&& isset($_POST['city']) && !empty($_POST['city'])
     && isset($_POST['address']) && !empty($_POST['address'])
-    && isset($_POST['phoneNumber']) && !empty($_POST['phoneNumber'])){
+    && isset($_POST['phoneNumber']) && !empty($_POST['phoneNumber'])
+    && isset($_POST['agency']) && !empty($_POST['agency'])){
     //&& isset($_POST['qrCode']) && !empty($_POST['qrCode'])){
 
         $lastname = htmlspecialchars($_POST['lastName']);
@@ -20,6 +21,8 @@ if (isset($_POST['registration'])){
         //$city = htmlspecialchars($_POST['city']);
         $address = htmlspecialchars($_POST['address']);
         $phoneNumber = htmlspecialchars($_POST['phoneNumber']);
+        $agency = htmlspecialchars($_POST['agency']);
+
         //$qrCode = htmlspecialchars($_POST['qrCode']);
         $userFunction = "1";
         $city = "PARIS";
@@ -35,7 +38,8 @@ if (isset($_POST['registration'])){
             'address' => $address,
             'phoneNumber' => $phoneNumber,
             'qrCode' => $qrCode,
-            'hash' => $hash
+            'hash' => $hash,
+            'agency' => $agency
         );
         $data = http_build_query($post);
 
@@ -62,7 +66,7 @@ if (isset($_POST['registration'])){
                     $GLOBALS['valid_registration'] .= $lastname. "'s Account has been created</br>";
                     sleep(2);
                     session_start();
-                    $_SESSION["useID"] = $value;
+                    $_SESSION["userID"] = $value;
                     $_SESSION["email"] = $email;
                     $_SESSION["password"] = $password;
                     $_SESSION["valid_mail"] = 0;

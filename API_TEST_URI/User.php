@@ -24,27 +24,11 @@ class User
     public $phoneNumber;
     public $qrCode;
     public $hash;
+    public $agency;
 
     public function __construct($db)
     {
         $this->conn = $db;
-    }
-
-    // read user
-    function read()
-    {
-        // query to select all
-        $query = "SELECT userID,lastName,firstName,email,password,UserFunction,city,address,phoneNumber,qrcode,hash FROM " . $this->table_name;
-        // prepare query statement
-        if ($this->userID)
-            $query .= " WHERE userID = '$this->userID'";
-        else
-            $query .= " ORDER BY userID";
-
-        $stmt = $this->conn->prepare($query);
-        // execute query
-        $stmt->execute();
-        return $stmt;
     }
 
     // print json
@@ -114,7 +98,7 @@ class User
         // query to insert record
         //$this->send_mail_verif();
         $this->userID = $this->last_id();
-        $query = "INSERT INTO " . $this->table_name . " VALUES('$this->userID','$this->lastName','$this->firstName','$this->email','$this->password','$this->userFunction','$this->city','$this->address','$this->phoneNumber','$this->qrCode','$this->hash')";
+        $query = "INSERT INTO " . $this->table_name . " VALUES('$this->userID','$this->lastName','$this->firstName','$this->email','$this->password','$this->userFunction','$this->city','$this->address','$this->phoneNumber','$this->qrCode','$this->hash','$this->agency')";
         // prepare w
         $stmt = $this->conn->prepare($query);
         // execute query
