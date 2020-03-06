@@ -4,9 +4,7 @@
     <list default="true" id="4fc9e492-55b5-4081-a1fe-abcbaedfa560" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/api_link.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/api_link.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/user_profil.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/verif_user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_user_profil.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/service.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/service.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +95,7 @@
       <workItem from="1582836459616" duration="15065000" />
       <workItem from="1583085844114" duration="2611000" />
       <workItem from="1583092743680" duration="8213000" />
-      <workItem from="1583181525243" duration="24011000" />
+      <workItem from="1583181525243" duration="25623000" />
     </task>
     <task id="LOCAL-00001" summary="ADD NEW BDD">
       <created>1583498197587</created>
@@ -120,7 +118,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583512714364</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="LASTEST">
+      <created>1583516206905</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1583516206905</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -128,7 +133,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ADD NEW BDD" />
-    <option name="LAST_COMMIT_MESSAGE" value="ADD NEW BDD" />
+    <MESSAGE value="LASTEST" />
+    <option name="LAST_COMMIT_MESSAGE" value="LASTEST" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="201" key="#Inspections" timestamp="1582381692923">
@@ -155,10 +161,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="701" y="152" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#function0/0.0.1920.1080@0.0.1920.1080" timestamp="1582211276034" />
-    <state x="598" y="138" key="CommitChangelistDialog2" timestamp="1583512713771">
+    <state x="598" y="138" key="CommitChangelistDialog2" timestamp="1583516206301">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="598" y="138" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1583512713771" />
+    <state x="598" y="138" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1583516206301" />
     <state x="740" y="298" key="FileChooserDialogImpl" timestamp="1582897530998">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -211,6 +217,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="911" y="215" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1582467589395" />
+    <state x="771" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583517161289">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="771" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1080@0.0.1920.1080" timestamp="1583517161289" />
     <state x="701" y="188" key="refactoring.ChangeSignatureDialog" timestamp="1582120017514">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

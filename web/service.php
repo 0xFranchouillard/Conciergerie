@@ -49,20 +49,20 @@ $service_infos = json_decode($json, true);
         <form action="" method="post">
             <div class="container">
                 <?php
-                for ($i = 0; $i < count($service); $i++) {
+                for ($i = 0; $i < count($service_infos); $i++) {
                     if($i%3 == 0) {?>
                     <div class="row">
                         <div class="col">
-                            <label  class=""><?php echo $service[$i]['nameService']; ?></label>
+                            <label  class=""><?php echo $service_infos[$i]['nameService']; ?></label>
                         </div>
                     <?php } else if($i%3 == 2) { ?>
                         <div class="col">
-                            <label  class=""><?php echo $service[$i]['nameService']; ?></label>
+                            <label  class=""><?php echo $service_infos[$i]['nameService']; ?></label>
                         </div>
                     </div>
                     <?php } else { ?>
                         <div class="col">
-                            <label  class=""><?php echo $service[$i]['nameService']; ?></label>
+                            <label  class=""><?php echo $service_infos[$i]['nameService']; ?></label>
                         </div>
                     <?php } ?>
             <?php } ?>

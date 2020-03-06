@@ -131,7 +131,7 @@ class API
             $stmt = $Service->read2($params,$s_params);
 
             if(($stmt)->rowCount() <= 0) {
-                echo json_encode(["error" => "Wrong password !"]);
+                echo json_encode(["error" => "Not Found !"]);
                 exit();
             }
 
