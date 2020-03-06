@@ -77,6 +77,10 @@ $post = array();
         $phoneNumber = htmlspecialchars($_GET['phoneNumber']);
         $post += ['phoneNumber' => "$phoneNumber"];
     }
+    if (isset($_GET['agency']) && !empty($_GET['agency'])) {
+        $phoneNumber = htmlspecialchars($_GET['agency']);
+        $post += ['agency' => "$phoneNumber"];
+    }
 
     send_data($post);
 

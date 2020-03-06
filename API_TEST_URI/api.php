@@ -94,6 +94,14 @@ class API
             echo json_encode($data);
         });
 
+        $router->addRoute('GET', '/v1/agency/:id', function($id) {
+            $database = new Db();
+            $db = $database->getConnection();
+            $reqType = $db->prepare("SELECT agency FROM useraccount WHERE userID = $id");
+            $reqType->execute();
+            echo json_encode($reqType->fetchAll()[0]);
+        });
+
         $router->addRoute('GET', '/v1/planning', function() {
             $database = new Db();
             $db = $database->getConnection();
@@ -123,11 +131,30 @@ class API
             $stmt = $Service->read2($params,$s_params);
 
             if(($stmt)->rowCount() <= 0) {
-                echo json_encode(["error" => "Wrong password !"]);
+                echo json_encode(["error" => "Not Found !"]);
                 exit();
             }
 
             echo $Service->read_info($stmt);
+            exit();
+
+        });
+
+        $router->addRoute('GET', '/v1/tariff', function() {
+            $database = new Db();
+            $db = $database->getConnection();
+            $tariff = new Tariff($db);
+            $params = array();
+            $s_params = array();
+
+            $stmt = $tariff->read2($params,$s_params);
+
+            if(($stmt)->rowCount() <= 0) {
+                echo json_encode(["error" => "Wrong password !"]);
+                exit();
+            }
+
+            echo $tariff->read_info($stmt);
             exit();
 
         });

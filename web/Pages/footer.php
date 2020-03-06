@@ -1,11 +1,11 @@
 <footer>
     <div id="table_footer" class="container">
         <div class="row">
-            <a href="#" class="col link_footer">Nos services</a>
-            <a href="#" class="col link_footer">Reservation de prestation</a>
+            <a href="service.php" class="col link_footer">Nos services</a>
+            <a href="#" class="col link_footer">Abonnements</a>
         </div>
         <div class="row">
-            <a href="#" class="col link_footer">Information Tarif</a>
+            <a href="#" class="col link_footer">Planning</a>
             <a href="#" class="col link_footer">Nous contacter</a>
         </div>
         <?php if(!$connected){ ?>

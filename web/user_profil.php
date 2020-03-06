@@ -1,14 +1,20 @@
 <?php
 //include('verif_user_profil.php');
-
 session_start();
 $connected = isset($_SESSION['email']) ? true : false;
+
+// Si utilisateur déjà connecté => redirection page accueil
+if($connected!=true){
+    header('Location: connection.php');
+    exit;
+}
 
 include 'Pages/header.php';
 include 'Pages/connection_DB.php';
 
 $user = $_SESSION['email'];
 $passwd = $_SESSION['password'];
+$id = $_SESSION['userID'];
 
 $context = stream_context_create(array(
     'http' => array(
@@ -17,6 +23,8 @@ $context = stream_context_create(array(
 
 $json = file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/users", false, $context);
 $user_infos = json_decode($json, true);
+//$agency = json_decode(file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/agency/$id", true));
+$agencies = json_decode(file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/agency", true));
 
 ?>
     <!DOCTYPE html>
@@ -75,8 +83,19 @@ $user_infos = json_decode($json, true);
                                         <input type="button" class="co btn btn-secondary" onclick="send('phoneNumber','phoneNumber_res')" value="Modifier"/><br/>
                                         <div id="phoneNumber_res"></div>
                                     </div>
-                                    <input type="button" class="co btn btn-secondary" onclick="delete()" value="Modifier"/><br/>
 
+                                    <div class="form-group">
+                                        <select name="agency" id="agency">
+                                            <?php
+                                            for ($i = 0 ; $i < count($agencies) ; $i++){
+                                                echo '<option>'.$agencies[$i].'</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                        <input type="button" class="co btn btn-secondary" onclick="send('agency','agency_res')" value="Modifier"/><br/>
+                                        <div id="agency_res"></div>
+                                    </div>
+                                    <input type="button" class="co btn btn-secondary" onclick="delete()" value="Modifier"/><br/>
                                 </div>
                             </div>
                         </div>
