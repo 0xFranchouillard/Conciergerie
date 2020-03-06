@@ -132,6 +132,25 @@ class API
 
         });
 
+        $router->addRoute('GET', '/v1/tariff', function() {
+            $database = new Db();
+            $db = $database->getConnection();
+            $tariff = new Tariff($db);
+            $params = array();
+            $s_params = array();
+
+            $stmt = $tariff->read2($params,$s_params);
+
+            if(($stmt)->rowCount() <= 0) {
+                echo json_encode(["error" => "Wrong password !"]);
+                exit();
+            }
+
+            echo $tariff->read_info($stmt);
+            exit();
+
+        });
+
 
         $router->addRoute('GET', '/v1/users', function() {
             $database = new Db();
