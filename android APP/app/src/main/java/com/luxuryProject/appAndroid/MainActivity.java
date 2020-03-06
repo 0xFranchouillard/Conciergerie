@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }).facing(QREader.BACK_CAM)
                 .enableAutofocus(true)
-                .height(640)
+                .height(620)
                 .width(480)
                 .build();
     }
