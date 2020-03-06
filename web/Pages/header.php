@@ -9,18 +9,17 @@
                 <a href="index.php" class="link">Home Page</a>&nbsp&nbsp&nbsp|
             </li>
             <li class="link_header">
-                <a href="#" class="link">Nos Services</a>&nbsp&nbsp&nbsp|
-                <ul class="under_menu">
-                    <li><a href="#" class="link_menu">Services simples</a></li>
-                    <li><a href="#" class="link_menu">Services récurents</a></li>
+                <a href="service.php" class="link">Nos Services</a>&nbsp&nbsp&nbsp|
+                <!--<ul class="under_menu">
+                    <li><a href="#" class="link_menu">Services</a></li>
                     <li><a href="#" class="link_menu">Abonnements</a></li>
-                </ul>
+                </ul>-->
             </li>
             <li class="link_header">
-                <a href="#" class="link">Réservation de préstation</a>&nbsp&nbsp&nbsp|
+                <a href="#" class="link">Abonnements</a>&nbsp&nbsp&nbsp|
             </li>
             <li class="link_header">
-                <a href="#" class="link">Informations Tarifs</a>&nbsp&nbsp&nbsp|
+                <a href="#" class="link">Planning</a>&nbsp&nbsp&nbsp|
             </li>
             <li class="link_header">
                 <a href="#" class="link">Nous contacter</a>&nbsp&nbsp&nbsp|
