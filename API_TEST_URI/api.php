@@ -94,6 +94,14 @@ class API
             echo json_encode($data);
         });
 
+        $router->addRoute('GET', '/v1/agency/:id', function($id) {
+            $database = new Db();
+            $db = $database->getConnection();
+            $reqType = $db->prepare("SELECT agency FROM useraccount WHERE userID = $id");
+            $reqType->execute();
+            echo json_encode($reqType->fetchAll()[0]);
+        });
+
         $router->addRoute('GET', '/v1/planning', function() {
             $database = new Db();
             $db = $database->getConnection();

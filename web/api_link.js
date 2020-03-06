@@ -2,7 +2,7 @@ function send(id,res){
     const data = document.getElementById(id).value;
 
     const request = new XMLHttpRequest();
-    tab = ["userID","lastName","firstName","email","UserFunction","city","address","phoneNumber","qrcode","hash"];
+    tab = ["userID","lastName","firstName","email","UserFunction","city","address","phoneNumber","qrcode","hash","agency"];
 
     if(tab.indexOf(id) != -1)
         stmt = id+'='+data;
