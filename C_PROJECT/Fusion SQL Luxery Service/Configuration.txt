@@ -1,0 +1,3 @@
+Data Base : luxeryservice_parent
+User : root
+Password :  

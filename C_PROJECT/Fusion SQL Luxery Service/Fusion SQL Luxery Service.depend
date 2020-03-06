@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1583492201 source:d:\esgi\2ème année\semestre 2\projet annuel\github\c_project\fusion sql luxery service\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+
