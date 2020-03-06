@@ -2,6 +2,9 @@
 
 require_once('router.php');
 require_once('User.php');
+require_once('Intervention.php');
+require_once('Planning.php');
+require_once('Service.php');
 require_once('db.php');
 require_once('jwt.php');
 require_once('Subscription.php');
@@ -90,10 +93,11 @@ class API
             }
             echo json_encode($data);
         });
+
         $router->addRoute('GET', '/v1/planning', function() {
             $database = new Db();
             $db = $database->getConnection();
-            $Planning = new User($db);
+            $Planning = new Planning($db);
             $params = array();
             $s_params = array();
 
@@ -108,6 +112,27 @@ class API
                 exit();
 
         });
+
+        $router->addRoute('GET', '/v1/service', function() {
+            $database = new Db();
+            $db = $database->getConnection();
+            $Service = new Service($db);
+            $params = array();
+            $s_params = array();
+
+            $stmt = $Service->read2($params,$s_params);
+
+            if(($stmt)->rowCount() <= 0) {
+                echo json_encode(["error" => "Wrong password !"]);
+                exit();
+            }
+
+            echo $Service->read_info($stmt);
+            exit();
+
+        });
+
+
         $router->addRoute('GET', '/v1/users', function() {
             $database = new Db();
             $db = $database->getConnection();
