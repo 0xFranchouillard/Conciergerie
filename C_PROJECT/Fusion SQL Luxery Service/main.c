@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 int main(int argc,char **argv)
 {
@@ -34,7 +33,7 @@ int main(int argc,char **argv)
         }
 
       }
-        sprintf(export_db,"cd D:\\Wamp\\bin\\mysql\\mysql8.0.18\\bin && mysqldump --no-create-info --skip-triggers --skip-add-drop-table --skip-add-locks --skip-disable-keys  --insert-ignore --extended-insert=false -u %s %s > C:\\Users\\User\\Desktop\\export.sql",user,db);
+        sprintf(export_db,"D: & cd D:\\Wamp\\bin\\mysql\\mysql8.0.18\\bin && mysqldump --no-create-info --skip-triggers --skip-add-drop-table --skip-add-locks --skip-disable-keys  --insert-ignore --extended-insert=false -u %s %s > C:\\Users\\User\\Desktop\\export.sql",user,db);
         printf("%s", export_db);
         fclose ( file );
     } else {
