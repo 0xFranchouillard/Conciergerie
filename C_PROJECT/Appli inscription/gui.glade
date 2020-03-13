@@ -10,14 +10,37 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkBox" id="box1">
-            <property name="width_request">320</property>
-            <property name="height_request">395</property>
+          <object class="GtkImage" id="Background">
+            <property name="width_request">520</property>
+            <property name="height_request">372</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_right">121</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="stock">gtk-missing-image</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="box1">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_right">1</property>
             <property name="orientation">vertical</property>
             <property name="spacing">10</property>
+            <child>
+              <object class="GtkImage" id="Logo">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stock">gtk-missing-image</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
             <child>
               <object class="GtkBox" id="box2">
                 <property name="visible">True</property>
@@ -29,6 +52,10 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Nom</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="foreground" value="#ffffffffffff"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -41,44 +68,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">●</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="box3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkLabel" id="label2">
-                    <property name="width_request">100</property>
-                    <property name="height_request">20</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Prénom</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="firstName">
-                    <property name="width_request">0</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="invisible_char">●</property>
+                    <property name="invisible_char_set">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -94,16 +84,20 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box4">
+              <object class="GtkBox" id="box3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="label3">
+                  <object class="GtkLabel" id="label2">
                     <property name="width_request">100</property>
                     <property name="height_request">20</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Email</property>
+                    <property name="label" translatable="yes">Prénom</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="foreground" value="#ffffffffffff"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -112,10 +106,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="email">
+                  <object class="GtkEntry" id="firstName">
+                    <property name="width_request">0</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">●</property>
+                    <property name="invisible_char_set">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -131,16 +127,20 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box5">
+              <object class="GtkBox" id="box4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="label9">
+                  <object class="GtkLabel" id="label3">
                     <property name="width_request">100</property>
                     <property name="height_request">20</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Numéro MOB +33</property>
+                    <property name="label" translatable="yes">Email</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="foreground" value="#ffffffffffff"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -149,10 +149,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="phoneNumber">
+                  <object class="GtkEntry" id="email">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">●</property>
+                    <property name="invisible_char_set">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -168,16 +169,20 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box6">
+              <object class="GtkBox" id="box5">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="label6">
+                  <object class="GtkLabel" id="label9">
                     <property name="width_request">100</property>
                     <property name="height_request">20</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Ville</property>
+                    <property name="label" translatable="yes">Numéro MOB +33</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="foreground" value="#ffffffffffff"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -186,10 +191,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="city">
+                  <object class="GtkEntry" id="phoneNumber">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">●</property>
+                    <property name="invisible_char_set">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -205,16 +211,20 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box7">
+              <object class="GtkBox" id="box6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="label5">
+                  <object class="GtkLabel" id="label6">
                     <property name="width_request">100</property>
                     <property name="height_request">20</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Adresse</property>
+                    <property name="label" translatable="yes">Ville</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="foreground" value="#ffffffffffff"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -223,10 +233,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="address">
+                  <object class="GtkEntry" id="city">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">●</property>
+                    <property name="invisible_char_set">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -242,16 +253,20 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box8">
+              <object class="GtkBox" id="box7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="label4">
+                  <object class="GtkLabel" id="label5">
                     <property name="width_request">100</property>
                     <property name="height_request">20</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Profession</property>
+                    <property name="label" translatable="yes">Adresse</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="foreground" value="#ffffffffffff"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -260,10 +275,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="professionName">
+                  <object class="GtkEntry" id="address">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">●</property>
+                    <property name="invisible_char_set">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -279,49 +295,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box9">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkLabel" id="label8">
-                    <property name="width_request">100</property>
-                    <property name="height_request">20</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Statut</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkComboBoxText" id="contract">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="active">0</property>
-                    <property name="entry_text_column">0</property>
-                    <property name="id_column">1</property>
-                    <items>
-                      <item translatable="yes">Auto-Entrepreneur</item>
-                      <item translatable="yes">Entreprise</item>
-                    </items>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">7</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="button1">
                 <property name="label" translatable="yes">Inscrire</property>
                 <property name="visible">True</property>
@@ -331,14 +304,13 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="padding">50</property>
-                <property name="position">11</property>
+                <property name="padding">30</property>
+                <property name="position">10</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="x">125</property>
-            <property name="y">50</property>
+            <property name="x">110</property>
           </packing>
         </child>
       </object>

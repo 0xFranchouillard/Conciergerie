@@ -10,9 +10,6 @@ void sign_in(GtkButton *button1, Inputs *In) {
     const char *phoneNumber = gtk_entry_get_text(GTK_ENTRY(In->phoneNumber));
     const char *city = gtk_entry_get_text(GTK_ENTRY(In->city));
     const char *address = gtk_entry_get_text(GTK_ENTRY(In->address));
-    const char *professionName = gtk_entry_get_text(GTK_ENTRY(In->professionName));
-    const char *contract = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(In->contract));
-    int indexContract;
 
     char *PATH = (char *) malloc(256);
     if(PATH == NULL) {
@@ -38,37 +35,21 @@ void sign_in(GtkButton *button1, Inputs *In) {
         exit(0);
     }
 
-    char *request2 = (char *) malloc(256);
-    if(request2 == NULL) {
-        printf("Allocation error");
-        exit(0);
-    }
-
     int testLastName = nameVerif(lastName);
     int testFirstName = nameVerif(firstName);
     int testEmail = emailVerif(email);
     int testPhoneNumber = phoneNumberVerif(phoneNumber);
     int testCity = nameVerif(city);
     int testAddress = addressVerif(address);
-    int testContract = contractVerif(contract);
-    int testProfessionName = nameVerif(professionName);
 
-    if(testLastName == 0 && testFirstName == 0 && testEmail == 0 && testAddress == 0 && testPhoneNumber == 0 && testCity == 0 && testProfessionName == 0 && testContract == 0) {
+    if(testLastName == 0 && testFirstName == 0 && testEmail == 0 && testAddress == 0 && testPhoneNumber == 0 && testCity == 0) {
 
         char *phoneNumberV = malloc(11);
         strcpy(phoneNumberV,"0");
         strcat(phoneNumberV,phoneNumber);
 
-        if(strcmp(contract,"Auto-Entrepreneur") == 0) {
-            indexContract = 1;
-        } else {
-            indexContract = 2;
-        }
-
-        sprintf(request, "INSERT INTO useraccount(userID,lastName,firstName,email,password,address,phoneNumber,qrcode,city,userFunction,agency) VALUES ('%d','%s','%s','%s','%s','%s','%s','%s','%s','%d','%s')",In->userID,lastName,firstName,email,password,address,phoneNumberV,PATH,city,1,"Paris");
+        sprintf(request, "INSERT INTO serviceprovider(providerID,agency,lastName,firstName,email,password,city,address,phoneNumber,qrCode) VALUES ('%d','%s','%s','%s','%s','%s','%s','%s','%s','%s')",In->userID,"Paris",lastName,firstName,email,password,city,address,phoneNumberV,PATH);
         printf("%s\n",request);
-        sprintf(request2, "INSERT INTO activity(activityID,professionName,contract,userID,agency) VALUES ('%d','%s','%d','%d','%s')",In->activityID,professionName,indexContract,In->userID,"Paris");
-        printf("\n%s\n",request2);
 
         //Déclaration du pointeur de structure de type MYSQL
         MYSQL mysql;
@@ -81,10 +62,6 @@ void sign_in(GtkButton *button1, Inputs *In) {
         if (mysql_real_connect(&mysql, "localhost", "root", "", "luxeryservice_parent", 3306, NULL, 0)) {
 
             if(mysql_query(&mysql, request) != 0) {
-                printf("error request\n");
-                exit(0);
-            }
-            if(mysql_query(&mysql, request2) != 0) {
                 printf("error request\n");
                 exit(0);
             }

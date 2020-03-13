@@ -24,10 +24,7 @@ typedef struct {
     gpointer phoneNumber;
     gpointer city;
     gpointer address;
-    gpointer professionName;
-    gpointer contract;
     int userID;
-    int activityID;
 }Inputs;
 
 void sign_in(GtkButton *button1, Inputs *In);
