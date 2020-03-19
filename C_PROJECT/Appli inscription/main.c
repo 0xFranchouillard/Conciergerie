@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <malloc.h>
+#include <string.h>
 #include <time.h>
 #include "qrcodegen.h"
 #include "qrcodegen.c"
@@ -33,9 +34,8 @@ int main(int argc, char *argv[]) {
     button1 = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button1"));
     background = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "Background"));
     logo = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "Logo"));
-    gtk_image_set_from_file(GTK_IMAGE(background),"backgroundApp.png");
-    gtk_image_set_from_file(GTK_IMAGE(logo),"logoApp.png");
-
+    gtk_image_set_from_file(GTK_IMAGE(background),"images/backgroundApp.png");
+    gtk_image_set_from_file(GTK_IMAGE(logo),"images/logoApp.png");
 
     Inputs *Input;
     Input = malloc(sizeof(Inputs));
@@ -48,11 +48,10 @@ int main(int argc, char *argv[]) {
     Input->phoneNumber = gtk_builder_get_object(gtkBuilder, "phoneNumber");
     Input->city = gtk_builder_get_object(gtkBuilder, "city");
     Input->address = gtk_builder_get_object(gtkBuilder, "address");
-    Input->userID = return_last_id("ServiceProvider","providerID");
 
     //gtk_builder_connect_signals(gtkBuilder, NULL);
     g_signal_connect(window_connect, "destroy", G_CALLBACK(on_window_connect_destroy), NULL);
-    g_signal_connect(button1, "clicked", G_CALLBACK(sign_in), Input);
+    g_signal_connect(button1, "clicked", G_CALLBACK(recoveryEntry), Input);
     //g_object_unref(gtkBuilder);
     gtk_widget_show(window_connect);
     gtk_main();
