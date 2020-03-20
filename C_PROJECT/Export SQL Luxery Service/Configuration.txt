@@ -1,0 +1,5 @@
+Server : localhost
+User : root
+Password : 
+Data Base : luxeryservice_parent
+Port : 3306
