@@ -63,6 +63,8 @@ int main(int argc,char **argv)
     free(user);
     free(password);
     free(dataBase);
+    free(mysqlLocalization);
+    free(exportStorage);
     free(exportDB);
 
     return 0;
