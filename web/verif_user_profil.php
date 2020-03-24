@@ -4,38 +4,45 @@ session_start();
 function send_data($post)
 {
     $data = http_build_query($post);
+    $email = $_SESSION['email'];
+    $password = $_SESSION['password'];
+
     $context = stream_context_create(array(
             'http' => array(
                 'method' => 'PUT',
-                'header' => "Content-type: application/x-www-form-urlencoded\r\nContent-Length: " . strlen($data) . "\r\n",
+                'header' => "Authorization: Basic ". base64_encode("$email:$password")."\r\nContent-type: application/x-www-form-urlencoded\r\nContent-Length: " . strlen($data) . "\r\n",
                 'content' => $data,
             )
         )
     );
-    $json = file_get_contents(
-        'http://localhost/Conciergerie/API_TEST_URI/v1/users/' .$_SESSION['userID'],
-        FALSE, $context);
+    if ($_SESSION['providerID'] != null) {
+        $json = file_get_contents(
+            'http://localhost/conciergerie/API_TEST_URI/v1/prestataire',
+            FALSE, $context);
+    }else{
+        echo $json = file_get_contents(
+            'http://localhost/conciergerie/API_TEST_URI/v1/client',
+            FALSE, $context);
+    }
 
     $user_infos = json_decode($json, true);
-
     if(!$_GET['password']){
-
         foreach ($user_infos as $key => $value) {
-            //if ($key == "false")
-            //  $GLOBALS['false'] .= $value . "</br>";
-            /*else*/
-            if ($key == "error")
+
+            if ($key == "false" || $key == "error")
                 echo $GLOBALS['error'] .= $value . "</br>";
-            elseif ($key == "valid") {
+        elseif ($key == "valid") {
                 echo $GLOBALS['valid'] .= $value . "</br>";
-                if ($GLOBALS['email'])
+                if ($GLOBALS['email']) {
+                    session_start();
                     $_SESSION['email'] = $GLOBALS['email'];
+                }
             }
         }
     }else{
 
         foreach ($user_infos as $key => $value){
-            if ($key == "error")
+            if ($key == "false" || $key == "error")
                 $GLOBALS['error_pwd'] .= $value . "</br>";
             elseif ($key == "valid") {
                 $GLOBALS['valid_pwd'] .= $value . "</br>";
@@ -45,6 +52,7 @@ function send_data($post)
         }
     }
 }
+
 $post = array();
     if (isset($_GET['lastName']) && !empty($_GET['lastName'])) {
 
@@ -88,15 +96,21 @@ if(isset($_GET['old_password']) && !empty($_GET['old_password'])
     && isset($_GET['passwd']) && !empty($_GET['passwd'])
     && isset($_GET['password']) && !empty($_GET['password'])) {
 
-    $password = htmlspecialchars($_GET['password']);
-    $passwd = htmlspecialchars($_GET['passwd']);
-    $old_password = htmlspecialchars($_GET['old_password']);
+    $password = hash('sha256',$_GET['password']);
+    $passwd = hash('sha256',$_GET['passwd']);
+    $old_password = hash('sha256',$_GET['old_password']);
 
     if ($passwd == $password) {
 
-        $json = file_get_contents(
-            'http://localhost/Conciergerie/API_TEST_URI/v1/users/' . $_SESSION['userID'],
-            FALSE, $context);
+        if (!$_SESSION['clientID']) {
+            $json = file_get_contents(
+                'http://localhost/conciergerie/API_TEST_URI/v1/prestataire/'.$_SESSION['providerID'],
+                FALSE, $context);
+        }else{
+            $json = file_get_contents(
+                'http://localhost/conciergerie/API_TEST_URI/v1/client/'.$_SESSION['clientID'],
+                FALSE, $context);
+        }
 
         $user_infos = json_decode($json, true);
         if ($old_password == $user_infos[0]["password"]) {

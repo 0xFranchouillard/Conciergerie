@@ -10,21 +10,28 @@ if($connected!=true){
 }
 
 include 'Pages/header.php';
-include 'Pages/connection_DB.php';
 
 $user = $_SESSION['email'];
 $passwd = $_SESSION['password'];
-$id = $_SESSION['userID'];
 
 $context = stream_context_create(array(
     'http' => array(
         'header' => "Authorization: Basic " . base64_encode("$user:$passwd"))
 ));
 
-$json = file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/users", false, $context);
+
+if (!$_SESSION['clientID']) {
+    $id = $_SESSION['providerID'];
+    $json = file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/prestataire", false, $context);
+
+}else{
+    $id = $_SESSION['clientID'];
+    $json = file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/client", false, $context);
+}
+
 $user_infos = json_decode($json, true);
 //$agency = json_decode(file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/agency/$id", true));
-$agencies = json_decode(file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/agency", true));
+$agencies = json_decode(file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/agency", false));
 
 ?>
     <!DOCTYPE html>
@@ -87,15 +94,16 @@ $agencies = json_decode(file_get_contents("http://localhost/Conciergerie/API_TES
                                     <div class="form-group">
                                         <select name="agency" id="agency">
                                             <?php
+                                            echo '<option>'.$_SESSION['agency'].'</option>';
                                             for ($i = 0 ; $i < count($agencies) ; $i++){
-                                                echo '<option>'.$agencies[$i].'</option>';
+                                                if($agencies[$i][0] != "" && $agencies[$i][0] != $_SESSION['agency'])
+                                                    echo '<option>'.$agencies[$i][0].'</option>';
                                             }
                                             ?>
                                         </select>
                                         <input type="button" class="co btn btn-secondary" onclick="send('agency','agency_res')" value="Modifier"/><br/>
                                         <div id="agency_res"></div>
                                     </div>
-                                    <input type="button" class="co btn btn-secondary" onclick="delete()" value="Modifier"/><br/>
                                 </div>
                             </div>
                         </div>

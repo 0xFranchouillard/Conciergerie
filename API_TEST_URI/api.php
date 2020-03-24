@@ -1,13 +1,14 @@
 <?php
 
 require_once('router.php');
-require_once('User.php');
+require_once('Client.php');
 require_once('Intervention.php');
 require_once('Planning.php');
 require_once('Service.php');
 require_once('db.php');
 require_once('jwt.php');
 require_once('Subscription.php');
+require_once('ServiceProvider.php');
 
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -84,20 +85,23 @@ class API
         });
 
         $router->addRoute('GET', '/v1/agency', function() {
-            $database = new Db();
-            $db = $database->getConnection();
-            $reqType = $db->prepare("SELECT name FROM agency");
-            $reqType->execute();
-            while($agency = $reqType->fetch()){
-                $data[] = $agency[0];
+            function read($csv){
+                $file = fopen($csv, 'r');
+                while (!feof($file) ) {
+                    $line[] = fgetcsv($file, 1024);
+                }
+                fclose($file);
+                return $line;
             }
-            echo json_encode($data);
+            $csv = 'agency.csv';
+            $csv = read($csv);
+            echo json_encode($csv);
         });
 
-        $router->addRoute('GET', '/v1/agency/:id', function($id) {
+        $router->addRoute('GET', '/v1/agency/:id/', function($id) {
             $database = new Db();
             $db = $database->getConnection();
-            $reqType = $db->prepare("SELECT agency FROM useraccount WHERE userID = $id");
+            $reqType = $db->prepare("SELECT agency FROM client WHERE clientID = $id");
             $reqType->execute();
             echo json_encode($reqType->fetchAll()[0]);
         });
@@ -160,15 +164,15 @@ class API
         });
 
 
-        $router->addRoute('GET', '/v1/users', function() {
+        $router->addRoute('GET', '/v1/client', function() {
             $database = new Db();
             $db = $database->getConnection();
-            $User = new User($db);
+            $User = new Client($db);
             $params = array();
             $s_params = array();
             if(isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])){
 
-                $params['email'] = "\"".$_SERVER['PHP_AUTH_USER']."\"";
+                $params['email'] = $_SERVER['PHP_AUTH_USER'];
                 $stmt = $User->read2($params,$s_params);
 
                 if(($stmt)->rowCount() <= 0) {
@@ -176,7 +180,7 @@ class API
                     exit();
                 }
 
-                $params['password'] = "\"".$_SERVER['PHP_AUTH_PW']."\"";
+                $params['password'] = $_SERVER['PHP_AUTH_PW'];
                 $stmt = $User->read2($params,$s_params);
 
                 if(($stmt)->rowCount() <= 0) {
@@ -188,10 +192,44 @@ class API
                 exit();
             }
 
-            //$stmt = $User->read2($params,$s_params);
-            //echo $User->read_info($stmt);
+            //$stmt = $Client->read2($params,$s_params);
+            //echo $Client->read_info($stmt);
             //exit();
         });
+
+        $router->addRoute('GET', '/v1/prestataire', function() {
+            $database = new Db();
+            $db = $database->getConnection();
+            $User = new ServiceProvider($db);
+            $params = array();
+            $s_params = array();
+            if(isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])){
+
+                $params['email'] = $_SERVER['PHP_AUTH_USER'];
+                $stmt = $User->read2($params,$s_params);
+
+                if(($stmt)->rowCount() <= 0) {
+                    echo json_encode(["error" => "Email Not found."]);
+                    exit();
+                }
+
+                $params['password'] = $_SERVER['PHP_AUTH_PW'];
+                $stmt = $User->read2($params,$s_params);
+
+                if(($stmt)->rowCount() <= 0) {
+                    echo json_encode(["error" => "Wrong password !"]);
+                    exit();
+                }
+
+                echo $User->read_info($stmt);
+                exit();
+            }
+
+            //$stmt = $Client->read2($params,$s_params);
+            //echo $Client->read_info($stmt);
+            //exit();
+        });
+
 
         $router->addRoute('GET', '/v1/subscriptions', function() {
             $database = new Db();
@@ -203,11 +241,11 @@ class API
             echo $Subscription->last_id();
         });
 
-        $router->addRoute('GET', '/v1/users/:request', function($request) {
-            if(in_array($request,["userID","lastName","firstName","email","password","UserFunction","city","address","phoneNumber","qrcode"])) {
+        $router->addRoute('GET', '/v1/client/:request', function($request) {
+            if(in_array($request,["clientID","lastName","firstName","email","password","city","address","phoneNumber","hash"])) {
             $database = new Db();
             $db = $database->getConnection();
-            $User = new User($db);
+            $User = new Client($db);
             $params = array();
             $s_params = array();
             $s_params[$request] = $request;
@@ -218,14 +256,14 @@ class API
             }
         });
 
-        $router->addRoute('GET', '/v1/users/:id', function($id) {
+        $router->addRoute('GET', '/v1/client/:id', function($id) {
             if(preg_match('/^\d+$/',$id)) {
                 $database = new Db();
                 $db = $database->getConnection();
-                $User = new User($db);
+                $User = new Client($db);
 
                 $params = array();
-                $params['userID'] = $id;
+                $params['clientID'] = $id;
                 $s_params = array();
 
                 $stmt = $User->read2($params, $s_params);
@@ -233,38 +271,43 @@ class API
             }
         });
 
-        $router->addRoute('GET', '/v1/users/:id/:request', function($id,$request) {
-            $database = new Db();
-            $db = $database->getConnection();
-            $User = new User($db);
+        $router->addRoute('GET', '/v1/client/:id/:request', function($id,$request) {
+            if(in_array($request,["clientID","lastName","firstName","email","password","city","address","phoneNumber","hash"]) && preg_match('/^\d+$/',$id) ){
+                $database = new Db();
+                $db = $database->getConnection();
+                $User = new Client($db);
 
-            $params = array();
-            $params['userID'] = $id;
-            $s_params = array();
-            $s_params[$request] = $request;
+                $params = array();
+                $params['clientID'] = $id;
+                $s_params = array();
+                $s_params[$request] = $request;
 
-            $stmt = $User->read2($params,$s_params);
-            echo $User->read_info($stmt);
-            exit();
+                $stmt = $User->read2($params,$s_params);
+                echo $User->read_info($stmt);
+                exit();
+            }
+            });
+
+        $router->addRoute('DELETE', '/v1/client/:id', function($id) {
+            if(preg_match('/^\d+$/',$id)) {
+
+                $database = new Db();
+                $db = $database->getConnection();
+                $User = new Client($db);
+                $val = $User->delete($id);
+
+                if ($val)
+                    echo "ok";
+                else
+                    echo "non ok";
+                exit();
+            }
         });
 
-        $router->addRoute('DELETE', '/v1/users/:id', function($id) {
+        $router->addRoute('POST', '/v1/client', function() {
             $database = new Db();
             $db = $database->getConnection();
-            $User = new User($db);
-            $val = $User->delete($id);
-
-            if($val)
-                echo "ok";
-            else
-                echo "non ok";
-            exit();
-        });
-
-        $router->addRoute('POST', '/v1/users', function() {
-            $database = new Db();
-            $db = $database->getConnection();
-            $User = new User($db);
+            $User = new Client($db);
             $err = array();
 
                 if (isset($_POST['lastName']) && !empty($_POST['lastName']))
@@ -283,30 +326,22 @@ class API
                                 $User->password = htmlspecialchars($_POST['password']);
                                 else
                                     $err += ["password" => "Not found."];
-                                if (isset($_POST['userFunction']) && !empty($_POST['userFunction']))
-                                    $User->userFunction = htmlspecialchars($_POST['userFunction']);
+                                if (isset($_POST['city']) && !empty($_POST['city']))
+                                    $User->city = htmlspecialchars($_POST['city']);
                                     else
-                                        $err += ["userFunction" => "Not found."];
-                                    if (isset($_POST['city']) && !empty($_POST['city']))
-                                        $User->city = htmlspecialchars($_POST['city']);
+                                        $err += ["city" => "Not found."];
+                                    if (isset($_POST['address']) && !empty($_POST['address']))
+                                        $User->address = htmlspecialchars($_POST['address']);
                                         else
-                                            $err += ["city" => "Not found."];
-                                        if (isset($_POST['address']) && !empty($_POST['address']))
-                                            $User->address = htmlspecialchars($_POST['address']);
+                                            $err += ["address" => "Not found."];
+                                        if (isset($_POST['phoneNumber']) && !empty($_POST['phoneNumber']))
+                                            $User->phoneNumber = htmlspecialchars($_POST['phoneNumber']);
                                             else
-                                                $err += ["address" => "Not found."];
-                                            if (isset($_POST['phoneNumber']) && !empty($_POST['phoneNumber']))
-                                                $User->phoneNumber = htmlspecialchars($_POST['phoneNumber']);
-                                                else
-                                                    $err += ["phoneNumber" => "Not found."];
-                                                if (isset($_POST['qrCode']) && !empty($_POST['qrCode']))
-                                                    $User->qrCode = htmlspecialchars($_POST['qrCode']);
+                                                $err += ["phoneNumber" => "Not found."];
+                                                if (isset($_POST['agency']) && !empty($_POST['agency']))
+                                                    $User->agency = htmlspecialchars($_POST['agency']);
                                                     else
-                                                        $err += ["qrCode" => "Not found."];
-                                                    if (isset($_POST['agency']) && !empty($_POST['agency']))
-                                                        $User->agency = htmlspecialchars($_POST['agency']);
-                                                        else
-                                                            $err += ["agency" => "Not found."];
+                                                        $err += ["agency" => "Not found."];
 
 
             $User->hash = $_POST['hash'];
@@ -314,6 +349,7 @@ class API
                 echo json_encode($err);
                 exit();
             }
+
             $s_params = array();
             $params['email'] = "\"".$_POST['email']."\"";
             $stmt = $User->read2($params,$s_params);
@@ -338,67 +374,153 @@ printf(($error));
         });
 
 
-        $router->addRoute('PUT', '/v1/users/:id', function($id) {
+        $router->addRoute('PUT', '/v1/client', function() {
 
             $database = new Db();
             $db = $database->getConnection();
-            $User = new User($db);
+            $User = new Client($db);
 
-            $data = array();
-            $_PUT = array();
-            parse_str(file_get_contents("php://input"), $_PUT);
+            if(isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])) {
+                $s_params = array();
+                $params['email'] = $_SERVER['PHP_AUTH_USER'];
+                $params['password'] = $_SERVER['PHP_AUTH_PW'];
 
-            foreach ($_PUT as $key => $value)
-            {
-                $data[$key] = $value;
+                $stmt = $User->read2($params, $s_params);
+
+                if (($stmt)->rowCount() <= 0) {
+                    echo json_encode(["error" => "Connection error !"]);
+                    exit();
+                }
+
+                $data = array();
+                $_PUT = array();
+                $params = array();
+
+                parse_str(file_get_contents("php://input"), $_PUT);
+
+                foreach ($_PUT as $key => $value) {
+                    $data[$key] = $value;
+                }
+
+                $s_params = array();
+
+                $stmt = $User->read2($params, $s_params);
+                $d = ($User->read_put($stmt));
+
+                $params = array();
+
+                foreach ($d as $key => $value) {
+                    if ($data[$key] != $value)
+                        $params[$key] = $data[$key];
+                    if ($key == "agency")
+                        $User->agency = $value;
+                    if ($key == "clientID")
+                        $User->clientID = $value;
+                }
+
+                echo $User->update($params);
+
+
+                /*
+                $putdata = fopen("php://input", "r");
+
+                $fp = fopen("test.ext", "w");
+
+                while ($data = fread($putdata, 1024))
+                    echo $data;
+                    //fwrite($fp, $data);
+
+                fclose($fp);
+                fclose($putdata);
+                */
+
+                /*$error = "";
+                foreach ($err as $key => $value) {
+                    $error .= json_encode($key." => ".$value);
+                }
+
+                //$error = substr($error, 0, strlen($error) - 1);
+                printf(($error));*/
+                //$User->update($id);
+                exit();
+
             }
-
-            $params = array();
-            $params['userID'] = $id;
-            $s_params = array();
-
-            $stmt = $User->read2($params, $s_params);
-            $d = ($User->read_put($stmt));
-
-            //$params = array();
-
-            foreach ($d as $key => $value) {
-                if($data[$key] != $value)
-                    $params[$key] = $data[$key];
-            }
-
-            $User->userID = $id;
-            echo $User->update($params);
-
-
-
-
-
-            /*
-            $putdata = fopen("php://input", "r");
-
-            $fp = fopen("test.ext", "w");
-
-            while ($data = fread($putdata, 1024))
-                echo $data;
-                //fwrite($fp, $data);
-
-            fclose($fp);
-            fclose($putdata);
-            */
-
-            /*$error = "";
-            foreach ($err as $key => $value) {
-                $error .= json_encode($key." => ".$value);
-            }
-
-            //$error = substr($error, 0, strlen($error) - 1);
-            printf(($error));*/
-            //$User->update($id);
-            exit();
-
-
         });
+
+        $router->addRoute('PUT', '/v1/prestataire', function() {
+
+            $database = new Db();
+            $db = $database->getConnection();
+            $User = new ServiceProvider($db);
+
+            if(isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])) {
+                $s_params = array();
+                $params['email'] = $_SERVER['PHP_AUTH_USER'];
+                $params['password'] = $_SERVER['PHP_AUTH_PW'];
+
+                $stmt = $User->read2($params, $s_params);
+
+                if (($stmt)->rowCount() <= 0) {
+                    echo json_encode(["error" => "Connection error !"]);
+                    exit();
+                }
+
+                $data = array();
+                $_PUT = array();
+                $params = array();
+
+                parse_str(file_get_contents("php://input"), $_PUT);
+
+                foreach ($_PUT as $key => $value) {
+                    $data[$key] = $value;
+                }
+
+                $s_params = array();
+
+                $stmt = $User->read2($params, $s_params);
+                $d = ($User->read_put($stmt));
+
+                $params = array();
+
+                foreach ($d as $key => $value) {
+                    if ($data[$key] != $value)
+                        $params[$key] = $data[$key];
+                    if ($key == "agency")
+                        $User->agency = $value;
+                    if ($key == "providerID")
+                        $User->providerID = $value;
+                }
+
+                echo $User->update($params);
+
+
+                /*
+                $putdata = fopen("php://input", "r");
+
+                $fp = fopen("test.ext", "w");
+
+                while ($data = fread($putdata, 1024))
+                    echo $data;
+                    //fwrite($fp, $data);
+
+                fclose($fp);
+                fclose($putdata);
+                */
+
+                /*$error = "";
+                foreach ($err as $key => $value) {
+                    $error .= json_encode($key." => ".$value);
+                }
+
+                //$error = substr($error, 0, strlen($error) - 1);
+                printf(($error));*/
+                //$User->update($id);
+                exit();
+
+            }
+        });
+
+
 
 
 

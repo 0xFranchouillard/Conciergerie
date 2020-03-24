@@ -9,9 +9,8 @@ class Planning
     public $datePlanning;
     public $hourPlanning;
     public $statutPlanning;
-    public $userID;
+    public $providerID;
     public $interventionID;
-    public $agency;
 
     public function __construct($db)
     {
@@ -83,7 +82,7 @@ class Planning
         // query to insert record
         //$this->send_mail_verif();
         $this->planningID = $this->last_id();
-        $query = "INSERT INTO " . $this->table_name . " VALUES('$this->planningID','$this->datePlanning','$this->hourPlanning','$this->statutPlanning','$this->userID','$this->interventionID','$this->agency')";
+        $query = "INSERT INTO " . $this->table_name . " VALUES('$this->planningID','$this->datePlanning','$this->hourPlanning','$this->statutPlanning','$this->providerID','$this->interventionID')";
         // prepare w
         $stmt = $this->conn->prepare($query);
         // execute query

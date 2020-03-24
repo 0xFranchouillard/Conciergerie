@@ -5,26 +5,24 @@
  *
  * @author https://www.roytuts.com
  */
-class User
+class ServiceProvider
 {
 
     // database connection and table name
     private $conn;
-    private $table_name = "useraccount";
+    private $table_name = "serviceprovider";
     // object properties
-    public $userID;
-    // constructor with $db as database connection
+    public $providerID;
+    public $agency;
     public $lastName;
     public $firstName;
     public $email;
     public $password;
-    public $UserFunction;
     public $city;
     public $address;
     public $phoneNumber;
-    public $qrCode;
     public $hash;
-    public $agency;
+
 
     public function __construct($db)
     {
@@ -81,9 +79,10 @@ class User
         if (count($params) > 0) {
             $query .= " WHERE";
             foreach ($params as $key => $value) {
-                $query .= " `" . $key . "` = " . $value . " AND";
+                $query .= " `" . $key . "` = \"" . $value . "\" AND";
             }
             $query = substr($query, 0, strlen($query) - 4);
+
         }
         $stmt = $this->conn->prepare($query);
         // execute query
@@ -97,13 +96,14 @@ class User
     {
         // query to insert record
         //$this->send_mail_verif();
-        $this->userID = $this->last_id();
-        $query = "INSERT INTO " . $this->table_name . " VALUES('$this->userID','$this->lastName','$this->firstName','$this->email','$this->password','$this->userFunction','$this->city','$this->address','$this->phoneNumber','$this->qrCode','$this->hash','$this->agency')";
+        $this->clientID = $this->last_id();
+        $query = "INSERT INTO " . $this->table_name . " VALUES('$this->providerID','$this->agency','$this->lastName','$this->firstName','$this->email','$this->password','$this->city','$this->address','$this->phoneNumber','$this->hash')";
         // prepare w
+        echo $query;
         $stmt = $this->conn->prepare($query);
         // execute query
         if ($stmt->execute()) {
-            return json_encode(["userID"=>"$this->userID"],JSON_PRETTY_PRINT);
+            return json_encode(["userID"=>"$this->providerID"],JSON_PRETTY_PRINT);
 
             //$query = "SELECT userID FROM " . $this->table_name . " WHERE email = '$this->email' ORDER BY userID DESC LIMIT 1";
             //$stmt = $this->conn->prepare($query);
@@ -127,7 +127,8 @@ class User
             if($query == "UPDATE " . $this->table_name . " SET")
                 return json_encode(["false" => "nothing to modified"]);
             $query = substr($query, 0, strlen($query) - 1);
-            $query .= " WHERE userID = ".$this->userID;
+            $query .= " WHERE providerID = ".$this->providerID;
+            $query .= " AND agency = \"".$this->agency."\"";
         }
         $stmt = $this->conn->prepare($query);
         // execute query
@@ -142,7 +143,7 @@ class User
     // delete the user
     function delete($id) {
         // delete query
-        $query = "DELETE FROM " . $this->table_name . " WHERE userID = ?";
+        $query = "DELETE FROM " . $this->table_name . " WHERE providerID = ?";
         // prepare query
         $stmt = $this->conn->prepare($query);
         //$this->id = htmlspecialchars(strip_tags($this->id));
@@ -161,7 +162,7 @@ class User
         $hash = md5( rand(0,10000) ); // hash md5 d'un chiffre entre 0 & 10000
         $destinataire = $this->email ;
 
-        $req = $this->conn->prepare('UPDATE useraccount SET hash = ? WHERE userID = ?');
+        $req = $this->conn->prepare('UPDATE serviceprovider SET hash = ? WHERE providerID = ?');
         $req->execute(array($hash,$this->userID));
 
         $sujet = "Activer votre compte !";
@@ -224,10 +225,10 @@ class User
     }
 
     function last_id(){
-        $query = "SELECT userID FROM " . $this->table_name . " WHERE userID ORDER BY userID DESC LIMIT 1";
+        $query = "SELECT " .$this->table_name. "ID FROM " . $this->table_name . " WHERE agency = \"".$this->agency."\" ORDER BY ".$this->table_name."ID DESC LIMIT 1";echo $query;
         $stmt = $this->conn->prepare($query);
         if ($stmt->execute()) {
-            return (++$stmt->fetch(PDO::FETCH_ASSOC)["userID"]);
+            return (++$stmt->fetch(PDO::FETCH_ASSOC)[$this->table_name. "ID"]);
         } return FALSE;
     }
 

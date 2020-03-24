@@ -2,7 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fc9e492-55b5-4081-a1fe-abcbaedfa560" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ServiceProvider.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agency.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Planning.php" beforeDir="false" afterPath="$PROJECT_DIR$/Planning.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.php" beforeDir="false" afterPath="$PROJECT_DIR$/db.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/CSS/CSS_Luxery.css" beforeDir="false" afterPath="$PROJECT_DIR$/../web/CSS/CSS_luxery.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/Pages/connection_DB.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/api_link.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/api_link.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/connection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/user_profil.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/verif_connexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_connexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/verif_inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_inscription.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/verif_user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_user_profil.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +54,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\conciergerie\API_TEST_URI" />
       <recent name="C:\wamp64\www\API_TEST_URI" />
     </key>
   </component>
@@ -58,7 +73,7 @@
     <configuration name="api" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" document_root="$PROJECT_DIR$" host="localhost/Conciergerie/API_TEST_URI/v1">
       <method v="2" />
     </configuration>
-    <configuration name="User.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/User.php">
+    <configuration name="Client.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/Client.php">
       <CommandLine>
         <PhpTestInterpreterSettings>
           <option name="interpreterName" value="PHP" />
@@ -69,12 +84,12 @@
     <list>
       <item itemvalue="JavaScript Debug.api.php" />
       <item itemvalue="PHP Built-in Web Server.api" />
-      <item itemvalue="PHP Script.User.php" />
+      <item itemvalue="PHP Script.Client.php" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JavaScript Debug.api.php" />
-        <item itemvalue="PHP Script.User.php" />
+        <item itemvalue="PHP Script.Client.php" />
       </list>
     </recent_temporary>
   </component>
@@ -94,6 +109,9 @@
       <workItem from="1583085844114" duration="2611000" />
       <workItem from="1583092743680" duration="8213000" />
       <workItem from="1583181525243" duration="25623000" />
+      <workItem from="1583939541846" duration="2995000" />
+      <workItem from="1584123050671" duration="4025000" />
+      <workItem from="1584370022476" duration="12336000" />
     </task>
     <task id="LOCAL-00001" summary="ADD NEW BDD">
       <created>1583498197587</created>
@@ -151,10 +169,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="765" y="259" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1582725036833" />
-    <state x="714" y="187" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1582065737104">
+    <state x="204" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1583848164797">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="714" y="187" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1582065737104" />
+    <state x="204" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1583848164797" />
     <state x="701" y="152" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#function0" timestamp="1582211276034">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -167,22 +185,22 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="298" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1582897530998" />
-    <state width="1877" height="295" key="GridCell.Tab.0.bottom" timestamp="1583495950319">
+    <state width="1877" height="295" key="GridCell.Tab.0.bottom" timestamp="1583939226285">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="295" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1583495950319" />
-    <state width="1877" height="295" key="GridCell.Tab.0.center" timestamp="1583495950319">
+    <state width="1877" height="295" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1583939226285" />
+    <state width="1877" height="295" key="GridCell.Tab.0.center" timestamp="1583939226285">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="295" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1583495950319" />
-    <state width="1877" height="295" key="GridCell.Tab.0.left" timestamp="1583495950319">
+    <state width="1877" height="295" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1583939226285" />
+    <state width="1877" height="295" key="GridCell.Tab.0.left" timestamp="1583939226285">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="295" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1583495950319" />
-    <state width="1877" height="295" key="GridCell.Tab.0.right" timestamp="1583495950319">
+    <state width="1877" height="295" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1583939226285" />
+    <state width="1877" height="295" key="GridCell.Tab.0.right" timestamp="1583939226285">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="295" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1583495950319" />
+    <state width="1877" height="295" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1583939226285" />
     <state width="1877" height="363" key="GridCell.Tab.1.bottom" timestamp="1582382047376">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -199,10 +217,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="363" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1582382047376" />
-    <state x="1268" y="378" key="NewPhpClassDialog" timestamp="1583508189927">
+    <state x="1268" y="378" key="NewPhpClassDialog" timestamp="1584986137611">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="1268" y="378" key="NewPhpClassDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1583508189927" />
+    <state x="1268" y="378" key="NewPhpClassDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584986137611" />
     <state x="1274" y="475" key="NewPhpFileDialog" timestamp="1582490884701">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

@@ -2,18 +2,15 @@ function send(id,res){
     const data = document.getElementById(id).value;
 
     const request = new XMLHttpRequest();
-    tab = ["userID","lastName","firstName","email","UserFunction","city","address","phoneNumber","qrcode","hash","agency"];
+    tab = ["providerID","userID","lastName","firstName","email","UserFunction","city","address","phoneNumber","qrcode","hash","agency"];
 
-    if(tab.indexOf(id) != -1)
+    if(tab.indexOf(id) !== -1)
         stmt = id+'='+data;
-    if (id == "password")
-        stmt = "old_password" + '=' + document.getElementById("old_password").value;
-        stmt += "&passwd" + '=' + document.getElementById("passwd").value;
-        stmt += "&" + id + '=' + data;
-
-    console.log(stmt);
-    console.log(id);
-    console.log(data);
+    else
+        if (id === "password")
+            stmt = "old_password" + '=' + document.getElementById("old_password").value;
+            stmt += "&passwd" + '=' + document.getElementById("passwd").value;
+            stmt += "&" + id + '=' + data;
 
     request.open('GET', 'http://localhost/Conciergerie/web/verif_user_profil.php?'+stmt);
 
@@ -28,6 +25,7 @@ function send(id,res){
             document.getElementById(res).innerHTML = "";
             document.getElementById(res).innerHTML = '<h6 style="color: #00b504">'+request.responseText+'</h6>';
             request.responseText = "";
+            console.log(request.responseText);
         }
     }
     request.send();

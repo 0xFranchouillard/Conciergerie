@@ -15,7 +15,7 @@ if (isset($_POST['registration'])){
         $lastname = htmlspecialchars($_POST['lastName']);
         $firstName = htmlspecialchars($_POST['firstName']);
         $email = htmlspecialchars($_POST['email']);
-        $password = htmlspecialchars($_POST['password']);
+        $password = hash('sha256',$_POST['password']);
         $pwd = htmlspecialchars($_POST['pwd']);
         //$userFunction = htmlspecialchars($_POST['userFunction']);
         //$city = htmlspecialchars($_POST['city']);

@@ -10,7 +10,6 @@ if($connected==true){
 	exit;
 }
 $agencies = json_decode(file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/agency", false));
-
 include('verif_connexion.php');
 
 ?>
@@ -27,10 +26,18 @@ include('verif_connexion.php');
     <?php require_once('Pages/header.php'); ?>
     <main>
 		<section id="connection" class="body_section">
-			<h1>Connexion :</h1>
+			<h1>Connexion></h1>
 			<br/>
 			<form action="" method="POST">
 				<div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <select name="type" id="type">
+                                <option>client</option>
+                                <option>prestataire</option>
+                            </select>
+                        </div>
+                    </div>
 					<div class="row">
 						<div class="col">
 							<input type="email" name="email" placeholder="identifiant" id="email">
@@ -88,7 +95,8 @@ include('verif_connexion.php');
                             <option>Choix de l'agence</option>
                             <?php
                             for ($i = 0 ; $i < count($agencies) ; $i++){
-                                echo '<option>'.$agencies[$i].'</option>';
+                                if($agencies[$i][0] != "")
+                                    echo '<option>'.$agencies[$i][0].'</option>';
                             }
                             ?>
                         </select>
