@@ -223,6 +223,10 @@ class API
 
                 echo $User->read_info($stmt);
                 exit();
+            }else{
+                $stmt = $User->read2($params,$s_params);
+                echo $User->read_info($stmt);
+                exit();
             }
 
             //$stmt = $Client->read2($params,$s_params);

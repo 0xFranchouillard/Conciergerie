@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fc9e492-55b5-4081-a1fe-abcbaedfa560" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ServiceProvider.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agency.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Planning.php" beforeDir="false" afterPath="$PROJECT_DIR$/Planning.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/Client.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.php" beforeDir="false" afterPath="$PROJECT_DIR$/db.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/CSS/CSS_Luxery.css" beforeDir="false" afterPath="$PROJECT_DIR$/../web/CSS/CSS_luxery.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/Pages/connection_DB.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/api_link.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/api_link.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/connection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/user_profil.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/verif_connexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_connexion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/verif_inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_inscription.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/verif_user_profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_user_profil.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +98,7 @@
       <workItem from="1583181525243" duration="25623000" />
       <workItem from="1583939541846" duration="2995000" />
       <workItem from="1584123050671" duration="4025000" />
-      <workItem from="1584370022476" duration="12336000" />
+      <workItem from="1584370022476" duration="12712000" />
     </task>
     <task id="LOCAL-00001" summary="ADD NEW BDD">
       <created>1583498197587</created>
