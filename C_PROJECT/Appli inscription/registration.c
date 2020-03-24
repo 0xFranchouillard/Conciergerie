@@ -1,102 +1,105 @@
 #include "registration.h"
 #include "registration_verif.h"
 
+void recoveryEntry(GtkButton *button1, Inputs *In) {
 
-void sign_in(GtkButton *button1, Inputs *In) {
+    values *entry;
+    entry = malloc(sizeof(values));
+    if(entry == NULL) {
+        exit(0);
+    }
 
-    const char *lastName = gtk_entry_get_text(GTK_ENTRY(In->lastName));
-    const char *firstName = gtk_entry_get_text(GTK_ENTRY(In->firstName));
-    const char *email = gtk_entry_get_text(GTK_ENTRY(In->email));
-    const char *phoneNumber = gtk_entry_get_text(GTK_ENTRY(In->phoneNumber));
-    const char *city = gtk_entry_get_text(GTK_ENTRY(In->city));
-    const char *address = gtk_entry_get_text(GTK_ENTRY(In->address));
-    const char *professionName = gtk_entry_get_text(GTK_ENTRY(In->professionName));
-    const char *contract = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(In->contract));
-    int indexContract;
-
-    char *PATH = (char *) malloc(256);
-    if(PATH == NULL) {
+    infosDB *infoDB;
+    infoDB = malloc(sizeof(infosDB));
+    if(infoDB == NULL) {
         printf("Allocation error");
         exit(0);
     }
-    sprintf(PATH,"qrcode_%s.bmp",email);
+    recoveryInfoDB(infoDB);
+
+    entry->lastName = gtk_entry_get_text(GTK_ENTRY(In->lastName));
+    entry->firstName = gtk_entry_get_text(GTK_ENTRY(In->firstName));
+    entry->email = gtk_entry_get_text(GTK_ENTRY(In->email));
+    entry->phoneNumber = gtk_entry_get_text(GTK_ENTRY(In->phoneNumber));
+    entry->city = gtk_entry_get_text(GTK_ENTRY(In->city));
+    entry->address = gtk_entry_get_text(GTK_ENTRY(In->address));
+    entry->userID = return_last_id("ServiceProvider","providerID",infoDB);
+    entry->PATH = malloc(sizeof(char)*256);
+    if(entry->PATH == NULL){
+        printf("Allocation error");
+        exit(0);
+    }
+    sprintf(entry->PATH,"qrcode_%s.bmp",entry->email);
 
     srand (time(NULL));
-    char* password;
-    password = malloc(sizeof(char)*7);
-    password[0] = lastName[0];
-    password[1] = firstName[0];
-    sprintf(password+2,"%d",rand()%10);
-    sprintf(password+3,"%d",rand()%10);
-    sprintf(password+4,"%d",rand()%10);
-    sprintf(password+5,"%d",rand()%10);
-    password[6] = '\0';
+    entry->password = malloc(sizeof(char)*7);
+    entry->password[0] = entry->lastName[0];
+    entry->password[1] = entry->firstName[0];
+    sprintf(entry->password+2,"%d",rand()%10);
+    sprintf(entry->password+3,"%d",rand()%10);
+    sprintf(entry->password+4,"%d",rand()%10);
+    sprintf(entry->password+5,"%d",rand()%10);
+    entry->password[6] = '\0';
 
-    char *request = (char *) malloc(256);
-    if(request == NULL) {
-        printf("Allocation error");
-        exit(0);
-    }
+    registerVerif(entry,infoDB);
 
-    char *request2 = (char *) malloc(256);
-    if(request2 == NULL) {
-        printf("Allocation error");
-        exit(0);
-    }
-
-    int testLastName = nameVerif(lastName);
-    int testFirstName = nameVerif(firstName);
-    int testEmail = emailVerif(email);
-    int testPhoneNumber = phoneNumberVerif(phoneNumber);
-    int testCity = nameVerif(city);
-    int testAddress = addressVerif(address);
-    int testContract = contractVerif(contract);
-    int testProfessionName = nameVerif(professionName);
-
-    if(testLastName == 0 && testFirstName == 0 && testEmail == 0 && testAddress == 0 && testPhoneNumber == 0 && testCity == 0 && testProfessionName == 0 && testContract == 0) {
-
-        char *phoneNumberV = malloc(11);
-        strcpy(phoneNumberV,"0");
-        strcat(phoneNumberV,phoneNumber);
-
-        if(strcmp(contract,"Auto-Entrepreneur") == 0) {
-            indexContract = 1;
-        } else {
-            indexContract = 2;
-        }
-
-        sprintf(request, "INSERT INTO useraccount(userID,lastName,firstName,email,password,address,phoneNumber,qrcode,city,userFunction,agency) VALUES ('%d','%s','%s','%s','%s','%s','%s','%s','%s','%d','%s')",In->userID,lastName,firstName,email,password,address,phoneNumberV,PATH,city,1,"Paris");
-        printf("%s\n",request);
-        sprintf(request2, "INSERT INTO activity(activityID,professionName,contract,userID,agency) VALUES ('%d','%s','%d','%d','%s')",In->activityID,professionName,indexContract,In->userID,"Paris");
-        printf("\n%s\n",request2);
-
-        //Déclaration du pointeur de structure de type MYSQL
-        MYSQL mysql;
-        //Initialisation de MySQL
-        mysql_init(&mysql);
-        //Options de connexion
-        mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "option");
-
-        //Si la connexion réussie...
-        if (mysql_real_connect(&mysql, "localhost", "root", "", "luxeryservice_parent", 3306, NULL, 0)) {
-
-            if(mysql_query(&mysql, request) != 0) {
-                printf("error request\n");
-                exit(0);
-            }
-            if(mysql_query(&mysql, request2) != 0) {
-                printf("error request\n");
-                exit(0);
-            }
-            doBasicDemo(email, In->userID, PATH);
-
-        } else {
-            printf("Une erreur s'est produite lors de la connexion à la BDD!");
-        }
-    }
 }
 
-int return_last_id(const char *table, const char *tableID) {
+void registerVerif(values *value, infosDB *infoDB){
+
+    int testLastName = nameVerif(value->lastName);
+    int testFirstName = nameVerif(value->firstName);
+    int testEmail = emailVerif(value->email);
+    int testPhoneNumber = phoneNumberVerif(value->phoneNumber);
+    int testCity = nameVerif(value->city);
+    int testAddress = addressVerif(value->address);
+
+    if(testLastName == 0 && testFirstName == 0 && testEmail == 0 && testAddress == 0 && testPhoneNumber == 0 && testCity == 0) {
+        registerProvider(value, infoDB);
+    }
+
+}
+
+void registerProvider(values *value, infosDB *infoDB){
+
+    char *request = malloc(sizeof(char)*256);
+    char *phoneNumberV = malloc(sizeof(char)*11);
+    if(request == NULL || phoneNumberV == NULL) {
+        printf("Allocation error");
+        exit(0);
+    }
+    strcpy(phoneNumberV,"0");
+    strcat(phoneNumberV,value->phoneNumber);
+
+    sprintf(request, "INSERT INTO serviceprovider(providerID,agency,lastName,firstName,email,password,city,address,phoneNumber,qrCode) VALUES ('%d','%s','%s','%s','%s','%s','%s','%s','%s','%s')",value->userID,infoDB->site,value->lastName,value->firstName,value->email,value->password,value->city,value->address,phoneNumberV,value->PATH);
+    printf("%s\n",request);
+
+    //Déclaration du pointeur de structure de type MYSQL
+    MYSQL mysql;
+    //Initialisation de MySQL
+    mysql_init(&mysql);
+    //Options de connexion
+    mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "option");
+
+    //Si la connexion réussie...
+    if (mysql_real_connect(&mysql, infoDB->server, infoDB->user, infoDB->password, infoDB->dataBase, infoDB->port, NULL, 0)) {
+
+        if(mysql_query(&mysql, request) != 0) {
+            printf("error request\n");
+            exit(0);
+        }
+        doBasicDemo(value->email, value->userID, value->PATH);
+
+    } else {
+        printf("Une erreur s'est produite lors de la connexion à la BDD!\n");
+    }
+
+    free(request);
+    free(phoneNumberV);
+
+}
+
+int return_last_id(const char *table, const char *tableID, infosDB *infoDB) {
     char *request = NULL;
     int id = 0;
     int test_id = 0;
@@ -114,7 +117,7 @@ int return_last_id(const char *table, const char *tableID) {
     mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "option");
 
     //Si la connexion réussie...
-    if (mysql_real_connect(&mysql, "localhost", "root", "", "luxeryservice_parent", 3306, NULL, 0)) {
+    if (mysql_real_connect(&mysql, infoDB->server, infoDB->user, infoDB->password, infoDB->dataBase, infoDB->port, NULL, 0)) {
 
         //Requête qui sélectionne userID dans la table useraccount
         sprintf(request, "SELECT %s FROM %s ORDER BY %s",tableID,table,tableID);
@@ -138,7 +141,6 @@ int return_last_id(const char *table, const char *tableID) {
             if(id != test_id) {
                return test_id;
             }
-
             test_id++;
         }
 
@@ -148,9 +150,81 @@ int return_last_id(const char *table, const char *tableID) {
         mysql_close(&mysql);
 
     } else {
-        printf("Une erreur s'est produite lors de la connexion à la BDD!");
+        printf("Une erreur s'est produite lors de la connexion à la BDD!\n");
     }
 
     free(request);
     return test_id;
+}
+
+void recoveryInfoDB(infosDB *infoDB){
+
+    char *verifServer;
+    char *verifDataBase;
+    char *verifUser;
+    char *verifPassword;
+    char *verifPort;
+    char *verifSite;
+    char *server = malloc(sizeof(char)*65);
+    char *dataBase = malloc(sizeof(char)*65);
+    char *user = malloc(sizeof(char)*65);
+    char *password = malloc(sizeof(char)*65);
+    char *port = malloc(sizeof(char)*5);
+    char *site = malloc(sizeof(char)*65);
+    if(server == NULL || dataBase == NULL || user == NULL || password == NULL || port == NULL || site == NULL) {
+        printf("Allocation error");
+        exit(0);
+    }
+    FILE *file = fopen("Configuration.txt", "r");
+    if(file == NULL) {
+        printf("Impossible d'ouvrir le fichier \"Configuration.txt\"");
+        exit(0);
+    }
+    char line[129];
+    while(fgets(line, sizeof(line), file) != NULL) {
+        verifServer = strstr(line, "Server");
+        verifDataBase = strstr(line, "Data Base");
+        verifUser = strstr(line, "User");
+        verifPassword = strstr(line, "Password");
+        verifPort = strstr(line, "Port");
+        verifSite = strstr(line, "Site");
+        if(verifServer != NULL) {
+            strncpy(server, line+9, strlen(line+9)-1);
+            server[strlen(line+9)-1]='\0';
+            infoDB->server = server;
+        }
+        if(verifDataBase != NULL) {
+            strncpy(dataBase, line+12, strlen(line+12)-1);
+            dataBase[strlen(line+12)-1]='\0';
+            infoDB->dataBase = dataBase;
+        }
+        if(verifUser != NULL) {
+            strncpy(user, line+7, strlen(line+7)-1);
+            user[strlen(line+7)-1]='\0';
+            infoDB->user = user;
+        }
+        if(verifPassword != NULL) {
+            strncpy(password, line+11, strlen(line+11)-1);
+            password[strlen(line+11)-1]='\0';
+            infoDB->password = password;
+        }
+        if(verifPort != NULL) {
+            strncpy(port, line+7, strlen(line+7));
+            port[strlen(line+7)]='\0';
+            sscanf(port,"%d",&infoDB->port);
+        }
+        if(verifSite != NULL) {
+            strncpy(site, line+7, strlen(line+7));
+            site[strlen(line+7)]='\0';
+            infoDB->site = site;
+        }
+    }
+    fclose(file);
+    free(server);
+    free(dataBase);
+    free(user);
+    free(password);
+    free(port);
+    free(site);
+
 }

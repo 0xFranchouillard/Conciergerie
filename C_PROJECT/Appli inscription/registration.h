@@ -10,12 +10,21 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <malloc.h>
+#include <string.h>
 #include <time.h>
 #include "qrcodegen.h"
 #include <gtk/gtk.h>
 #include "qr.h"
 #include "registration_verif.h"
 
+typedef struct {
+    const char *server;
+    const char *dataBase;
+    const char *user;
+    const char *password;
+    int port;
+    const char *site;
+}infosDB;
 
 typedef struct {
     gpointer lastName;
@@ -24,13 +33,24 @@ typedef struct {
     gpointer phoneNumber;
     gpointer city;
     gpointer address;
-    gpointer professionName;
-    gpointer contract;
-    int userID;
-    int activityID;
 }Inputs;
 
-void sign_in(GtkButton *button1, Inputs *In);
-int return_last_id(const char *table, const char *tableID);
+typedef struct {
+    const char *lastName;
+    const char *firstName;
+    const char *email;
+    const char *phoneNumber;
+    const char *city;
+    const char *address;
+    int userID;
+    char *password;
+    char *PATH;
+}values;
+
+void recoveryEntry(GtkButton *button1, Inputs *In);
+void registerVerif(values *value, infosDB *infoDB);
+void registerProvider(values *value, infosDB *infoDB);
+int return_last_id(const char *table, const char *tableID, infosDB *infoDB);
+void recoveryInfoDB(infosDB *infoDB);
 
 #endif // REGISTRATION_H_INCLUDED

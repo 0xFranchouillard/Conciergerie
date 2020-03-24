@@ -6,8 +6,8 @@ int nameVerif(const char *name) {
     int space = 0;
 
     lenghtName = strlen(name);
-    if(lenghtName <= 2 || lenghtName >= 256) {
-        printf("\nVotre nom, votre prénom, votre ville et votre profession doivent faire entre 3 et 255 caractères");
+    if(lenghtName <= 2 || lenghtName >= 51) {
+        printf("\nVotre nom, votre prénom et votre ville doivent faire entre 3 et 50 caractères");
         return 1;
     }
 
@@ -17,7 +17,7 @@ int nameVerif(const char *name) {
             i++;
         }
         if((name[i] < 'a' || name[i] > 'z') && (name[i] < 'A' || name[i] > 'Z') && (name[i] < 'ü' || name[i] > 'Ü')) {
-            printf("\nVotre nom, votre prénom, votre ville et votre profession ne doivent contenir que des lettres, des espaces ou des -");
+            printf("\nVotre nom, votre prénom et votre ville ne doivent contenir que des lettres, des espaces ou des -");
             return 1;
         }
     }
@@ -30,8 +30,8 @@ int emailVerif(const char *email) {
     int arobaseVerif = 0;
 
     lenghtEmail = strlen(email);
-    if(lenghtEmail <= 9 || lenghtEmail >= 256) {
-        printf("\nVotre email doit faire entre 10 et 255 caractères");
+    if(lenghtEmail <= 9 || lenghtEmail >= 141) {
+        printf("\nVotre email doit faire entre 10 et 140 caractères");
         return 1;
     }
 
@@ -59,8 +59,8 @@ int addressVerif(const char *address) {
     int space = 0;
 
     lenghtAddress = strlen(address);
-    if(lenghtAddress <= 8 || lenghtAddress >= 256) {
-        printf("\nVotre address doit faire entre 9 et 255 caractères");
+    if(lenghtAddress <= 8 || lenghtAddress >= 141) {
+        printf("\nVotre address doit faire entre 9 et 140 caractères");
         return 1;
     }
 
@@ -109,16 +109,6 @@ int phoneNumberVerif(const char *phoneNumber) {
             printf("\nUn numéro de téléphone ne contient que des chiffres");
             return 1;
         }
-    }
-
-    return 0;
-}
-
-int contractVerif(const char *contract) {
-
-    if(contract == NULL) {
-        printf("\nVeuillez saisir un statut");
-        return 1;
     }
 
     return 0;

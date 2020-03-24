@@ -1,3 +1,7 @@
-Data Base : luxeryservice_parent
+Server : localhost
 User : root
-Password :  
+Password : 
+Data Base : luxeryservice_parent
+Port : 3306
+
+Export storage folder : D:\\ESGI\\ExportPA

@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <malloc.h>
+#include <string.h>
 #include <time.h>
 #include "qrcodegen.h"
 #include "qrcodegen.c"
@@ -22,6 +23,8 @@ int main(int argc, char *argv[]) {
     GtkBuilder *gtkBuilder;
     GtkWidget *window_connect;
     GtkWidget *button1;
+    GtkWidget *background;
+    GtkWidget *logo;
 
     gtk_init(&argc, &argv);
     gtkBuilder = gtk_builder_new();
@@ -29,6 +32,10 @@ int main(int argc, char *argv[]) {
 
     window_connect = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "window_connect"));
     button1 = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button1"));
+    background = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "Background"));
+    logo = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "Logo"));
+    gtk_image_set_from_file(GTK_IMAGE(background),"images/backgroundApp.png");
+    gtk_image_set_from_file(GTK_IMAGE(logo),"images/logoApp.png");
 
     Inputs *Input;
     Input = malloc(sizeof(Inputs));
@@ -41,14 +48,10 @@ int main(int argc, char *argv[]) {
     Input->phoneNumber = gtk_builder_get_object(gtkBuilder, "phoneNumber");
     Input->city = gtk_builder_get_object(gtkBuilder, "city");
     Input->address = gtk_builder_get_object(gtkBuilder, "address");
-    Input->professionName = gtk_builder_get_object(gtkBuilder, "professionName");
-    Input->contract = gtk_builder_get_object(gtkBuilder, "contract");
-    Input->userID = return_last_id("UserAccount","userID");
-    Input->activityID = return_last_id("Activity","activityID");
 
     //gtk_builder_connect_signals(gtkBuilder, NULL);
     g_signal_connect(window_connect, "destroy", G_CALLBACK(on_window_connect_destroy), NULL);
-    g_signal_connect(button1, "clicked", G_CALLBACK(sign_in), Input);
+    g_signal_connect(button1, "clicked", G_CALLBACK(recoveryEntry), Input);
     //g_object_unref(gtkBuilder);
     gtk_widget_show(window_connect);
     gtk_main();

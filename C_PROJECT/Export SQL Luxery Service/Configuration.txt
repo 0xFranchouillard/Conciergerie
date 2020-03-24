@@ -1,0 +1,8 @@
+Server : localhost
+User : root
+Password : 
+Data Base : luxeryservice_parent
+Port : 3306
+
+MySQL Localization : D:\Wamp\bin\mysql\mysql8.0.18\bin
+Export storage folder : D:\ESGI\ExportPA

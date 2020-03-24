@@ -9,6 +9,5 @@ int nameVerif(const char *name);
 int emailVerif(const char *email);
 int addressVerif(const char *address);
 int phoneNumberVerif(const char *phoneNumber);
-int contractVerif(const char *contract);
 
 #endif // REGISTRATION_VERIF_H_INCLUDED
