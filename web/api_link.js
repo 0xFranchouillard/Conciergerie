@@ -32,3 +32,13 @@ function send(id,res){
 
 }
 
+function modif_data(id) {
+    var form = document.getElementById(id);
+    console.log(id);
+    if(form.style.display === "none") {
+        form.style.display = "inline";
+    }else{
+        form.style.display = "none";
+    }
+}
+

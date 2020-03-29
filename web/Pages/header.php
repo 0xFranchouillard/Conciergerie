@@ -9,7 +9,7 @@
                 <a href="index.php" class="link">Home Page</a>&nbsp&nbsp&nbsp|
             </li>
             <li class="link_header">
-                <a href="service.php" class="link">Nos Services</a>&nbsp&nbsp&nbsp|
+                <a href="services.php" class="link">Nos Services</a>&nbsp&nbsp&nbsp|
                 <!--<ul class="under_menu">
                     <li><a href="#" class="link_menu">Services</a></li>
                     <li><a href="#" class="link_menu">Abonnements</a></li>

@@ -6,7 +6,7 @@ class Tariff
     public $conn;
     public $table_name = "tariff";
     public $tariffID;
-    public $typeTypeService;
+    public $typeService;
     public $minimumType;
     public $serviceID;
 
@@ -63,9 +63,10 @@ class Tariff
 
         // prepare query statement
         if (count($params) > 0) {
+            $query .= " JOIN service";
             $query .= " WHERE";
             foreach ($params as $key => $value) {
-                $query .= " `" . $key . "` = " . $value . " AND";
+                $query .= "  $key  = " . $value . " AND";
             }
             $query = substr($query, 0, strlen($query) - 4);
         }
@@ -80,7 +81,7 @@ class Tariff
         // query to insert record
         //$this->send_mail_verif();
         $this->tariffID = $this->last_id();
-        $query = "INSERT INTO " . $this->table_name . " VALUES('$this->tariffID','$this->typeTypeService','$this->minimumType','$this->serviceID)";
+        $query = "INSERT INTO " . $this->table_name . " VALUES('$this->tariffID','$this->typeService','$this->minimumType','$this->serviceID)";
         // prepare w
         $stmt = $this->conn->prepare($query);
         // execute query

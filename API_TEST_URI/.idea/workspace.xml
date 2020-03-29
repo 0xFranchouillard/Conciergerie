@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fc9e492-55b5-4081-a1fe-abcbaedfa560" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../web/services.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tariff.php" beforeDir="false" afterPath="$PROJECT_DIR$/Tariff.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/Pages/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/Pages/footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/Pages/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/Pages/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/api_link.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/api_link.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/service.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/service.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +104,7 @@
       <workItem from="1583181525243" duration="25623000" />
       <workItem from="1583939541846" duration="2995000" />
       <workItem from="1584123050671" duration="4025000" />
-      <workItem from="1584370022476" duration="12712000" />
+      <workItem from="1584370022476" duration="18591000" />
     </task>
     <task id="LOCAL-00001" summary="ADD NEW BDD">
       <created>1583498197587</created>
@@ -128,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583516206905</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="presta sans mdp pour app java">
+      <created>1585064834594</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1585064834594</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -137,7 +150,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ADD NEW BDD" />
     <MESSAGE value="LASTEST" />
-    <option name="LAST_COMMIT_MESSAGE" value="LASTEST" />
+    <MESSAGE value="presta sans mdp pour app java" />
+    <option name="LAST_COMMIT_MESSAGE" value="presta sans mdp pour app java" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="201" key="#Inspections" timestamp="1582381692923">
@@ -164,10 +178,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="701" y="152" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#function0/0.0.1920.1080@0.0.1920.1080" timestamp="1582211276034" />
-    <state x="598" y="138" key="CommitChangelistDialog2" timestamp="1583516206301">
+    <state x="598" y="138" key="CommitChangelistDialog2" timestamp="1585064833892">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="598" y="138" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1583516206301" />
+    <state x="598" y="138" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1585064833892" />
     <state x="740" y="298" key="FileChooserDialogImpl" timestamp="1582897530998">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -228,9 +242,9 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="701" y="188" key="refactoring.ChangeSignatureDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1582120017514" />
-    <state x="616" y="250" width="672" height="677" key="run.anything.popup" timestamp="1582840136756">
+    <state x="616" y="250" width="672" height="677" key="run.anything.popup" timestamp="1585327946621">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="616" y="250" width="672" height="677" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1582840136756" />
+    <state x="616" y="250" width="672" height="677" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1585327946621" />
   </component>
 </project>

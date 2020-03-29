@@ -1,77 +1,68 @@
 <?php
-
 session_start();
 
 $connected = isset($_SESSION['email']) ? true : false;
 
-$json = file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/service", false);
-$service_infos = json_decode($json, true);
+$json = file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/tariff/".$_GET['serviceID'], false);
+$tariff_info = json_decode($json, true);
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Projet Annuel 2i1">
+    <meta name="description" content="Projet Annuel">
     <link rel="stylesheet" type="text/css" href="CSS/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="CSS/CSS_Luxery.css">
-    <title>LuxeryService</title>
+    <link rel="stylesheet" type="text/css" href="CSS/CSS_luxery.css">
+    <script src="api_link.js" charset="utf-8"></script>
+    <title>Orbis</title>
 </head>
 <body>
-<?php require_once('Pages/header.php'); ?>
+<?php	require_once('Pages/header.php'); ?>
 <main>
-
-    <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur3.png"></p>
-    <br>
-    <section class="body_section">
-        <h1>Nos Services :</h1>
-        <br/>
-        <p class="text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-    </section>
-    <br/>
-    <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur6.png"></p>
-    <br/>
-    <section class="body_section">
-        <h1>Demande de Services :</h1>
-        <br/>
+    <section class="corps" id="first_section">
         <form action="" method="post">
-            <div class="container">
-                <?php
-                for ($i = 0; $i < count($service_infos); $i++) {
-                    if($i%3 == 0) {?>
-                    <div class="row">
-                        <div class="col">
-                            <label  class=""><?php echo $service_infos[$i]['nameService']; ?></label>
+            <h1>Nom du Service : <?php echo $tariff_info[0]['nameService'];$i=0; ?></h1>
+            <br/>
+            <?php foreach ($tariff_info as $t) {
+                $min=$tariff_info[$i]["minimumType"];
+                $id=$tariff_info[$i]["tariffID"];
+                echo sprintf("<div id=\"table\" class=\"container\">
+                <div class=\"row\">
+                    <div class=\"col\">
+                        <!-- Description -->
+                        <div class=\"row\">
+                            <div class=\"col\">
+                                <label class=\"text\">Service %s</label>
+                            </div>
                         </div>
-                    <?php } else if($i%3 == 2) { ?>
-                        <div class="col">
-                            <label  class=""><?php echo $service_infos[$i]['nameService']; ?></label>
+                        <br/>
+                        <!-- Coût -->
+                        <div class=\"row\">
+                            <div class=\"col\">
+                                <label>%s : %s €</label>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class=\"row\">
+                            <div class=\"col\">
+                                <input class=\"co btn btn-secondary\" type=\"button\" onclick=\"modif_data($id)\" value=\"Réservé (volume minimum : $min)\" id=\"reserve\" name=\"ajouter_panier\"/>
+                            </div>
                         </div>
                     </div>
-                    <?php } else { ?>
-                        <div class="col">
-                            <label  class=""><?php echo $service_infos[$i]['nameService']; ?></label>
-                        </div>
-                    <?php } ?>
-            <?php } ?>
-            </div>
+                    <div class=\"col\" id=\"$id\" style=\"display:none\">
+                      <form  action=\"verif_service.php?tariffID=$id\" method=\"post\">
+                        <input type=\"text\" name=\"sujet\" placeholder=\"Nouveau sujet\">
+                        <br>
+                        <input type=\"submit\"  value=\"Valider la Modification\">
+                        <br>
+                      </form>
+                    </div>
+                </div>
+            </div>",$tariff_info[$i]["typeService"]=="1"?"récurrent":"non récurrent",$tariff_info[$i]["priceTypeService"]==0?"Tarif Horaire":"Tarif", $tariff_info[$i++]["priceService"]);
+            }
+            ?>
         </form>
     </section>
-    <br/>
-    <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur3.png"></p>
 </main>
 <?php require_once('Pages/footer.php'); ?>
-</body>
-</html>

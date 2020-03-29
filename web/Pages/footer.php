@@ -1,7 +1,7 @@
 <footer>
     <div id="table_footer" class="container">
         <div class="row">
-            <a href="service.php" class="col link_footer">Nos services</a>
+            <a href="services.php" class="col link_footer">Nos services</a>
             <a href="#" class="col link_footer">Abonnements</a>
         </div>
         <div class="row">
