@@ -225,6 +225,10 @@ class API
 
                 echo $User->read_info($stmt);
                 exit();
+            }else {
+                $stmt = $User->read2($params, $s_params);
+                echo $User->read_info($stmt);
+                exit();
             }
 
             //$stmt = $Client->read2($params,$s_params);
@@ -292,14 +296,19 @@ class API
             });
 
             $router->addRoute('GET', '/v1/client/:request', function ($request) {
+                $database = new Db();
+                $db = $database->getConnection();
+                $User = new Client($db);
+                $params = array();
+                $s_params = array();
                 if (in_array($request, ["clientID", "lastName", "firstName", "email", "password", "city", "address", "phoneNumber", "hash"])) {
-                    $database = new Db();
-                    $db = $database->getConnection();
-                    $User = new Client($db);
-                    $params = array();
-                    $s_params = array();
                     $s_params[$request] = $request;
 
+                    $stmt = $User->read2($params, $s_params);
+                    echo $User->read_info($stmt);
+                    exit();
+                }else{
+                    $params["agency"] = $request;
                     $stmt = $User->read2($params, $s_params);
                     echo $User->read_info($stmt);
                     exit();
