@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 int main(int argc,char **argv)
 {
@@ -12,9 +13,13 @@ int main(int argc,char **argv)
     char *mysqlLocalization = malloc(sizeof(char)*129);
     char *exportStorage = malloc(sizeof(char)*129);
     char *exportDB = malloc(sizeof(char)*326);
+    if(server == NULL || user == NULL || password == NULL || dataBase == NULL || mysqlLocalization == NULL || exportStorage == NULL || exportDB == NULL) {
+        printf("Allocation error");
+        exit(0);
+    }
     FILE *file = fopen("Configuration.txt", "r");
     if(file == NULL) {
-        printf("Impossible d'ouvrir \"Configuration.txt\"");
+        perror(""); /* perror() écrit l'erreur */
         exit(0);
     }
     char line[64];

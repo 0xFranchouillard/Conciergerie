@@ -1,63 +1,82 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <dirent.h>
-#include <errno.h>
+/*Programme Fusion SQL Luxery Service
+Créé par Cédric GARVENES, Cyrille CHAMPION et Arthur BRONGNIART*/
 
-typedef struct dirent dirent;
+#include "fileProcessing.h"
+#include "conflictProcessing.h"
 
-void readFile(const char *nameFile);
+void Launcher(infosDB *infoDB, infosGlobal *infoGlobal);
+void mainGTK(infosGlobal *infoGlobal);
+void on_window_connect_destroy();
 
 int main(int argc,char **argv)
 {
-    DIR* rep = NULL;
-    dirent* file = NULL; /* Déclaration d'un pointeur vers la structure dirent. */
-    rep = opendir("D:\\ESGI\\ExportPA"); /* Ouverture d'un dossier */
-
-    if (rep == NULL) { /* Si le dossier n'a pas pu être ouvert */
-        perror(""); /* perror() écrit l'erreur */
+    infosGTK *infoGTK = malloc(sizeof(infosGTK));
+    infosDB *infoDB = malloc(sizeof(infosDB));
+    infosGlobal *infoGlobal = malloc(sizeof(infosGlobal));
+    if(infoDB == NULL || infoGTK == NULL || infoGlobal == NULL) {
+        printf("Allocation error");
         exit(0);
     }
+    infoGlobal->infoGTK = infoGTK;
+    recoveryInfoDB(infoDB, infoGlobal);
 
-    while ((file = readdir(rep)) != NULL) { /* On lit le répertoire du dossier */
-        if (strstr(file->d_name,"export_luxeryservice") != NULL && strstr(file->d_name,".sql") != NULL) {
-            readFile(file->d_name);
-        }
-    }
+    gtk_init(&argc, &argv);
 
-    if (closedir(rep) == -1) { /* S'il y a eu un souci avec la fermeture */
-        perror(""); /* perror() écrit l'erreur */
-        exit(0);
-    }
+    //Déclaration du pointeur de structure de type MYSQL
+    MYSQL mysql;
+    infoGlobal->mysql = mysql;
+    Launcher(infoDB, infoGlobal);
+
+    free(infoDB);
+    free(infoGTK);
+    free(infoGlobal);
 
     return 0;
 }
 
-void readFile(const char *nameFile) {
+void Launcher(infosDB *infoDB, infosGlobal *infoGlobal) {
+    //Initialisation de MYSQL
+    mysql_init(&infoGlobal->mysql);
+    //Options de connexion
+    mysql_options(&infoGlobal->mysql, MYSQL_READ_DEFAULT_GROUP, "option");
 
-    FILE *file = NULL;
-    char *nameFileFull = malloc(sizeof(char)*256);
-    char *insertSQL = malloc(sizeof(char)*256);
-    if (nameFileFull == NULL && insertSQL == NULL) {
-        printf("Allocation error");
-        exit(0);
+    //Si la connection réussie...
+    if (mysql_real_connect(&infoGlobal->mysql, infoDB->server, infoDB->user, infoDB->password, infoDB->dataBase, infoDB->port, NULL, 0)) {
+        mainGTK(infoGlobal);
+        readFolder(infoGlobal);printf("hello\n");
+        mysql_close(&infoGlobal->mysql);
+        gtk_widget_show(infoGlobal->infoGTK->windowConnect);
+        gtk_main();
+    } else {
+        printf("Une erreur s'est produite lors de la connexion à la BDD!\n");
     }
-
-    strcpy(nameFileFull,"D:\\ESGI\\ExportPA\\");
-    strcat(nameFileFull,nameFile);
-
-    file = fopen(nameFileFull, "r");
-    if (file == NULL) {
-        perror("");
-        exit(0);
-    }
-    char line[256];
-    while (fgets(line, sizeof(line), file) != NULL) {
-        if(strstr(line,"INSERT INTO") != NULL) {
-            strncpy(insertSQL, line, strlen(line)-1);
-            insertSQL[strlen(line)-1]='\0';
-            printf("%s\n",insertSQL);
-        }
-    }
-
 }
+
+void mainGTK(infosGlobal *infoGlobal) {
+    GtkWidget *skipButton;
+    GtkWidget *updateButton;
+    GtkWidget *background;
+    GtkWidget *logo;
+
+    infoGlobal->infoGTK->gtkBuilder = gtk_builder_new();
+    gtk_builder_add_from_file(infoGlobal->infoGTK->gtkBuilder, "graphique.glade", NULL);
+
+    infoGlobal->infoGTK->windowConnect = GTK_WIDGET(gtk_builder_get_object(infoGlobal->infoGTK->gtkBuilder, "window_connect"));
+    infoGlobal->infoGTK->value = GTK_WIDGET(gtk_builder_get_object(infoGlobal->infoGTK->gtkBuilder, "Value"));
+    skipButton = GTK_WIDGET(gtk_builder_get_object(infoGlobal->infoGTK->gtkBuilder, "skip"));
+    updateButton = GTK_WIDGET(gtk_builder_get_object(infoGlobal->infoGTK->gtkBuilder, "update"));
+    background = GTK_WIDGET(gtk_builder_get_object(infoGlobal->infoGTK->gtkBuilder, "Background"));
+    logo = GTK_WIDGET(gtk_builder_get_object(infoGlobal->infoGTK->gtkBuilder, "Logo"));
+    gtk_image_set_from_file(GTK_IMAGE(background), "images/backgroundApp2.png");
+    gtk_image_set_from_file(GTK_IMAGE(logo), "images/logoApp.png");
+
+    g_signal_connect(skipButton, "clicked", G_CALLBACK(skipConflict), infoGlobal);
+    g_signal_connect(updateButton, "clicked", G_CALLBACK(updateConflict), infoGlobal);
+    g_signal_connect(infoGlobal->infoGTK->windowConnect, "destroy", G_CALLBACK(on_window_connect_destroy), NULL);
+}
+
+void on_window_connect_destroy() {
+    gtk_main_quit();
+}
+
+
