@@ -53,16 +53,16 @@ $service_infos = json_decode($json, true);
                     if($i%3 == 0) {?>
                     <div class="row">
                         <div class="col">
-                            <label  class=""><?php echo $service_infos[$i]['nameService']; ?></label>
+                            <a href="service.php?serviceID=1=<?=$service_infos[$i]['serviceID']?>"><?= $service_infos[$i]['nameService'] ?></a>
                         </div>
                     <?php } else if($i%3 == 2) { ?>
                         <div class="col">
-                            <label  class=""><?php echo $service_infos[$i]['nameService']; ?></label>
+                            <a href="service.php?serviceID=1=<?=$service_infos[$i]['serviceID']?>"><?= $service_infos[$i]['nameService'] ?></a>
                         </div>
                     </div>
                     <?php } else { ?>
                         <div class="col">
-                            <label  class=""><?php echo $service_infos[$i]['nameService']; ?></label>
+                            <a href="service.php?serviceID=1=<?=$service_infos[$i]['serviceID']?>"><?= $service_infos[$i]['nameService'] ?></a>
                         </div>
                     <?php } ?>
             <?php } ?>

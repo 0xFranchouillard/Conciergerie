@@ -20,7 +20,7 @@ $tariff_info = json_decode($json, true);
 <body>
 <?php	require_once('Pages/header.php'); ?>
 <main>
-    <section class="corps" id="first_section">
+    <section class="body_section">
         <form action="" method="post">
             <h1>Nom du Service : <?php echo $tariff_info[0]['nameService'];$i=0; ?></h1>
             <br/>
