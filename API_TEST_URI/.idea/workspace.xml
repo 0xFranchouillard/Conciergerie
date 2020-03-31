@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fc9e492-55b5-4081-a1fe-abcbaedfa560" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../web/lang/en.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../web/lang/fr.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/Pages/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/Pages/header.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/service.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/service.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/services.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/services.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +101,7 @@
       <workItem from="1583181525243" duration="25623000" />
       <workItem from="1583939541846" duration="2995000" />
       <workItem from="1584123050671" duration="4025000" />
-      <workItem from="1584370022476" duration="19683000" />
+      <workItem from="1584370022476" duration="20589000" />
     </task>
     <task id="LOCAL-00001" summary="ADD NEW BDD">
       <created>1583498197587</created>

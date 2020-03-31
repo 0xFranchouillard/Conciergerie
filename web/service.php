@@ -52,9 +52,9 @@ $tariff_info = json_decode($json, true);
                     </div>
                     <div class=\"col\" id=\"$id\" style=\"display:none\">
                       <form  action=\"verif_service.php?tariffID=$id\" method=\"post\">
-                        <input type=\"text\" name=\"sujet\" placeholder=\"Nouveau sujet\">
+                        <input type=\"text\" name=\"sujet\" placeholder=\"Volume\">
                         <br>
-                        <input type=\"submit\"  value=\"Valider la Modification\">
+                        <input type=\"submit\"  value=\"Valider la réservation\">
                         <br>
                       </form>
                     </div>

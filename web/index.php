@@ -10,7 +10,7 @@ $connected = isset($_SESSION['email']) ? true : false;
         <meta charset="utf-8">
         <meta name="description" content="Projet Annuel 2i1">
         <link rel="stylesheet" type="text/css" href="CSS/bootstrap.css">
- 		<link rel="stylesheet" type="text/css" href="CSS/CSS_Luxery.css">
+ 		<link rel="stylesheet" type="text/css" href="CSS/CSS_luxery.css">
         <title>LuxeryService</title>
     </head>
     <body>
