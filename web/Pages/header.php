@@ -1,8 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION['lang']) || !in_array($_SESSION['lang'], ['FR', 'EN']))
-    $_SESSION['lang'] = 'FR';
-
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+    }elseif (!isset($_SESSION['lang']) || !in_array($_SESSION['lang'], ['FR', 'EN'])) {
+        $_SESSION['lang'] = 'FR';
+    }
 include('lang/'.$_SESSION['lang'].'.php');
 ?>
 <header>
