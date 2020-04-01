@@ -47,6 +47,11 @@ include('lang/'.$_SESSION['lang'].'.php');
                 <li class="link_header">
                     <a href="../web/Pages/deconnexion.php" class="link"><?=_DECONNEXION?></a>
                 </li>
+                &nbsp;|&nbsp;
+                <td><a  href="index.php?lang=FR" ><img src="../Pictures/fr.png" title="français"></a></td>
+                &nbsp;|&nbsp;
+                <td><a  href="index.php?lang=EN" ><img src="../Pictures/en.jpg" title="anglais"/></a></td>
+                &nbsp;|&nbsp;
             <?php } ?>
         <ul>
     </nav>
