@@ -89,6 +89,14 @@ class Client
         $stmt->execute();
         return $stmt;
     }
+    function search($data)
+    {
+        $query = "SELECT * FROM ".$this->table_name." WHERE ( CONCAT(lastName,\" \",firstName) LIKE '%$data%' OR CONCAT(firstName,\" \",lastName) LIKE '%$data%' OR email LIKE '%$data%' ) ORDER BY lastName DESC";
+        $stmt = $this->conn->prepare($query);
+        // execute query
+        $stmt->execute();
+        return $stmt;
+    }
 
 
     // create user
@@ -225,13 +233,12 @@ class Client
     }
 
     function last_id(){
-        $query = "SELECT " .$this->table_name. "ID FROM " . $this->table_name . " WHERE agency = \"".$this->agency."\" ORDER BY ".$this->table_name."ID DESC LIMIT 1";echo $query;
+        $query = "SELECT " .$this->table_name. "ID FROM " . $this->table_name . " WHERE agency = \"".$this->agency."\" ORDER BY ".$this->table_name."ID DESC LIMIT 1";
         $stmt = $this->conn->prepare($query);
         if ($stmt->execute()) {
             return (++$stmt->fetch(PDO::FETCH_ASSOC)[$this->table_name. "ID"]);
         } return FALSE;
     }
-
 }
 
 /*$stmt->bindParam(":last_name", $this->last_name);

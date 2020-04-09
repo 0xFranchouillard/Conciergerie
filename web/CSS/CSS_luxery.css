@@ -21,7 +21,25 @@ header h1{
 	display: inline-block;
 	width: 100%;
 }
-
+.main_admin {
+	width: 100%;
+	margin: 0%;
+	padding: 0 2% 2% 2%;
+	position: relative;
+	left: 30%;
+	background-color: rgba(100,100,100,0.5);
+}
+.corps_admin{
+	text-align: center;
+	width: 80%;
+	margin: 0;
+	padding: 0 2% 2% 2%;
+	position: relative;
+	left: 10%;
+	background-color: #fff;
+	box-shadow: 1px 1px 3px #353443;
+	padding-top: 1%;
+}
 .under_menu {
 	text-align: center;
 	display: none;

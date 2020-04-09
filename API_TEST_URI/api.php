@@ -205,35 +205,41 @@ class API
             $User = new Client($db);
             $params = array();
             $s_params = array();
-            if(isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])){
+            if (isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])) {
 
                 $params['email'] = $_SERVER['PHP_AUTH_USER'];
-                $stmt = $User->read2($params,$s_params);
+                $stmt = $User->read2($params, $s_params);
 
-                if(($stmt)->rowCount() <= 0) {
+                if (($stmt)->rowCount() <= 0) {
                     echo json_encode(["error" => "Email Not found."]);
                     exit();
                 }
 
                 $params['password'] = $_SERVER['PHP_AUTH_PW'];
-                $stmt = $User->read2($params,$s_params);
+                $stmt = $User->read2($params, $s_params);
 
-                if(($stmt)->rowCount() <= 0) {
+                if (($stmt)->rowCount() <= 0) {
                     echo json_encode(["error" => "Wrong password !"]);
                     exit();
                 }
 
                 echo $User->read_info($stmt);
                 exit();
-            }else {
+            } else {
                 $stmt = $User->read2($params, $s_params);
                 echo $User->read_info($stmt);
                 exit();
             }
+        });
 
-            //$stmt = $Client->read2($params,$s_params);
-            //echo $Client->read_info($stmt);
-            //exit();
+            $router->addRoute('GET', '/v1/client/search/:data', function($data) {
+                $database = new Db();
+                $db = $database->getConnection();
+                $User = new Client($db);
+                $stmt = $User->search($data);
+                echo $User->read_info($stmt);
+                exit();
+
         });
 
         $router->addRoute('GET', '/v1/prestataire', function() {
@@ -431,6 +437,7 @@ class API
     */
 
             });
+
 
 
             $router->addRoute('PUT', '/v1/client', function () {

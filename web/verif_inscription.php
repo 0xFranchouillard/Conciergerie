@@ -52,7 +52,7 @@ if (isset($_POST['registration'])){
             )
         );
         $json = file_get_contents(
-            'http://localhost/Conciergerie/API_TEST_URI/v1/users',
+            'http://localhost/Conciergerie/API_TEST_URI/v1/client',
             FALSE,$context);
 
         $user_infos = json_decode($json, true);
