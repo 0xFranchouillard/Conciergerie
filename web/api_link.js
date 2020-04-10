@@ -42,22 +42,3 @@ function modif_data(id) {
     }
 }
 
-
-function search3(id,res){
-    const data = document.getElementById(id).value;
-    console.log(data);
-    const request = new XMLHttpRequest();
-
-    if(id == "recherche_user")request.open('GET', 'verif_messagerie.php?recherche_user='+ data);
-
-
-    request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-    request.onreadystatechange = function(search) {
-        if(request.readyState === 4){
-            console.log(search);
-            document.getElementById(res).innerHTML = request.responseText ;
-        }
-    }
-    request.send();
-
-}

@@ -1,9 +1,8 @@
 <?php
 session_start();
-
 $connected = isset($_SESSION['email']) ? true : false;
 
-$json = file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/tariff/".$_GET['serviceID'], false);
+$json = file_get_contents("http://localhost/API_TEST_URI/v1/tariff/".$_GET['serviceID'], false);
 $tariff_info = json_decode($json, true);
 
 ?>

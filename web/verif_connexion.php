@@ -1,31 +1,37 @@
 <?php
-if (isset($_POST['connection']) && isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['password']) && !empty($_POST['password'])) {
-        $user = $_POST['email'];
-        $passwd = hash('sha256', $_POST['password']);
+require_once('lang/'.$_POST['lang'].'.php');
+require_once ('Pages/db.php');
+$db = connectionDB();
 
-    $context = stream_context_create(array(
-            'http' => array(
-                'header' => "Authorization: Basic " . base64_encode("$user:$passwd"))
-        ));
-        $json = file_get_contents("http://localhost/conciergerie/API_TEST_URI/v1/".$_POST['type'], true, $context);
-        $user_infos = json_decode($json, true);
+if(isset($_POST['email']) && !empty($_POST['email']) &&
+    isset($_POST['password']) && !empty($_POST['password']) &&
+    isset($_POST['type']) && !empty($_POST['type'])) {
+    $email = htmlspecialchars($_POST['email']);
+    $password = hash('sha256',$_POST['password']);
 
-        if ($user_infos[0]['email'] != NULL) {
+    if($_POST['type'] == 'Provider' || $_POST['type'] == 'Prestataire') {
+        $request = $db->prepare('SELECT providerID, password FROM serviceprovider WHERE email = :email');
+    } else {
+        $request = $db->prepare('SELECT clientID, password FROM client WHERE email = :email');
+    }
+    $request->execute([
+        'email'=>$email
+    ]);
+    $result = $request->rowCount();
+    if($result <= 0) {
+        echo E_CONNEXION2;
+    } else {
+        $result = $request->fetch();
+        if($password == $result['password']) {
             session_start();
-            $_SESSION['email'] = $user_infos[0]['email'];
-            $_SESSION['agency'] = $user_infos[0]['agency'];
-            if ($_POST['type'] == "client") {
-                $_SESSION['clientID'] = $user_infos[0]['clientID'];
-            }else{
-                $_SESSION['providerID'] = $user_infos[0]['providerID'];
-            }
-            $_SESSION['password'] = $user_infos[0]['password'];
-            header('Location: connection.php?dz');
-        } elseif ($user_infos['error'] != NULL)
-            $GLOBALS['error_connexion'] = $user_infos['error'];
+            $_SESSION['email'] = $email;
+            $_SESSION['id'] = $result[0];
+            echo "OK";
+        } else {
+            echo E_CONNEXION3;
+        }
+    }
+} else {
+    echo E_CONNEXION1;
 }
-
-
-
-// ['data'][0]['iduser']
 ?>

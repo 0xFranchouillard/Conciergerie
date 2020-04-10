@@ -1,7 +1,5 @@
 <?php
-
 session_start();
-
 $connected = isset($_SESSION['email']) ? true : false;
 ?>
 <!DOCTYPE html>
@@ -20,7 +18,7 @@ $connected = isset($_SESSION['email']) ? true : false;
           <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur3.png"></p>
             <br>
             <section class="body_section">
-                <h1>Nos Services :</h1>
+                <h1><?=_WE?> :</h1>
                 <br/>
                 <p class="text">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -41,7 +39,7 @@ $connected = isset($_SESSION['email']) ? true : false;
             <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur6.png"></p>
             <br/>
             <section class="body_section">
-                <h1>Réservation de prestation :</h1>
+                <h1><?=_SERVICES?> :</h1>
                 <br/>
                 <p class="text">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -62,7 +60,7 @@ $connected = isset($_SESSION['email']) ? true : false;
             <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur3.png"></p>
             <br/>
             <section class="body_section">
-                <h1>Informations Tarif :</h1>
+                <h1><?=_PROVIDERS?> :</h1>
                 <br/>
                 <p class="text">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -83,7 +81,7 @@ $connected = isset($_SESSION['email']) ? true : false;
             <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur6.png"></p>
             <br/>
             <section class="body_section">
-                <h1>Nous Contacter :</h1>
+                <h1><?=_CONTACT?> :</h1>
                 <br/>
                 <p class="text">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod

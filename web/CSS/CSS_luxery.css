@@ -21,25 +21,7 @@ header h1{
 	display: inline-block;
 	width: 100%;
 }
-.main_admin {
-	width: 100%;
-	margin: 0%;
-	padding: 0 2% 2% 2%;
-	position: relative;
-	left: 30%;
-	background-color: rgba(100,100,100,0.5);
-}
-.corps_admin{
-	text-align: center;
-	width: 80%;
-	margin: 0;
-	padding: 0 2% 2% 2%;
-	position: relative;
-	left: 10%;
-	background-color: #fff;
-	box-shadow: 1px 1px 3px #353443;
-	padding-top: 1%;
-}
+
 .under_menu {
 	text-align: center;
 	display: none;
@@ -190,7 +172,7 @@ main {
 
 }
 
-input {
+input, select {
 	padding: 8px;
 	font-size: 16px;
 	border-radius: 4px;
@@ -198,9 +180,10 @@ input {
 	box-shadow: 1px 1px 3px #353443;
 	box-sizing : border-box;
 	max-width: 100%;
+	width: 70%;
 }
 
-input:hover {
+input:hover, select:hover {
 	box-shadow: none;
 }
 
@@ -211,7 +194,7 @@ input:hover {
 
 /*Page_connection/registration*/
 
-#connection{
+#connexion{
 	display: inline-block;
 	width: 40%;
 	vertical-align: top;
