@@ -12,6 +12,7 @@ define('_REGISTRATION','Register');
 define('_PROVIDERS','Our Providers');
 define('_WE','About Us');
 
+//Connexion/Registration
 define('_LASTNAME','Last Name');
 define('_FIRSTNAME','First Name');
 define('_EMAIL','Address Email');
@@ -22,6 +23,7 @@ define('_PASSWORD','Password');
 define('_PASSWORD2','Confirm Password');
 define('_CLIENT','Client');
 define('_PROVIDER','Provider');
+define('_AGENCY','Choice of agency');
 
 //Error verif_connexion.php
 define('E_CONNEXION1','You must fill in all the fields');
@@ -41,7 +43,10 @@ define('E_REGISTRATION9','Your street name should only have letters');
 define('E_REGISTRATION10','Your Password must contain at least 2 uppercase letters, 2 numbers and 4 lowercase letters');
 define('E_REGISTRATION11','Your passwords do not match');
 define('E_REGISTRATION12','Please select an agency');
-define('E_REGISTRATION13','Your email is not valid');
-define('E_REGISTRATION14','This email is already in use');
+define('E_REGISTRATION13','Your email must be a maximum of 140 characters long');
+define('E_REGISTRATION14','Your email is not valid');
+define('E_REGISTRATION15','This email is already in use');
+
+define('OK_REGISTRATION','Your account has been created');
 
 ?>

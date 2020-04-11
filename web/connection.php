@@ -105,7 +105,7 @@ if($connected==true){
                     <div class="row">
                         <div class="col">
                         <select name="agency" id="agency">
-                            <option>Choix de l'agence</option>
+                            <option><?=_AGENCY?></option>
                             <?php
                             $file = file("Agency.txt");
                             for ($i = 0 ; $i < count($file) ; $i++){

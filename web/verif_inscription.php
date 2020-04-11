@@ -27,44 +27,48 @@ if(isset($_POST['lastName']) && !empty($_POST['lastName']) &&
                     if($verifAddress == "OK") {
                         if($verifPassword == "OK") {
                             if($_POST['password'] == $_POST['confirmPassword']) {
-                                if($_POST['agency'] != "Choix de l'agence") {
-                                    if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                                        $request = $db->prepare('SELECT email FROM client WHERE email= :email');
-                                        $request->execute([
-                                            'email' => htmlspecialchars($_POST['email'])
-                                        ]);
-                                        $result = $request->rowCount();
-                                        if ($result == 0) {
-
-                                            $request = $db->prepare('SELECT clientID FROM client WHERE clientID= :id');
-                                            $find = false;
-                                            $id = 1;
-                                            while (!$find) {
-                                                $request->execute([
-                                                    'id' => $id
-                                                ]);
-                                                $n_id = $request->rowCount();
-                                                if ($n_id != 0) {
-                                                    $id++;
-                                                } else {
-                                                    $find = true;
-                                                }
-                                            }
-
-                                            $request = $db->prepare('INSERT INTO client(clientID, agency, lastName, firstName, email, phoneNumber, password, address, city) VALUES(:id, :agency, :lastName, :firstName, :email, :phoneNumber, :password, :address, :city)');
+                                if($_POST['agency'] != _AGENCY) {
+                                    if(strlen($_POST['email']) <= 140) {
+                                        if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                                            $request = $db->prepare('SELECT email FROM client WHERE email= :email');
                                             $request->execute([
-                                                'id' => $id,
-                                                'agency' => htmlspecialchars($_POST['agency']),
-                                                'lastName' => htmlspecialchars($_POST['lastName']),
-                                                'firstName' => htmlspecialchars($_POST['firstName']),
-                                                'email' => htmlspecialchars($_POST['email']),
-                                                'phoneNumber' => htmlspecialchars($_POST['phoneNumber']),
-                                                'password' => hash('sha256', $_POST['password']),
-                                                'address' => htmlspecialchars($_POST['address']),
-                                                'city' => htmlspecialchars($_POST['city'])
+                                                'email' => htmlspecialchars($_POST['email'])
                                             ]);
-                                            echo "OK";
+                                            $result = $request->rowCount();
+                                            if ($result == 0) {
 
+                                                $request = $db->prepare('SELECT clientID FROM client WHERE clientID= :id');
+                                                $find = false;
+                                                $id = 1;
+                                                while (!$find) {
+                                                    $request->execute([
+                                                        'id' => $id
+                                                    ]);
+                                                    $n_id = $request->rowCount();
+                                                    if ($n_id != 0) {
+                                                        $id++;
+                                                    } else {
+                                                        $find = true;
+                                                    }
+                                                }
+
+                                                $request = $db->prepare('INSERT INTO client(clientID, agency, lastName, firstName, email, phoneNumber, password, address, city) VALUES(:id, :agency, :lastName, :firstName, :email, :phoneNumber, :password, :address, :city)');
+                                                $request->execute([
+                                                    'id' => $id,
+                                                    'agency' => htmlspecialchars($_POST['agency']),
+                                                    'lastName' => htmlspecialchars($_POST['lastName']),
+                                                    'firstName' => htmlspecialchars($_POST['firstName']),
+                                                    'email' => htmlspecialchars($_POST['email']),
+                                                    'phoneNumber' => htmlspecialchars($_POST['phoneNumber']),
+                                                    'password' => hash('sha256', $_POST['password']),
+                                                    'address' => htmlspecialchars($_POST['address']),
+                                                    'city' => htmlspecialchars($_POST['city'])
+                                                ]);
+                                                echo "OK ".OK_REGISTRATION;
+
+                                            } else {
+                                                return E_REGISTRATION15;
+                                            }
                                         } else {
                                             return E_REGISTRATION14;
                                         }

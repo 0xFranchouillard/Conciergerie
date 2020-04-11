@@ -38,8 +38,8 @@ function Registration(lang) {
     request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     request.onreadystatechange = function() {
         if(request.readyState === 4 && request.status === 200) {
-            if(request.responseText == "OK") {
-                displayOK();
+            if(request.responseText.split(" ")[0] == "OK") {
+                displayOK(request.responseText.split("OK ")[1]);
             } else {
                 R_displayError(request.responseText);
             }
@@ -54,9 +54,9 @@ function R_displayError(e) {
     error.innerHTML = e;
 }
 
-function displayOK() {
+function displayOK(e) {
     const error = document.getElementById('R_error');
     error.style.display = "block";
     error.style.color = "green";
-    error.innerHTML = "Votre compte a bien été créé";
+    error.innerHTML = e;
 }
