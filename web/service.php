@@ -1,67 +1,140 @@
 <?php
 session_start();
 $connected = isset($_SESSION['email']) ? true : false;
-
-$json = file_get_contents("http://localhost/API_TEST_URI/v1/tariff/".$_GET['serviceID'], false);
-$tariff_info = json_decode($json, true);
-
+//Si il n'y a pas de variable $_GET['serviceID'] on retourne à services.php
+if(!isset($_GET['serviceID'])){
+    header('Location: services.php');
+    exit;
+}
+require_once('Pages/db.php');
+$db = connectionDB();
+$requestService = $db->prepare('SELECT * FROM Service WHERE serviceID= :id && language= :lang');
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="Projet Annuel">
-    <link rel="stylesheet" type="text/css" href="CSS/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="CSS/CSS_luxery.css">
-    <script src="api_link.js" charset="utf-8"></script>
-    <title>Orbis</title>
-</head>
-<body>
-<?php	require_once('Pages/header.php'); ?>
-<main>
-    <section class="body_section">
-        <form action="" method="post">
-            <h1>Nom du Service : <?php echo $tariff_info[0]['nameService'];$i=0; ?></h1>
-            <br/>
-            <?php foreach ($tariff_info as $t) {
-                $min=$tariff_info[$i]["minimumType"];
-                $id=$tariff_info[$i]["tariffID"];
-                echo sprintf("<div id=\"table\" class=\"container\">
-                <div class=\"row\">
-                    <div class=\"col\">
-                        <!-- Description -->
-                        <div class=\"row\">
-                            <div class=\"col\">
-                                <label class=\"text\">Service %s</label>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Projet Annuel">
+        <link rel="stylesheet" type="text/css" href="CSS/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="CSS/CSS_Luxery.css">
+        <script src="JS/Ajax/addToCart.js"></script>
+        <title>LuxeryService</title>
+    </head>
+    <body>
+        <?php
+        require_once('Pages/header.php');
+
+        $requestService->execute([
+            'id'=>$_GET['serviceID'],
+            'lang'=>$_SESSION['lang']
+        ]);
+        $resultService = $requestService->fetch();
+        ?>
+        <main>
+            <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur3.png"></p>
+            <br>
+            <!-- Info/Tarifs Service -->
+            <section class="body_section">
+                <h1><?= $resultService["nameService"] ?></h1>
+                <br/>
+                <p class="text" style="margin-right: 20%; margin-left: 20%;"><?= $resultService["description"] ?></p>
+                <br/><br/>
+                <div class="container">
+                    <div class="row" style="padding: 2% 0% 2% 0%; box-sizing: border-box;">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4><?= _SINGLETARIFF ?></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6><?= $resultService["priceService"] . "€ " . _INCLTAXES . "/" . $resultService["priceTypeService"] ?></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php if($resultService['priceRecurrentService'] != NULL) { ?>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4><?= _RECURRINGTARIFF ?></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6><?= $resultService["priceRecurrentService"] . "€ " . _INCLTAXES . "/" . $resultService["priceTypeService"] ?></h6>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6>(<?php echo _MINIMUMOF . " " . $resultService["minimumType"] . " " . $resultService["priceTypeService"] . " " . _ORDERED; ?>)</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } else {?>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                             </div>
+                            <?php if($connected) { ?>
+                                <div class="row">
+                                    <div class="col">
+                                        <form action="" method="post">
+                                            <br/>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <input type="number" min="0" value="1" placeholder="<?= _NBTAKE ?>" id="nbTake">
+                                                </div>
+                                                <div class="col">
+                                                    <input type="button" value="<?= _ADDTOCART ?>" id="addToCart" onclick="addCart(<?= $resultService['serviceID'] ?>)">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         </div>
-                        <br/>
-                        <!-- Coût -->
-                        <div class=\"row\">
-                            <div class=\"col\">
-                                <label>%s : %s €</label>
-                            </div>
-                        </div>
-                        <br/>
-                        <div class=\"row\">
-                            <div class=\"col\">
-                                <input class=\"co btn btn-secondary\" type=\"button\" onclick=\"modif_data($id)\" value=\"Réservé (volume minimum : $min)\" id=\"reserve\" name=\"ajouter_panier\"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=\"col\" id=\"$id\" style=\"display:none\">
-                      <form  action=\"verif_service.php?tariffID=$id\" method=\"post\">
-                        <input type=\"text\" name=\"sujet\" placeholder=\"Volume\">
-                        <br>
-                        <input type=\"submit\"  value=\"Valider la réservation\">
-                        <br>
-                      </form>
                     </div>
                 </div>
-            </div>",$tariff_info[$i]["typeService"]=="1"?"récurrent":"non récurrent",$tariff_info[$i]["priceTypeService"]==0?"Tarif Horaire":"Tarif", $tariff_info[$i++]["priceService"]);
-            }
-            ?>
-        </form>
-    </section>
-</main>
-<?php require_once('Pages/footer.php'); ?>
+            </section>
+            <br/>
+            <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur3.png"></p>
+        </main>
+        <?php require_once('Pages/footer.php'); ?>
+    </body>
+</html>
+<?php
+function rescoverDate($noDay) {
+    switch ($noDay) {
+        case 1:
+            return _MONDAY;
+            break;
+        case 2:
+            return _TUESDAY;
+            break;
+        case 3:
+            return _WEDNESDAY;
+            break;
+        case 4:
+            return _THURSDAY;
+            break;
+        case 5:
+            return _FRIDAY;
+            break;
+        case 6:
+            return _SATURDAY;
+            break;
+        case 7:
+            return _SUNDAY;
+            break;
+    }
+}
+?>

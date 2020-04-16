@@ -3,7 +3,7 @@ function Connexion(lang) {
     const password = document.getElementById('password').value;
     const type = document.getElementById('type').value;
     const request = new XMLHttpRequest();
-    request.open('POST','verif_connexion.php');
+    request.open('POST','verif/verif_connexion.php');
     request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     request.onreadystatechange = function() {
         if(request.readyState === 4 && request.status === 200) {
@@ -34,7 +34,7 @@ function Registration(lang) {
     const password = document.getElementById('R_password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     const request = new XMLHttpRequest();
-    request.open('POST','verif_inscription.php');
+    request.open('POST','verif/verif_inscription.php');
     request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     request.onreadystatechange = function() {
         if(request.readyState === 4 && request.status === 200) {
@@ -51,6 +51,7 @@ function Registration(lang) {
 function R_displayError(e) {
     const error = document.getElementById('R_error');
     error.style.display = "block";
+    error.style.color ="#b52626";
     error.innerHTML = e;
 }
 

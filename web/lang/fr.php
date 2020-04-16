@@ -48,4 +48,38 @@ define('E_REGISTRATION15','Cet email est déjà utilisé');
 
 define('OK_REGISTRATION','Votre compte a bien été créé');
 
+//Service
+define('_SERVICE','Service');
+define('_SERVICEDEMAND','Demande de Services ');
+define('E_SERVICE','Pas de services disponibles');
+
+define('_SINGLETARIFF','Tarif simple');
+define('_RECURRINGTARIFF','Tarif récurrent');
+define('_MINIMUMOF','minimum de');
+define('_ORDERED','commandées');
+define('_INCLTAXES','TTC');
+define('_NBTAKE','nombre pris');
+define('_ADDTOCART','Ajouter au panier');
+define('_AVAILABILITY','Jour/Heure disponible');
+define('_TO1','à');
+define('_TO2','au');
+define('_H','h');
+define('_CARTEMPTY','Votre panier est vide');
+define('_ONHOLD','En attente');
+define('_INTERVENTIONS','Interventions');
+define('_NUMBER','Nombre');
+define('_CART','Panier');
+define('_HOUR','Heure');
+define('_DAY','Jour');
+
+//Day of the Week
+define('_MONDAY','Lundi');
+define('_TUESDAY','Mardi');
+define('_WEDNESDAY','Mercredi');
+define('_THURSDAY','Jeudi');
+define('_FRIDAY','Vendredi');
+define('_SATURDAY','Samedi');
+define('_SUNDAY','Dimanche');
+
+
 ?>
