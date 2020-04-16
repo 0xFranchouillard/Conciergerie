@@ -1,6 +1,4 @@
 <?php
-include('verif_inscription.php');
-
 session_start();
 $connected = isset($_SESSION['email']) ? true : false;
 
@@ -9,9 +7,6 @@ if($connected==true){
 	header('Location: index.php');
 	exit;
 }
-$agencies = json_decode(file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/agency", false));
-include('verif_connexion.php');
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,112 +14,129 @@ include('verif_connexion.php');
 		<meta charset="utf-8">
 		<meta name="description" content="Projet Annuel">
 		<link rel="stylesheet" type="text/css" href="CSS/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="CSS/CSS_luxery.css">
-		<title>Orbis</title>
+		<link rel="stylesheet" type="text/css" href="CSS/CSS_Luxery.css">
+		<title>LuxeryService</title>
 	</head>
 	<body>
+    <script src="JS/Ajax/connexion.js" charset="utf-8"></script>
     <?php require_once('Pages/header.php'); ?>
     <main>
-		<section id="connection" class="body_section">
-			<h1>Connexion></h1>
+        <!-- Connexion -->
+		<section id="connexion" class="body_section">
+			<h1><?=_CONNEXION?> :</h1>
 			<br/>
 			<form action="" method="POST">
 				<div class="container">
+                    <!-- Type de Compte -->
                     <div class="row">
                         <div class="col">
                             <select name="type" id="type">
-                                <option>client</option>
-                                <option>prestataire</option>
+                                <option><?=_CLIENT?></option>
+                                <option><?=_PROVIDER?></option>
                             </select>
                         </div>
                     </div>
+                    <!-- Email -->
 					<div class="row">
 						<div class="col">
-							<input type="email" name="email" placeholder="identifiant" id="email">
+							<input type="email" name="email" placeholder="<?=_EMAIL?>" id="email">
 						</div>
 					</div>
+                    <!-- Mot de Passe -->
 					<div class="row">
 						<div class="col">
-							<input type="password" name="password" placeholder="Mot de Passe" id="password">
+							<input type="password" name="password" placeholder="<?=_PASSWORD?>" id="password">
 						</div>
 					</div>
+                    <!-- Buttons de Connection -->
 					<div class="row">
 						<div class="col">
-							<input type="submit" name="connection" value="Connexion">
+                            <input type="button" name="connexion" value="<?=_CONNEXION?>" onclick="Connexion('<?= $_SESSION['lang'] ?>')">
 						</div>
 					</div>
 				</div>
 			</form>
-            <?php if(isset($GLOBALS['error_connexion'])) { ?>
-                <?= '<h6 style="color: #b52626">'.$GLOBALS['error_connexion'].'</h6>'; ?>
-            <?php } ?>
+            <!-- Erreur de connexion -->
+            <h6 style="color: #b52626; display: none" id="error"></h6>
 		</section>
+        <!-- Inscription -->
 		<section id="registration" class="body_section">
-			<h1>Inscription :</h1>
+			<h1><?=_REGISTRATION?> :</h1>
 			<br/>
 			<form action="" method="post">
 				<div class="container">
+                    <!-- Nom -->
 					<div class="row">
 						<div class="col">
-							<input type="text" name="lastName" placeholder="Nom" id="lastName">
+							<input type="text" name="lastName" placeholder="<?=_LASTNAME?>" id="lastName">
 						</div>
 					</div>
+                    <!-- Prénom -->
 					<div class="row">
 						<div class="col">
-							<input type="text" name="firstName" placeholder="Prénom" id="firstName">
+							<input type="text" name="firstName" placeholder="<?=_FIRSTNAME?>" id="firstName">
 						</div>
 					</div>
+                    <!-- Email -->
 					<div class="row">
 						<div class="col">
-							<input type="email" name="email" placeholder="Adresse Email" id="email">
+							<input type="email" name="email" placeholder="<?=_EMAIL?>" id="R_email">
 						</div>
 					</div>
+                    <!-- Numéro de téléphone -->
 					<div class="row">
 						<div class="col">
-							<input type="text" name="phoneNumber" placeholder="Numéro de téléphone" id="phoneNumber">
+							<input type="tel" name="phoneNumber" placeholder="<?=_PHONENUMBER?>" id="phoneNumber">
 						</div>
 					</div>
+                    <!-- Adresse -->
 					<div class="row">
 						<div class="col">
-							<input type="text" name="address" placeholder="Adresse" id="address">
+							<input type="text" name="address" placeholder="<?=_ADDRESS?>" id="address">
 						</div>
 					</div>
+                    <!-- Ville -->
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" name="city" placeholder="<?=_CITY?>" id="city">
+                        </div>
+                    </div>
+                    <!-- Sélection agence -->
                     <div class="row">
                         <div class="col">
                         <select name="agency" id="agency">
-                            <option>Choix de l'agence</option>
+                            <option><?=_AGENCY?></option>
                             <?php
-                            for ($i = 0 ; $i < count($agencies) ; $i++){
-                                if($agencies[$i][0] != "")
-                                    echo '<option>'.$agencies[$i][0].'</option>';
+                            $file = file("Agency.txt");
+                            for ($i = 0 ; $i < count($file) ; $i++){
+                                echo '<option>'.$file[$i].'</option>';
                             }
                             ?>
                         </select>
                         </div>
                     </div>
+                    <!-- Mot de Passe -->
 					<div class="row">
 						<div class="col">
-							<input type="password" name="password" placeholder="Mot de Passe" id="password">
+							<input type="password" name="password" placeholder="<?=_PASSWORD?>" id="R_password">
 						</div>
 					</div>
+                    <!-- Confirmation Mot de Passe -->
 					<div class="row">
 						<div class="col">
-							<input type="password" name="pwd" placeholder="Confirmer mot de Passe" id="pwd">
+							<input type="password" name="confirmPassword" placeholder="<?=_PASSWORD2?>" id="confirmPassword">
 						</div>
 					</div>
+                    <!-- Button d'Inscription -->
 					<div class="row">
 						<div class="col">
-							<input type="submit" name="registration" value="S'inscrire">
+                            <input type="button" name="registration" value="<?=_REGISTRATION?>" onclick="Registration('<?= $_SESSION['lang'] ?>')">
 						</div>
 					</div>
-                    <?php if(isset($GLOBALS['error_registration'])) { ?>
-                        <?= '<h6 style="color: #b52626">'.$GLOBALS['error_registration'].'</h6>'; ?>
-                    <?php } ?>
-                    <?php if(isset($GLOBALS['valid_registration'])) { ?>
-                        <?= '<h6 style="color: #0eb502">' .$GLOBALS['valid_registration'].'</h6>'; ?>
-                    <?php } ?>
 				</div>
 			</form>
+            <!-- Erreur d'inscription -->
+            <h6 style="color: #b52626; display: none" id="R_error"></h6>
 		</section>
     </main>
     <?php require_once('Pages/footer.php'); ?>

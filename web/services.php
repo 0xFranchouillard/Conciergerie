@@ -1,10 +1,8 @@
 <?php
-
 session_start();
-
 $connected = isset($_SESSION['email']) ? true : false;
 
-$json = file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/service", false);
+$json = file_get_contents("http://localhost/API_TEST_URI/v1/service", false);
 $service_infos = json_decode($json, true);
 ?>
 <!DOCTYPE html>
@@ -49,23 +47,29 @@ $service_infos = json_decode($json, true);
         <form action="" method="post">
             <div class="container">
                 <?php
-                for ($i = 0; $i < count($service_infos); $i++) {
-                    if($i%3 == 0) {?>
-                    <div class="row">
-                        <div class="col">
-                            <a href="service.php?serviceID=1=<?=$service_infos[$i]['serviceID']?>"><?= $service_infos[$i]['nameService'] ?></a>
-                        </div>
-                    <?php } else if($i%3 == 2) { ?>
-                        <div class="col">
-                            <a href="service.php?serviceID=1=<?=$service_infos[$i]['serviceID']?>"><?= $service_infos[$i]['nameService'] ?></a>
-                        </div>
+                if($service_infos != 0) {
+                    for ($i = 0; $i < count($service_infos); $i++) {
+                        if ($i % 3 == 0) { ?>
+                            <div class="row">
+                            <div class="col">
+                                <a href="service.php?serviceID=1=<?= $service_infos[$i]['serviceID'] ?>"><?= $service_infos[$i]['nameService'] ?></a>
+                            </div>
+                        <?php } else if ($i % 3 == 2) { ?>
+                            <div class="col">
+                                <a href="service.php?serviceID=1=<?= $service_infos[$i]['serviceID'] ?>"><?= $service_infos[$i]['nameService'] ?></a>
+                            </div>
+                            </div>
+                        <?php } else { ?>
+                            <div class="col">
+                                <a href="service.php?serviceID=1=<?= $service_infos[$i]['serviceID'] ?>"><?= $service_infos[$i]['nameService'] ?></a>
+                            </div>
+                        <?php }
+                    }
+                } else { ?>
+                    <div class="col">
+                        <label>Pas de services disponible</label>
                     </div>
-                    <?php } else { ?>
-                        <div class="col">
-                            <a href="service.php?serviceID=1=<?=$service_infos[$i]['serviceID']?>"><?= $service_infos[$i]['nameService'] ?></a>
-                        </div>
-                    <?php } ?>
-            <?php } ?>
+               <?php }?>
             </div>
         </form>
     </section>

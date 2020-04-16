@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (isset($_GET['lang'])) {
     $_SESSION['lang'] = $_GET['lang'];
     }elseif (!isset($_SESSION['lang']) || !in_array($_SESSION['lang'], ['FR', 'EN'])) {
@@ -7,6 +6,7 @@ if (isset($_GET['lang'])) {
     }
 include('lang/'.$_SESSION['lang'].'.php');
 ?>
+<script src="JS/Translate.js" charset="utf-8"></script>
 <header>
     <h1>LuxeryService</h1>
     <nav>
@@ -27,32 +27,35 @@ include('lang/'.$_SESSION['lang'].'.php');
             <li class="link_header">
                 <a href="#" class="link"><?=_ABONNEMENTS?></a>&nbsp&nbsp&nbsp|
             </li>
-            <li class="link_header">
-                <a href="#" class="link"><?=_PLANNING?></a>&nbsp&nbsp&nbsp|
-            </li>
-            <li class="link_header">
-                <a href="#" class="link"><?=_CONTACT?></a>&nbsp&nbsp&nbsp|
-            </li>
+            <?php if($connected){ ?>
+                <li class="link_header">
+                    <a href="#" class="link"><?=_PLANNING?></a>&nbsp&nbsp&nbsp|
+                </li>
+            <?php } ?>
+                <li class="link_header">
+                    <a href="#" class="link"><?=_CONTACT?></a>&nbsp&nbsp&nbsp|
+                </li>
             <?php if(!$connected){ ?>
                 <li class="link_header">
-                    <a href="connection.php" class="link"><?=_CONNECTION?></a>&nbsp&nbsp&nbsp|
+                    <a href="connection.php" class="link"><?=_CONNEXION?></a>&nbsp&nbsp&nbsp|
                 </li>
                 <li class="link_header">
-                    <a href="connection.php" class="link"><?=_ENROLMENT?></a>
+                    <a href="connection.php" class="link"><?=_REGISTRATION?></a>&nbsp&nbsp&nbsp|
                 </li>
             <?php } else { ?>
                 <li class="link_header">
                     <a href="../web/user_profil.php" class="link"><?=_PROFIL?></a>&nbsp&nbsp&nbsp|
                 </li>
                 <li class="link_header">
-                    <a href="../web/Pages/deconnexion.php" class="link"><?=_DECONNEXION?></a>
+                    <a href="../web/Pages/deconnexion.php" class="link"><?=_DECONNEXION?></a>&nbsp&nbsp&nbsp|
                 </li>
-                &nbsp;|&nbsp;
-                <td><a  href="index.php?lang=FR" ><img src="../Pictures/fr.png" title="français"></a></td>
-                &nbsp;|&nbsp;
-                <td><a  href="index.php?lang=EN" ><img src="../Pictures/en.jpg" title="anglais"/></a></td>
-                &nbsp;|&nbsp;
             <?php } ?>
-        <ul>
+            <li class="link_header">
+                <img src="Pictures/fr.png" title="français" width="20px" onclick="tr('FR')"/>
+            </li>&nbsp&nbsp&nbsp|
+            <li class="link_header">
+                <img src="Pictures/en.png" title="english" width="20px" onclick="tr('EN')"/>
+            </li>
+        </ul>
     </nav>
 </header>

@@ -1,7 +1,7 @@
 Server : localhost
 User : root
 Password : 
-Data Base : luxeryservice_parent
+Data Base : luxeryservice_nantes
 Port : 3306
 
 MySQL Localization : D:\Wamp\bin\mysql\mysql8.0.18\bin
