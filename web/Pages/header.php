@@ -29,7 +29,7 @@ require_once('lang/'.$_SESSION['lang'].'.php');
             </li>&nbsp&nbsp&nbsp|
             <?php if($connected){ ?>
                 <li class="link_header">
-                    <a href="#" class="link"><?=_PLANNING?></a>
+                    <a href="interventions.php" class="link"><?=_INTERVENTIONS?></a>
                 </li>&nbsp&nbsp&nbsp|
             <?php } ?>
                 <li class="link_header">

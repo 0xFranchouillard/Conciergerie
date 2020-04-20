@@ -17,7 +17,7 @@
         <?php } ?>
         <div class="row">
             <?php if($connected){ ?>
-                <a href="#" class="col link_footer"><?=_PLANNING?></a>
+                <a href="interventions.php" class="col link_footer"><?=_INTERVENTIONS?></a>
             <?php } ?>
             <a href="#" class="col link_footer"><?=_CONTACT?></a>
         </div>

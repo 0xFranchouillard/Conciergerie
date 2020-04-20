@@ -12,7 +12,7 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
     if($_POST['type'] == 'Provider' || $_POST['type'] == 'Prestataire') {
         $request = $db->prepare('SELECT providerID, password FROM serviceprovider WHERE email = :email');
     } else {
-        $request = $db->prepare('SELECT clientID, password FROM client WHERE email = :email');
+        $request = $db->prepare('SELECT clientID, agency, password FROM client WHERE email = :email');
     }
     $request->execute([
         'email'=>$email
@@ -25,7 +25,8 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
         if($password == $result['password']) {
             session_start();
             $_SESSION['email'] = $email;
-            $_SESSION['id'] = $result[0];
+            $_SESSION['id'] = $result['clientID'];
+            $_SESSION['agencyClient'] = $result['agency'];
             echo "OK";
         } else {
             echo E_CONNEXION3;

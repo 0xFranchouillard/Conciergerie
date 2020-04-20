@@ -9,6 +9,9 @@ if($connected==false){
 require_once('Pages/db.php');
 $db = connectionDB();
 $requestService = $db->prepare('SELECT * FROM Service WHERE serviceID= :id && language= :lang');
+$requestIdBill = $db->prepare('SELECT DISTINCT billID, totalPrice, validityDate FROM Bill WHERE clientID= :id && agency= :agency && estimate= 1');
+$requestBill = $db->prepare('SELECT * FROM Bill WHERE billID= :id');
+$requestNameService = $db->prepare('SELECT nameService FROM Service WHERE serviceID= :id && language= :lang');
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,12 +51,12 @@ $requestService = $db->prepare('SELECT * FROM Service WHERE serviceID= :id && la
                                     </div>
                                 </div>
                                 <?php
-                                $_SESSION['nameServiceEstimate'] = array();
-                                $_SESSION['nbTakeEstimate'] = array();
-                                $_SESSION['priceServiceEstimate'] = array();
-                                $_SESSION['priceRecurrentServiceEstimate'] = array();
-                                $_SESSION['minimumTypeEstimate'] = array();
-                                $_SESSION['priceTypeServiceEstimate'] = array();
+                                $_SESSION['nameServiceBill'] = array();
+                                $_SESSION['nbTakeBill'] = array();
+                                $_SESSION['priceServiceBill'] = array();
+                                $_SESSION['priceRecurrentServiceBill'] = array();
+                                $_SESSION['minimumTypeBill'] = array();
+                                $_SESSION['totalPriceBill'] = 0;
                                 $color = 0;
                                 for ($i = 0; $i < count($_SESSION['serviceIDCart']); $i++) {
                                     $requestService->execute([
@@ -82,22 +85,34 @@ $requestService = $db->prepare('SELECT * FROM Service WHERE serviceID= :id && la
                                         <?php } ?>
                                     </div>
                                 <?php
-                                    $_SESSION['nameServiceEstimate'][$i] = $resultService['nameService'];
-                                    $_SESSION['nbTakeEstimate'][$i] = $_SESSION['nbTakeCart'][$i];
-                                    $_SESSION['priceServiceEstimate'][$i] = $resultService['priceService'];
-                                    $_SESSION['priceRecurrentServiceEstimate'][$i] = $resultService['priceRecurrentService'];
-                                    $_SESSION['minimumTypeEstimate'][$i] = $resultService['minimumType'];
-                                    $_SESSION['priceTypeServiceEstimate'][$i] = $resultService['priceTypeService'];
+                                    $_SESSION['nameServiceBill'][$i] = $resultService['nameService'];
+                                    $_SESSION['nbTakeBill'][$i] = $_SESSION['nbTakeCart'][$i];
+                                    $_SESSION['priceServiceBill'][$i] = $resultService['priceService'];
+                                    $_SESSION['priceRecurrentServiceBill'][$i] = $resultService['priceRecurrentService'];
+                                    $_SESSION['minimumTypeBill'][$i] = $resultService['minimumType'];
+                                    if(!empty($_SESSION['minimumTypeBill'][$i]) && $_SESSION['nbTakeBill'][$i] >= $_SESSION['minimumTypeBill'][$i]) {
+                                        $_SESSION['totalPriceBill'] += floatval($_SESSION['priceRecurrentServiceBill'][$i])*intval($_SESSION['nbTakeBill'][$i]);
+                                    } else {
+                                        $_SESSION['totalPriceBill'] += floatval($_SESSION['priceServiceBill'][$i])*intval($_SESSION['nbTakeBill'][$i]);
+                                    }
                                     $color++;
                                 } ?>
                                 <div class="row" style="margin-top: 2%">
                                     <div class="col">
-                                        <input type="button" value="Annuler" onclick="cancel()"/>
+                                        <input type="button" value="<?= _CANCEL ?>" onclick="cancel()"/>
                                     </div>
                                     <div class="col">
-                                        <input type="button" value="Devis" onclick="estimate()"/>
+                                        <input type="button" value="<?= _BUY ?>" onclick="buy()"/>
+                                    </div>
+                                    <div class="col">
+                                        <input type="button" value="<?= _ESTIMATE ?>" onclick="estimate()"/>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row" style="display: none" id="cartEmpty">
+                            <div class="col">
+                                <h4><?= _CARTEMPTY ?></h4>
                             </div>
                         </div>
                     <?php } else {
@@ -113,11 +128,107 @@ $requestService = $db->prepare('SELECT * FROM Service WHERE serviceID= :id && la
             <br/>
             <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur4.png"></p>
             <br/>
-            <!-- Intervention créer en attente de paiement -->
+            <!-- Devis en cours -->
             <section class="body_section">
-                <h1><?= _INTERVENTIONS ?> :</h1>
+                <h1><?= _ESTIMATE ?> :</h1>
                 <br/>
-
+                <div class="container">
+                    <?php
+                    $requestIdBill->execute([
+                        'id'=>$_SESSION['id'],
+                        'agency'=>$_SESSION['agencyClient']
+                    ]);
+                    if($requestIdBill->rowCount() != 0) {
+                        $j = 0;
+                        while ($resultIdBill = $requestIdBill->fetch()) {
+                            ?>
+                            <div class="row" id="estimate<?= $j ?>">
+                                <div class="col">
+                                    <div class="row"
+                                         style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF;">
+                                        <div class="col" style="padding-top: 3%;">
+                                            <h5><?= _ESTIMATE . ' N° ' . $resultIdBill['billID'] ?></h5>
+                                        </div>
+                                        <div class="col" style="padding-top: 3%;">
+                                            <h5><?= _TOTALESTIMATE . ' ' . $resultIdBill['totalPrice'] . '€' ?></h5>
+                                        </div>
+                                        <div class="col">
+                                            <h5><?= _VALIDESTIMATE . ' ' . $resultIdBill['validityDate'] ?></h5>
+                                        </div>
+                                        <div class="col" style="padding-top: 3%;">
+                                            <input type="button" value="<?= _BUY ?>" onclick="buyEstimate(<?= $resultIdBill['billID'] . ',' . $j ?>)"/>
+                                        </div>
+                                    </div>
+                                    <div class="row lessEstimate<?= $j ?>">
+                                        <div class="col" style="margin-bottom: 1%;">
+                                            <input type="button" value="<?= _DETAILS ?>" onclick="detail(<?= $j ?>)"/>
+                                        </div>
+                                    </div>
+                                    <div class="row detailsEstimate<?= $j ?>" style="display: none;">
+                                        <div class="col">
+                                            <div class="row"
+                                                 style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF;">
+                                                <div class="col">
+                                                    <h5><?= _SERVICE ?></h5>
+                                                </div>
+                                                <div class="col">
+                                                    <h5><?= _QUANTITY ?></h5>
+                                                </div>
+                                                <div class="col">
+                                                    <h5><?= _UNITPRICE ?></h5>
+                                                </div>
+                                                <div class="col">
+                                                    <h5><?= _TOTAL ?></h5>
+                                                </div>
+                                            </div>
+                                            <?php
+                                            $requestBill->execute([
+                                                'id' => $resultIdBill['billID']
+                                            ]);
+                                            for ($i = 0; $resultBill = $requestBill->fetch(); $i++) {
+                                                $requestNameService->execute([
+                                                    'id' => $resultBill['serviceID'],
+                                                    'lang' => $_SESSION['lang']
+                                                ]);
+                                                $resultNameService = $requestNameService->fetch();
+                                                ?>
+                                                <div class="row"
+                                                     style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF; <?php if ($i % 2 == 0) {
+                                                         echo 'background-color: #DFDFDF';
+                                                     } ?>">
+                                                    <div class="col">
+                                                        <h7><?= $resultNameService['nameService'] ?></h7>
+                                                    </div>
+                                                    <div class="col">
+                                                        <h7><?= $resultBill['numberTaken'] ?></h7>
+                                                    </div>
+                                                    <div class="col">
+                                                        <h7><?= $resultBill['priceService'] ?></h7>
+                                                    </div>
+                                                    <div class="col">
+                                                        <h7><?= floatval($resultBill['priceService']) * intval($resultBill['numberTaken']) ?></h7>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                    <div class="row detailsEstimate<?= $j ?>" style="display: none;">
+                                        <div class="col" style="margin-bottom: 1%;">
+                                            <input type="button" value="<?= _LESS ?>" onclick="less(<?= $j ?>)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php $j++;
+                        }
+                    } else { ?>
+                        <div class="row">
+                            <div class="col">
+                                <h4><?= _ESTIMATEEMPTY ?></h4>
+                            </div>
+                        </div>
+                        <?php } ?>
+                </div>
             </section>
             <br/>
             <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur3.png"></p>

@@ -64,13 +64,36 @@ define('_AVAILABILITY','Jour/Heure disponible');
 define('_TO1','à');
 define('_TO2','au');
 define('_H','h');
-define('_CARTEMPTY','Votre panier est vide');
-define('_ONHOLD','En attente');
-define('_INTERVENTIONS','Interventions');
-define('_NUMBER','Nombre');
+
+//Cart
 define('_CART','Panier');
+define('_CARTEMPTY','Votre panier est vide');
+define('_NUMBER','Nombre');
 define('_HOUR','Heure');
 define('_DAY','Jour');
+define('_CANCEL','Annuler');
+
+//Estimate/Bill
+define('_ESTIMATE','Devis');
+define('_STREETLUXERYSERVICE','242 rue Faubourg Saint-Antoine');
+define('_ADDRESSEE','Destinataire');
+define('_REGISTRATIONDATE','Date d\'inscription');
+define('_QUANTITY','Quantité');
+define('_UNITPRICE','Prix unitaire');
+define('_TOTAL','Total');
+define('_VALIDESTIMATE','Ce Devis est valable jusqu\'au');
+define('_TOTALESTIMATE','Devis Total');
+define('_BILL','Facture');
+define('_BUY','Acheter');
+define('_TOTALBILL','Facture Total');
+define('_DETAILS','Détails');
+define('_LESS','Moins');
+define('_ESTIMATEEMPTY','Vous n\'avez pas de devis');
+
+//Intervention
+define('_INTERVENTIONS','Nos interventions');
+define('_INTERVENTION','Intervention');
+define('_INTERVENTIONDEMAND','Demande d\'intervention');
 
 //Day of the Week
 define('_MONDAY','Lundi');
@@ -80,6 +103,5 @@ define('_THURSDAY','Jeudi');
 define('_FRIDAY','Vendredi');
 define('_SATURDAY','Samedi');
 define('_SUNDAY','Dimanche');
-
 
 ?>
