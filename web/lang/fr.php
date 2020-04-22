@@ -48,4 +48,60 @@ define('E_REGISTRATION15','Cet email est déjà utilisé');
 
 define('OK_REGISTRATION','Votre compte a bien été créé');
 
+//Service
+define('_SERVICE','Service');
+define('_SERVICEDEMAND','Demande de Services ');
+define('E_SERVICE','Pas de services disponibles');
+
+define('_SINGLETARIFF','Tarif simple');
+define('_RECURRINGTARIFF','Tarif récurrent');
+define('_MINIMUMOF','minimum de');
+define('_ORDERED','commandées');
+define('_INCLTAXES','TTC');
+define('_NBTAKE','nombre pris');
+define('_ADDTOCART','Ajouter au panier');
+define('_AVAILABILITY','Jour/Heure disponible');
+define('_TO1','à');
+define('_TO2','au');
+define('_H','h');
+
+//Cart
+define('_CART','Panier');
+define('_CARTEMPTY','Votre panier est vide');
+define('_NUMBER','Nombre');
+define('_HOUR','Heure');
+define('_DAY','Jour');
+define('_CANCEL','Annuler');
+
+//Estimate/Bill
+define('_ESTIMATE','Devis');
+define('_STREETLUXERYSERVICE','242 rue Faubourg Saint-Antoine');
+define('_ADDRESSEE','Destinataire');
+define('_REGISTRATIONDATE','Date d\'inscription');
+define('_QUANTITY','Quantité');
+define('_UNITPRICE','Prix unitaire');
+define('_TOTAL','Total');
+define('_VALIDESTIMATE','Ce Devis est valable jusqu\'au');
+define('_TOTALESTIMATE','Devis Total');
+define('_BILL','Facture');
+define('_BUY','Acheter');
+define('_TOTALBILL','Facture Total');
+define('_DETAILS','Détails');
+define('_LESS','Moins');
+define('_ESTIMATEEMPTY','Vous n\'avez pas de devis');
+
+//Intervention
+define('_INTERVENTIONS','Nos interventions');
+define('_INTERVENTION','Intervention');
+define('_INTERVENTIONDEMAND','Demande d\'intervention');
+
+//Day of the Week
+define('_MONDAY','Lundi');
+define('_TUESDAY','Mardi');
+define('_WEDNESDAY','Mercredi');
+define('_THURSDAY','Jeudi');
+define('_FRIDAY','Vendredi');
+define('_SATURDAY','Samedi');
+define('_SUNDAY','Dimanche');
+
 ?>
