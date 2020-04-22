@@ -21,10 +21,15 @@ function send(id,res){
 
 
     request.onreadystatechange = function(search) {
-        if(request.readyState === 4){
+        if (request.readyState === 4) {
             document.getElementById(res).innerHTML = "";
-            document.getElementById(res).innerHTML = '<h6 style="color: #00b504">'+request.responseText+'</h6>';
-            request.responseText = "";
+            if (request.responseText == "nothing to modified") {
+            document.getElementById(res).innerHTML = '<h6 style="color: #b56915">' + request.responseText + '</h6>';
+            } else if (request.responseText == "Account has been updated ! ") {
+                        document.getElementById(res).innerHTML = '<h6 style="color: #00b504">' + request.responseText + '</h6>';
+                    }else if(request.responseText == "Connection error !" || request.responseText == "Wrong password !")
+                            document.getElementById(res).innerHTML = '<h6 style="color: #b50e21">'+request.responseText+'</h6>';
+
             console.log(request.responseText);
         }
     }
@@ -42,6 +47,7 @@ function suppression(id,arg,type) {
     if(type == "prestataire")  request.open('GET', 'suppression_prestataire.php?id='+ id + '&agency=' + arg);
     if(type == "client")  request.open('GET', 'suppression_client.php?id='+ id + '&agency=' + arg);
     if(type == "service_prestataire")  request.open('GET', 'suppression_service_prestataire.php?id='+ id);
+    if(id == "sub")request.open('GET', 'suppression_subscription.php?id='+ data + '&language=' + arg);
 
     request.onreadystatechange = function() {
         if(request.readyState === 4) {
@@ -65,15 +71,25 @@ function modif_data(id) {
 function search3(id,res){
     const data = document.getElementById(id).value;
     const request = new XMLHttpRequest();
-    var type = input_type.options[document.getElementById('input_type').selectedIndex].innerHTML;
 
-    console.log(type);
     console.log(data);
 
-    if(id == "recherche_user")  request.open('GET', 'recherche_user.php?data='+ data + '&type=' + type);
+    if(id == "recherche_user") {
+        var type = input_type.options[document.getElementById('input_type').selectedIndex].innerHTML;
+        request.open('GET', 'recherche_user.php?data=' + data + '&type=' + type);    console.log(type);
+
+    }
+
     if(id == "recherche_service")request.open('GET', 'recherche_service.php?data='+ data);
     if(id == "recherche_planning")request.open('GET', 'recherche_planning.php?data='+ data);
-
+    if(id == "recherche_prestation"){
+        var type = input_type_prestatation.options[document.getElementById('input_type_prestatation').selectedIndex].innerHTML;
+        request.open('GET', 'recherche_prestation.php?data='+ data + '&type=' + type);    console.log(type);
+    }
+    if(id == "recherche_intervention"){
+        var type = input_type_prestatation.options[document.getElementById('input_type_intervention').selectedIndex].innerHTML;
+        request.open('GET', 'recherche_intervention.php?data='+ data + '&type=' + type);    console.log(type);
+    }
 
     request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     request.onreadystatechange = function(search) {

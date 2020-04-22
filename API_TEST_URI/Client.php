@@ -141,7 +141,7 @@ class Client
         $stmt = $this->conn->prepare($query);
         // execute query
         if ($stmt->execute()) {
-            return json_encode(["valid" => "Account has been updated ! "]);
+            return json_encode(["valid"=>"Account has been updated ! "]);
         } else {
             return json_encode(["error" => "Fatal Error"]);
         }

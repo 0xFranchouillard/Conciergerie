@@ -26,6 +26,12 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
             session_start();
             $_SESSION['email'] = $email;
             $_SESSION['id'] = $result[0];
+            $_SESSION['password'] = $password;
+            if ($_POST['type'] == 'Provider' || $_POST['type'] == 'Prestataire') {
+                $_SESSION['providerID'] = $result[0];
+            } else {
+            $_SESSION['clientID'] = $result[0];
+            }
             echo "OK";
         } else {
             echo E_CONNEXION3;
