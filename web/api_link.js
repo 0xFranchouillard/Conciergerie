@@ -36,6 +36,7 @@ function send(id,res){
     request.send();
 
 }
+function suppression(id,arg,type) {
 
     const data = document.getElementById(id+arg+type+'data');
     const request = new XMLHttpRequest();
