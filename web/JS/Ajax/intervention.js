@@ -62,3 +62,18 @@ function displayOK(e) {
     error.style.color = "green";
     error.innerHTML = e;
 }
+
+function cancelIntervention(interventionID) {
+    const planning = document.getElementById('Planning' + interventionID);
+    const request = new XMLHttpRequest();
+    request.open('POST','verif/verifIntervention.php');
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.onreadystatechange = function () {
+        if(request.readyState === 4 && request.status === 200) {
+            if(request.responseText == "OK") {
+                planning.style.display = "none";
+            }
+        }
+    }
+    request.send('interventionID=' + interventionID + '&button=' + 3);
+}

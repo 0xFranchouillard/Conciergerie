@@ -142,7 +142,7 @@ $requestHistory->execute([
                             $resultProvider = $requestProvider->fetch();
                             $resultService = $requestService->fetch();
                             ?>
-                            <div class="row" style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF; <?php if($i%2 == 1) { echo 'background-color: #DFDFDF'; } ?>">
+                            <div class="row" style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF; <?php if($i%2 == 1) { echo 'background-color: #DFDFDF'; } ?>" id="Planning<?= $resultPlanning['interventionID'] ?>">
                                 <div class="col">
                                     <h7><?= $resultService['nameService'] ?></h7>
                                 </div>
@@ -156,7 +156,7 @@ $requestHistory->execute([
                                     <h7><?= $resultPlanning['dateIntervention'].' '._TO1.' '.$resultPlanning['timeIntervention'] ?></h7>
                                 </div>
                                 <div class="col">
-                                    <input type="button" value="<?= _CANCEL ?>"/>
+                                    <input type="button" value="<?= _CANCEL ?>" onclick="cancelIntervention(<?= $resultPlanning['interventionID'] ?>)"/>
                                 </div>
                             </div>
                     <?php }
