@@ -25,7 +25,8 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
         if($password == $result['password']) {
             session_start();
             $_SESSION['email'] = $email;
-            $_SESSION['id'] = $result['clientID'];
+            $_SESSION['id'] = $result[0];
+            $_SESSION['password'] = $password;
             $_SESSION['agencyClient'] = $result['agency'];
             $_SESSION['password'] = $password;
             if ($_POST['type'] == _PROVIDER) {

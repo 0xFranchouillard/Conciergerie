@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fc9e492-55b5-4081-a1fe-abcbaedfa560" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/Conciergerie.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ADMIN/.idea/ADMIN.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ADMIN/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/Client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/CSS/CSS_luxery.css" beforeDir="false" afterPath="$PROJECT_DIR$/../web/CSS/CSS_luxery.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/api_link.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/api_link.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/verif_inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/../web/verif_inscription.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +98,8 @@
       <workItem from="1583939541846" duration="2995000" />
       <workItem from="1584123050671" duration="4025000" />
       <workItem from="1584370022476" duration="26735000" />
-      <workItem from="1586418237488" duration="1981000" />
+      <workItem from="1586418237488" duration="5969000" />
+      <workItem from="1587486125533" duration="7463000" />
     </task>
     <task id="LOCAL-00001" summary="ADD NEW BDD">
       <created>1583498197587</created>

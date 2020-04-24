@@ -19,7 +19,6 @@ $context = stream_context_create(array(
         'header' => "Authorization: Basic " . base64_encode("$user:$passwd"))
 ));
 
-
 if (!$_SESSION['clientID']) {
     $id = $_SESSION['providerID'];
     $json = file_get_contents("http://localhost/Conciergerie/API_TEST_URI/v1/prestataire", false, $context);
@@ -68,11 +67,10 @@ $agencies = json_decode(file_get_contents("http://localhost/Conciergerie/API_TES
                                         <input type='text' class="form-control" aria-label="mail address" aria-describedby="basic-addon1" value="<?= $user_infos[0]['email']; ?>" size="30" id="email" />
                                         <input type="button" class="co btn btn-secondary" onclick="send('email','email_res')" value="Modifier"/><br/>
                                         <div id="email_res"></div>
-
                                     </div>
 
                                     <div id="user_profil_address_and_num_div" class="form-group">
-                                        <input id="user_profil_address_input" type="text" class="form-control" aria-label="address" aria-describedby="basic-addon1" value="<?= $user_infos[0]['address']; ?>" id="address" />
+                                        <input type="text" class="form-control" aria-label="address" aria-describedby="basic-addon1" value="<?= $user_infos[0]['address']; ?>" id="address" />
                                         <input type="button" class="co btn btn-secondary" onclick="send('address','address_res')" value="Modifier"/><br/>
                                         <div id="address_res"></div>
 
@@ -91,19 +89,6 @@ $agencies = json_decode(file_get_contents("http://localhost/Conciergerie/API_TES
                                         <div id="phoneNumber_res"></div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <select name="agency" id="agency">
-                                            <?php
-                                            echo '<option>'.$_SESSION['agency'].'</option>';
-                                            for ($i = 0 ; $i < count($agencies) ; $i++){
-                                                if($agencies[$i][0] != "" && $agencies[$i][0] != $_SESSION['agency'])
-                                                    echo '<option>'.$agencies[$i][0].'</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                        <input type="button" class="co btn btn-secondary" onclick="send('agency','agency_res')" value="Modifier"/><br/>
-                                        <div id="agency_res"></div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
