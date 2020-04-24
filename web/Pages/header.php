@@ -1,7 +1,7 @@
 <?php
 if (isset($_GET['lang'])) {
     $_SESSION['lang'] = $_GET['lang'];
-    }elseif (!isset($_SESSION['lang']) || !in_array($_SESSION['lang'], ['FR', 'EN'])) {
+    }elseif (!isset($_SESSION['lang'])) {
         $_SESSION['lang'] = 'FR';
     }
 require_once('lang/'.$_SESSION['lang'].'.php');
@@ -55,6 +55,9 @@ require_once('lang/'.$_SESSION['lang'].'.php');
             </li>&nbsp&nbsp&nbsp|
             <li class="link_header">
                 <img src="Pictures/en.png" title="english" width="30px" onclick="tr('EN')"/>
+            </li>&nbsp&nbsp&nbsp|
+            <li class="link_header">
+                <img src="Pictures/ALL.png" title="deutsch" width="30px" onclick="tr('ALL')"/>
             </li>
             <?php if($connected){ ?>
                 &nbsp&nbsp&nbsp|

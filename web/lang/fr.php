@@ -27,14 +27,14 @@ define('_AGENCY','Choix de l\'agence');
 //Error verif_connexion.php
 define('E_CONNEXION1','Vous devez remplir tout les champs');
 define('E_CONNEXION2','Email incorrect');
-define('E_CONNEXION3','Mot de passe incorect');
+define('E_CONNEXION3','Mot de passe incorrect');
 
 //Error verif_inscription.php
 define('E_REGISTRATION1','Vous devez remplir tout les champs');
 define('E_REGISTRATION2','Votre nom, prénom et nom de ville doivent faire entre 2 et 50 caractères');
 define('E_REGISTRATION3','Votre nom, prénom et nom de ville ne doivent contenir que des lettres, des espaces ou des _');
 define('E_REGISTRATION4','Votre numéro de téléphone est incorrect');
-define('E_REGISTRATION5','Votre address doit faire entre 9 et 140 caractères');
+define('E_REGISTRATION5','Votre adresse doit faire entre 9 et 140 caractères');
 define('E_REGISTRATION6','Votre adresse doit avoir la syntaxe suivant : "{numéro de rue} rue {nom de la rue}"');
 define('E_REGISTRATION7','Votre numéro d\'adresse est incorrecte');
 define('E_REGISTRATION8','Votre nom de rue doit faire minimum 3 caractères');
@@ -50,7 +50,7 @@ define('OK_REGISTRATION','Votre compte a bien été créé');
 
 //Service
 define('_SERVICE','Service');
-define('_SERVICEDEMAND','Demande de Services ');
+define('_SERVICEDEMAND','Demande de Services');
 define('E_SERVICE','Pas de services disponibles');
 
 define('_SINGLETARIFF','Tarif simple');
@@ -94,6 +94,19 @@ define('_ESTIMATEEMPTY','Vous n\'avez pas de devis');
 define('_INTERVENTIONS','Nos interventions');
 define('_INTERVENTION','Intervention');
 define('_INTERVENTIONDEMAND','Demande d\'intervention');
+define('_HISTORY','Historique');
+define('E_PLANNING','Vous n\'avez par d\'intervention en cours');
+define('E_HISTORY','vous n\'avez pas d\'intervention réalisé');
+define('_CREATE','Créer');
+define('_NOPROVIDER','Aucun prestataires n\'a été trouvé pour réaliser votre intervention');
+define('_INTERVENTIONCREATE','Votre intervention a bien été pris en compte');
+define('_USESUBSCRIPTION','Utiliser un abonnement');
+define('_SUBSCRIPTION','Abonnement');
+define('_REST','reste');
+define('_YOUMISS','Il vous manque');
+define('_CREDITS','crédits');
+define('_NEGATIVENUMBER','Les nombres négatifs ne sont pas autorisés');
+
 
 //Day of the Week
 define('_MONDAY','Lundi');

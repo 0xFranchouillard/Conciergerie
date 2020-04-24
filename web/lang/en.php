@@ -95,6 +95,18 @@ define('_ESTIMATEEMPTY','You don\'t have a estimate');
 define('_INTERVENTIONS','Our interventions');
 define('_INTERVENTION','Intervention');
 define('_INTERVENTIONDEMAND','Intervention Demand');
+define('_HISTORY','History');
+define('E_PLANNING','You don\'t have an intervention in progress');
+define('E_HISTORY','you don\'t have an intervention performed');
+define('_CREATE','Create');
+define('_NOPROVIDER','No providers have been found to carry out your intervention');
+define('_INTERVENTIONCREATE','Your intervention has been taken into account');
+define('_USESUBSCRIPTION','Using a subscription');
+define('_SUBSCRIPTION','Subscription');
+define('_REST','rest');
+define('_YOUMISS','You miss');
+define('_CREDITS','credits');
+define('_NEGATIVENUMBER','Negative numbers are not allowed');
 
 //Day of the Week
 define('_MONDAY','Monday');

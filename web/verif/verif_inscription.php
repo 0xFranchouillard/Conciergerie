@@ -52,7 +52,7 @@ if(isset($_POST['lastName']) && !empty($_POST['lastName']) &&
                                                         $find = true;
                                                     }
                                                 }
-                                                date_default_timezone_set('UTC');
+                                                date_default_timezone_set('Europe/Paris');
 
                                                 $request = $db->prepare('INSERT INTO client(clientID, agency, lastName, firstName, email, phoneNumber, password, address, city, registrationDate) VALUES(:id, :agency, :lastName, :firstName, :email, :phoneNumber, :password, :address, :city, :registrationDate)');
                                                 $request->execute([

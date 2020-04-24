@@ -9,7 +9,7 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
     $email = htmlspecialchars($_POST['email']);
     $password = hash('sha256',$_POST['password']);
 
-    if($_POST['type'] == 'Provider' || $_POST['type'] == 'Prestataire') {
+    if($_POST['type'] == _PROVIDER) {
         $request = $db->prepare('SELECT providerID, password FROM serviceprovider WHERE email = :email');
     } else {
         $request = $db->prepare('SELECT clientID, agency, password FROM client WHERE email = :email');
@@ -27,12 +27,14 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
             $_SESSION['email'] = $email;
             $_SESSION['id'] = $result['clientID'];
             $_SESSION['agencyClient'] = $result['agency'];
-             $_SESSION['password'] = $password;
-            if ($_POST['type'] == 'Provider' || $_POST['type'] == 'Prestataire') {
+            $_SESSION['password'] = $password;
+            if ($_POST['type'] == _PROVIDER) {
                 $_SESSION['providerID'] = $result[0];
             } else {
-            $_SESSION['clientID'] = $result[0];
+                $_SESSION['clientID'] = $result[0];
             }
+            verifValidityEstimate();
+            verifValidityIntervention();
             echo "OK";
         } else {
             echo E_CONNEXION3;
@@ -40,5 +42,60 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
     }
 } else {
     echo E_CONNEXION1;
+}
+
+function verifValidityEstimate() {
+    $db = connectionDB();
+    date_default_timezone_set('Europe/Paris');
+    $request = $db->prepare('DELETE FROM Bill WHERE clientID= :clientID && agency= :agency && validityDate < :validityDate');
+    $request->execute([
+       'clientID'=>$_SESSION['id'],
+       'agency'=>$_SESSION['agencyClient'],
+       'validityDate'=>date('Y-m-d')
+    ]);
+}
+
+function verifValidityIntervention() {
+    $db = connectionDB();
+    $requestDeleteIntervention = $db->prepare('DELETE FROM Intervention WHERE clientID= :clientID && agency= :agency && dateIntervention < :dateIntervention');
+    $requestIntervention = $db->prepare('SELECT * FROM Intervention WHERE clientID= :clientID && agency= :agency && dateIntervention < :dateIntervention');
+    $requestIntervention->execute([
+        'clientID'=>$_SESSION['id'],
+        'agency'=>$_SESSION['agencyClient'],
+        'dateIntervention'=>date('Y-m-d')
+    ]);
+    if($requestIntervention->rowCount() != 0) {
+        while ($resultIntervention = $requestIntervention->fetch()) {
+            $requestCredit = $db->prepare('SELECT * FROM Credit WHERE clientID= :clientID && agency= :agency && serviceID= :serviceID');
+            $requestCredit->execute([
+                'clientID' => $_SESSION['id'],
+                'agency' => $_SESSION['agencyClient'],
+                'serviceID' => $resultIntervention['serviceID']
+            ]);
+            if ($requestCredit->rowCount() != 0) {
+                $resultCredit = $requestCredit->fetch();
+                $requestUpadteCredit = $db->prepare('UPDATE Credit SET numberTaken= :numberTaken WHERE clientID= :clientID && agency= :agency && serviceID= :serviceID');
+                $requestUpadteCredit->execute([
+                    'numberTaken' => (intval($resultCredit['numberTaken']) + intval($resultIntervention['pastType'])),
+                    'clientID' => $_SESSION['id'],
+                    'agency' => $_SESSION['agencyClient'],
+                    'serviceID' => $resultIntervention['serviceID']
+                ]);
+            } else {
+                $requestInsertCredit = $db->prepare('INSERT INTO Credit(clientID, agency, serviceID, numberTaken) VALUES(:clientID, :agency, :serviceID, :numberTaken)');
+                $requestInsertCredit->execute([
+                    'clientID' => $_SESSION['id'],
+                    'agency' => $_SESSION['agencyClient'],
+                    'serviceID' => $resultIntervention['serviceID'],
+                    'numberTaken' => intval($resultIntervention['pastType'])
+                ]);
+            }
+        }
+        $requestDeleteIntervention->execute([
+            'clientID'=>$_SESSION['id'],
+            'agency'=>$_SESSION['agencyClient'],
+            'dateIntervention'=>date('Y-m-d')
+        ]);
+    }
 }
 ?>

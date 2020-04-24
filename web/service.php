@@ -101,6 +101,7 @@ $requestService = $db->prepare('SELECT * FROM Service WHERE serviceID= :id && la
                                     </div>
                                 </div>
                             <?php } ?>
+                            <h6 id="error" style="display: none"></h6>
                         </div>
                     </div>
                 </div>
@@ -111,30 +112,3 @@ $requestService = $db->prepare('SELECT * FROM Service WHERE serviceID= :id && la
         <?php require_once('Pages/footer.php'); ?>
     </body>
 </html>
-<?php
-function rescoverDate($noDay) {
-    switch ($noDay) {
-        case 1:
-            return _MONDAY;
-            break;
-        case 2:
-            return _TUESDAY;
-            break;
-        case 3:
-            return _WEDNESDAY;
-            break;
-        case 4:
-            return _THURSDAY;
-            break;
-        case 5:
-            return _FRIDAY;
-            break;
-        case 6:
-            return _SATURDAY;
-            break;
-        case 7:
-            return _SUNDAY;
-            break;
-    }
-}
-?>
