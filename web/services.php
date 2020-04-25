@@ -69,9 +69,11 @@ $request = $db->prepare('SELECT serviceID, nameService FROM service WHERE langua
                                 <?php }
                             }
                         } else { ?>
-                        <div class="col">
-                            <label><?=E_SERVICE?></label>
-                        </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label><?=E_SERVICE?></label>
+                                </div>
+                            </div>
                         <?php }?>
                     </div>
                 </form>

@@ -52,7 +52,7 @@ function createIntervention() {
 function R_displayError(e) {
     const error = document.getElementById('error');
     error.style.display = "block";
-    error.style.color ="#b52626";
+    error.style.color = "#b52626";
     error.innerHTML = e;
 }
 

@@ -2,7 +2,7 @@
     <div id="table_footer" class="container">
         <div class="row">
             <a href="services.php" class="col link_footer"><?=_SERVICES?></a>
-            <a href="#" class="col link_footer"><?=_ABONNEMENTS?></a>
+            <a href="subscription.php" class="col link_footer"><?=_ABONNEMENTS?></a>
         </div>
         <?php if(!$connected){ ?>
             <div class="row">

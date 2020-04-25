@@ -70,7 +70,9 @@ define('_CART','Panier');
 define('_CARTEMPTY','Votre panier est vide');
 define('_NUMBER','Nombre');
 define('_HOUR','Heure');
+define('_HOURS','Heures');
 define('_DAY','Jour');
+define('_DAYS','Jours');
 define('_CANCEL','Annuler');
 
 //Estimate/Bill
@@ -101,12 +103,26 @@ define('_CREATE','Créer');
 define('_NOPROVIDER','Aucun prestataires n\'a été trouvé pour réaliser votre intervention');
 define('_INTERVENTIONCREATE','Votre intervention a bien été pris en compte');
 define('_USESUBSCRIPTION','Utiliser un abonnement');
-define('_SUBSCRIPTION','Abonnement');
 define('_REST','reste');
 define('_YOUMISS','Il vous manque');
 define('_CREDITS','crédits');
 define('_NEGATIVENUMBER','Les nombres négatifs ne sont pas autorisés');
 
+//Subscription
+define('_SUBSCRIPTION','Abonnement');
+define('_YOURSUBSCRIPTION','Vos abonnements');
+define('_YEAR','an');
+define('_SERVICEMONTH','de services/mois');
+define('_UNLIMITEDINQUIRIES','Demandes illimitées de renseignements');
+define('_BENEFITPRIVILEGED','Bénéficiez d\'un accès privilégié en illimité ');
+define('_OF','de');
+define('E_SUBSCRIPTION','Pas d\'abonnements disponibles');
+define('_NOSUBSCRIPTION','Vous n\'avez pas d\'abonnements en cours');
+define('_ENDSUBSCRIPTION','Votre abonnement ce fini le');
+define('_STILLHAVE','Il vous reste');
+define('_ONSUBSCRIPTION','sur votre abonnement');
+define('_SUBSCRIPTIONBUY','Votre abonnement a bien été pris en compte');
+define('_ALREADYSUBSCRIPTION','Vous possédez déjà cet abonnement');
 
 //Day of the Week
 define('_MONDAY','Lundi');

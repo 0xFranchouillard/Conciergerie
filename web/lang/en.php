@@ -71,7 +71,9 @@ define('_CART','Cart');
 define('_CARTEMPTY','Your cart is empty');
 define('_NUMBER','Number');
 define('_HOUR','Hour');
+define('_HOURS','Hours');
 define('_DAY','Day');
+define('_DAYS','Days');
 define('_CANCEL','Cancel');
 
 //Estimate/Bill
@@ -102,11 +104,26 @@ define('_CREATE','Create');
 define('_NOPROVIDER','No providers have been found to carry out your intervention');
 define('_INTERVENTIONCREATE','Your intervention has been taken into account');
 define('_USESUBSCRIPTION','Using a subscription');
-define('_SUBSCRIPTION','Subscription');
 define('_REST','rest');
 define('_YOUMISS','You miss');
 define('_CREDITS','credits');
 define('_NEGATIVENUMBER','Negative numbers are not allowed');
+
+//Subscription
+define('_SUBSCRIPTION','Subscription');
+define('_YOURSUBSCRIPTION','Your subscriptions');
+define('_YEAR','year');
+define('_SERVICEMONTH','of services/month');
+define('_UNLIMITEDINQUIRIES','Unlimited inquiries');
+define('_BENEFITPRIVILEGED','Benefit from unlimited privileged access');
+define('_OF','of');
+define('E_SUBSCRIPTION','No subscriptions available');
+define('_NOSUBSCRIPTION','You have no current subscriptions');
+define('_ENDSUBSCRIPTION','Your subscription ended on');
+define('_STILLHAVE','You still have');
+define('_ONSUBSCRIPTION','on your subscription');
+define('_SUBSCRIPTIONBUY','Your subscription has been taken into account');
+define('_ALREADYSUBSCRIPTION','You already have this subscription');
 
 //Day of the Week
 define('_MONDAY','Monday');

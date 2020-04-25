@@ -25,7 +25,7 @@ require_once('lang/'.$_SESSION['lang'].'.php');
                 </ul>-->
             </li>&nbsp&nbsp&nbsp|
             <li class="link_header">
-                <a href="#" class="link"><?=_ABONNEMENTS?></a>
+                <a href="subscription.php" class="link"><?=_ABONNEMENTS?></a>
             </li>&nbsp&nbsp&nbsp|
             <?php if($connected){ ?>
                 <li class="link_header">
@@ -57,7 +57,7 @@ require_once('lang/'.$_SESSION['lang'].'.php');
                 <img src="Pictures/en.png" title="english" width="30px" onclick="tr('EN')"/>
             </li>&nbsp&nbsp&nbsp|
             <li class="link_header">
-                <img src="Pictures/ALL.png" title="deutsch" width="30px" onclick="tr('ALL')"/>
+                <img src="Pictures/ALL.png" title="deutsch" width="30px" onclick="tr('DE')"/>
             </li>
             <?php if($connected){ ?>
                 &nbsp&nbsp&nbsp|
