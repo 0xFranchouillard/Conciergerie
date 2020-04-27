@@ -38,7 +38,7 @@ window.onload = () => {
         ).then((result) => {
             if(result.error){
                 console.log("IF2");
-                document.getElementById("errors").innerText = result.error.message
+                document.getElementById("errors").innerHTML = '<h6 style="color: #b50b00">' + result.error.message + '</h6>';
             }else{
                 buy();
                 console.log("ELSE2")

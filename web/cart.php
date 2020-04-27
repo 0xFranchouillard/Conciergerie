@@ -104,7 +104,9 @@ $requestNameService = $db->prepare('SELECT nameService FROM Service WHERE servic
                                        \Stripe\Stripe::setApiKey('sk_test_WDZW3sWkIUI5asuWjU1FOR7Z00kDVsxULV');
                                         $intent = \Stripe\PaymentIntent::create([
                                             'amount' => $_SESSION['totalPriceBill'] * 100,
-                                            'currency' => 'eur'
+                                            'currency' => 'eur',
+                                            'customer' => $_SESSION['stripeID'],
+                                            'payment_method_types' => ['card']
                                         ]);
                                 } ?>
                                 <div class="row" style="margin-top: 2%">
@@ -122,10 +124,10 @@ $requestNameService = $db->prepare('SELECT nameService FROM Service WHERE servic
                         </div>
                         <form method="post" id="StripeBuy" style="display: none">
                             <div id="errors"></div>
-                            <input type="text" id="cardholder-name" placeholder="Titulaire de la carte">
+                            <input type="text" id="cardholder-name" value="<?=$_SESSION['email']?>" style="display: none">
                             <div id="card-elements"></div>
                             <div id="card-errors" role="alert"></div>
-                            <button onclick="buy()" id="card-button" type="button" data-secret="<?=$intent['client_secret'] ?>">Procéder au paiement</button>
+                            <button id="card-button" type="button" data-secret="<?=$intent['client_secret'] ?>">Procéder au paiement</button>
                         </form>
                         <div class="row" style="display: none" id="cartEmpty">
                             <div class="col">
