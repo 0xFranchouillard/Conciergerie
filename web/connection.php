@@ -14,7 +14,7 @@ if($connected==true){
 		<meta charset="utf-8">
 		<meta name="description" content="Projet Annuel">
 		<link rel="stylesheet" type="text/css" href="CSS/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="CSS/CSS_luxery.css">
+		<link rel="stylesheet" type="text/css" href="CSS/CSS_Luxery.css">
 		<title>LuxeryService</title>
 	</head>
 	<body>

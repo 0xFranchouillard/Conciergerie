@@ -125,6 +125,12 @@ if(isset($_POST['button']) && $_POST['button'] == 2) {
     }
 }
 
+if(isset($_POST['button']) && $_POST['button'] == 3) {
+    if(isset($_POST['interventionID']) && $_POST['interventionID'] != null) {
+        deleteIntervention();
+        echo "OK";
+    }
+}
 
 function createIntervention() {
     $db = connectionDB();
@@ -174,6 +180,45 @@ function createIntervention() {
         return "OK " . _INTERVENTIONCREATE;
     } else {
         return _NOPROVIDER;
+    }
+}
+
+function deleteIntervention() {
+    $db = connectionDB();
+    $requestDeleteIntervention = $db->prepare('DELETE FROM Intervention WHERE interventionID= :interventionID');
+    $requestIntervention = $db->prepare('SELECT * FROM Intervention WHERE interventionID= :interventionID');
+    $requestIntervention->execute([
+        'interventionID'=>$_POST['interventionID']
+    ]);
+    if($requestIntervention->rowCount() != 0) {
+        $resultIntervention = $requestIntervention->fetch();
+        $requestVerifCredit = $db->prepare('SELECT numberTaken FROM Credit WHERE clientID= :clientID && agency= :agency && serviceID= :serviceID');
+        $requestVerifCredit->execute([
+            'clientID' => $_SESSION['id'],
+            'agency' => $_SESSION['agencyClient'],
+            'serviceID' => $resultIntervention['serviceID']
+        ]);
+        if ($requestVerifCredit->rowCount() != 0) {
+            $resultVerifCredit = $requestVerifCredit->fetch();
+            $requestUpadteCredit = $db->prepare('UPDATE Credit SET numberTaken= :numberTaken WHERE clientID= :clientID && agency= :agency && serviceID= :serviceID');
+            $requestUpadteCredit->execute([
+                'numberTaken' => (intval($resultVerifCredit['numberTaken']) + intval($resultIntervention['pastType'])),
+                'clientID' => $_SESSION['id'],
+                'agency' => $_SESSION['agencyClient'],
+                'serviceID' => $resultIntervention['serviceID']
+            ]);
+        } else {
+            $requestInsertCredit = $db->prepare('INSERT INTO Credit(clientID, agency, serviceID, numberTaken) VALUES(:clientID, :agency, :serviceID, :numberTaken)');
+            $requestInsertCredit->execute([
+                'clientID' => $_SESSION['id'],
+                'agency' => $_SESSION['agencyClient'],
+                'serviceID' => $resultIntervention['serviceID'],
+                'numberTaken' => intval($resultIntervention['pastType'])
+            ]);
+        }
+        $requestDeleteIntervention->execute([
+            'interventionID'=>$_POST['interventionID']
+        ]);
     }
 }
 ?>
