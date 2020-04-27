@@ -1,4 +1,8 @@
 <?php
+
+use Stripe\Plan;
+use Stripe\Stripe;
+
 ini_set('display_errors',1);
 include('config.php');
 $bdd = connectionDB();
@@ -290,16 +294,38 @@ if(isset($_POST['pricePerYear']) && !empty($_POST['pricePerYear']) &&
 }
 if(isset($_POST['value']) && !empty($_POST['value']) &&
     isset($_GET['id_sub']) && !empty($_GET['id_sub'])) {
+    require_once '../web/stripe/init.php';
+    echo $_POST['stripeID'];
+    \Stripe\Stripe::setApiKey('sk_test_WDZW3sWkIUI5asuWjU1FOR7Z00kDVsxULV');
+    $plan = \Stripe\Plan::retrieve(
+        $_POST['stripeID']
+    );
+    $plan->delete();
 
-    $update_priceTypeService = $bdd->prepare('UPDATE subscription SET value = ? WHERE subscriptionID = ? AND language = ?');
+    $sub = $bdd->prepare('SELECT * FROM subscription WHERE stripeID = :stripeID GROUP BY subscriptionID');
+    $sub->execute(array(':stripeID'=>$_POST['stripeID']));
+    $sub = $sub->fetch();
+
+    $intent = \Stripe\Plan::create([
+        'id' => $_POST['stripeID'],
+        'amount' => $_POST['value']*100,
+        'currency' => 'eur',
+        'interval' => 'year',
+        'product' => 'prod_H946I3MSCrr63d',
+        "nickname" => $sub['nameSubscription'],
+    ]);
+
+    $update_priceTypeService = $bdd->prepare('UPDATE subscription SET value = ?, stripeID = ? WHERE subscriptionID = ? AND language = ?');
 
     $update_priceTypeService->execute(array(
         $_POST['value'],
+        $intent->id,
         $_GET['id_sub'],
         "Fr"
     ));
     $update_priceTypeService->execute(array(
         $_POST['value'],
+        $intent->id,
         $_GET['id_sub'],
         "En"
     ));
@@ -313,6 +339,17 @@ isset($_POST['startTime']) && !empty($_POST['startTime']) &&
 isset($_POST['endTime']) && !empty($_POST['endTime']) &&
 isset($_POST['pricePerYear']) && !empty($_POST['pricePerYear']) &&
 isset($_POST['value']) && !empty($_POST['value'])) {
+    require_once '../web/stripe/init.php';
+
+    \Stripe\Stripe::setApiKey('sk_test_WDZW3sWkIUI5asuWjU1FOR7Z00kDVsxULV');
+
+    $intent = \Stripe\Plan::create([
+        'amount' => $_POST['value']*100,
+        'currency' => 'eur',
+        'interval' => 'year',
+        'product' => 'prod_H946I3MSCrr63d',
+        "nickname" => $_POST['nameSubscriptionFr'],
+    ]);
 
     $request = $bdd->prepare('SELECT subscriptionID FROM subscription WHERE subscriptionID= :id');
     $find = false;
@@ -328,12 +365,10 @@ isset($_POST['value']) && !empty($_POST['value'])) {
             $find = true;
         }
     }
-    $request = $bdd->prepare('INSERT INTO subscription VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $request = $bdd->prepare('INSERT INTO subscription VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 
-    $request->execute([$id,"Fr",htmlspecialchars($_POST['nameSubscriptionFr']),htmlspecialchars($_POST['nbDays']),htmlspecialchars($_POST['startTime']), htmlspecialchars($_POST['endTime']), htmlspecialchars($_POST['pricePerYear']), htmlspecialchars($_POST['value']),1,]);
-    $request->execute([$id,"En",htmlspecialchars($_POST['nameSubscriptionEn']),htmlspecialchars($_POST['nbDays']),htmlspecialchars($_POST['startTime']), htmlspecialchars($_POST['endTime']), htmlspecialchars($_POST['pricePerYear']), htmlspecialchars($_POST['value']),1,]);
-
-
+    $request->execute([$id,"Fr",htmlspecialchars($_POST['nameSubscriptionFr']),htmlspecialchars($_POST['nbDays']),htmlspecialchars($_POST['startTime']), htmlspecialchars($_POST['endTime']), htmlspecialchars($_POST['pricePerYear']), htmlspecialchars($_POST['value']),1,$intent->id]);
+    $request->execute([$id,"En",htmlspecialchars($_POST['nameSubscriptionEn']),htmlspecialchars($_POST['nbDays']),htmlspecialchars($_POST['startTime']), htmlspecialchars($_POST['endTime']), htmlspecialchars($_POST['pricePerYear']), htmlspecialchars($_POST['value']),1,$intent->id]);
 }
 
 if(isset($_GET['addService']) && !empty($_GET['addService']) &&

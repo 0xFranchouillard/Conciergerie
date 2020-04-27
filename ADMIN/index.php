@@ -264,10 +264,10 @@ $NBinterventionsWAIT = $bdd->query('SELECT COUNT(interventionID) as nb FROM inte
                 </div>
                 <div class="col" id="<?=$service['serviceID'].'service'?>" style="display:none">
                     <form  action="verif_admin.php?id=<?=$service['serviceID']?>" method="post"><!-- form post + id_get -->
-                        <input type="text" name="nameServiceFr" value="<?=$service['nameServiceFr']?>" placeholder="Nouveau nom en français">
-                        <input type="text" name="nameServiceEn" value="<?=$service['nameServiceEn']?>" placeholder="Nouveau nom en anglais">
-                        <input type="text" name="descriptionFr" value="<?=$service['descriptionFr']?>" placeholder="Nouvelle description en français">
-                        <input type="text" name="descriptionEn" value="<?=$service['descriptionEn']?>" placeholder="Nouvelle description en anglais">
+                        <input type="text" name="nameServiceFr" placeholder="Nouveau nom en français">
+                        <input type="text" name="nameServiceEn" value="<?=$service['nameService']?>" placeholder="Nouveau nom en anglais">
+                        <input type="text" name="descriptionFr" placeholder="Nouvelle description en français">
+                        <input type="text" name="descriptionEn" value="<?=$service['description']?>" placeholder="Nouvelle description en anglais">
                         <input type="number" name="priceService" value="<?=$service['priceService']?>" placeholder="Prix">
                         <input type="number" name="priceRecurrentService" value="<?=$service['priceRecurrentService']?>" placeholder="Prix récurrent">
                         <input type="number" name="minimumType" value="<?=$service['minimumType']?>" placeholder="Minimum">
@@ -342,7 +342,8 @@ $NBinterventionsWAIT = $bdd->query('SELECT COUNT(interventionID) as nb FROM inte
                 </div>
                 <div class="col" id="<?=$subscription['subscriptionID'].'sub'?>" style="display:none">
                     <form  action="verif_admin.php?id_sub=<?=$subscription['subscriptionID']?>" method="post"><!-- form post + id_get -->
-                        <input type="text" name="nameSubscriptionFr" value="<?=$subscription['nameSubscriptionFr']?>" placeholder="Nom de l'abonnement Français">
+                        <input type="hidden" name="stripeID" value="<?=$subscription["stripeID"]?>">
+                        <input type="text" name="nameSubscriptionFr" placeholder="Nom de l'abonnement Français">
                         <input type="text" name="nameSubscriptionEn" value="<?=$subscription['nameSubscription']?>" placeholder="Nom de l'abonnement Anglais">
                         <input type="number" name="nbDays" value="<?=$subscription['nbDays']?>" placeholder="Nombre de jour par semaine Xj/7">
                         <input type="time" name="startTime" value="<?=$subscription['startTime']?>" placeholder="Heure de début">

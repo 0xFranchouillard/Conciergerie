@@ -1,7 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/doctrine/annotations" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/doctrine/instantiator" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/doctrine/lexer" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/friendsofphp/php-cs-fixer" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/guzzlehttp/guzzle" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/guzzlehttp/promises" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/php-coveralls/php-coveralls" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/php-cs-fixer/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpdocumentor/reflection-common" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpdocumentor/reflection-docblock" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpspec/prophecy" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpunit/php-code-coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpunit/php-file-iterator" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpunit/php-text-template" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpunit/php-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpunit/php-token-stream" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpunit/phpunit" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/phpunit/phpunit-mock-objects" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/ralouphie/getallheaders" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/code-unit-reverse-lookup" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/comparator" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/environment" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/exporter" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/global-state" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/object-enumerator" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/recursion-context" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/resource-operations" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/sebastian/version" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/squizlabs/php_codesniffer" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/config" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/console" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/event-dispatcher" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/event-dispatcher-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/filesystem" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/finder" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/options-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/polyfill-ctype" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/polyfill-intl-idn" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/polyfill-php70" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/polyfill-php72" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/polyfill-php73" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/process" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/service-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/stopwatch" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/symfony/yaml" />
+      <excludeFolder url="file://$MODULE_DIR$/stripe/vendor/webmozart/assert" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

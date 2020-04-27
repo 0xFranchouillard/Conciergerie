@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4fc9e492-55b5-4081-a1fe-abcbaedfa560" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../web/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/.idea/web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../web/.idea/web.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +102,7 @@
       <workItem from="1584370022476" duration="26735000" />
       <workItem from="1586418237488" duration="5969000" />
       <workItem from="1587486125533" duration="7463000" />
+      <workItem from="1587655777789" duration="599000" />
     </task>
     <task id="LOCAL-00001" summary="ADD NEW BDD">
       <created>1583498197587</created>
