@@ -7,19 +7,24 @@ if($connected==false){
     exit;
 }
 require_once('Pages/db.php');
+require_once('stripe/init.php');
+
 $db = connectionDB();
 $requestService = $db->prepare('SELECT * FROM Service WHERE serviceID= :id && language= :lang');
 $requestIdBill = $db->prepare('SELECT DISTINCT billID, totalPrice, validityDate FROM Bill WHERE clientID= :id && agency= :agency && estimate= 1');
 $requestBill = $db->prepare('SELECT * FROM Bill WHERE billID= :id');
 $requestNameService = $db->prepare('SELECT nameService FROM Service WHERE serviceID= :id && language= :lang');
+
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="description" content="Projet Annuel">
         <link rel="stylesheet" type="text/css" href="CSS/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="CSS/CSS_Luxery.css">
+        <link rel="stylesheet" type="text/css" href="CSS/CSS_luxery.css">
+        <script src="https://js.stripe.com/v3/"></script>
         <script src="JS/Ajax/cart.js"></script>
         <title>LuxeryService</title>
     </head>
@@ -96,13 +101,18 @@ $requestNameService = $db->prepare('SELECT nameService FROM Service WHERE servic
                                         $_SESSION['totalPriceBill'] += floatval($_SESSION['priceServiceBill'][$i])*intval($_SESSION['nbTakeBill'][$i]);
                                     }
                                     $color++;
+                                       \Stripe\Stripe::setApiKey('sk_test_WDZW3sWkIUI5asuWjU1FOR7Z00kDVsxULV');
+                                        $intent = \Stripe\PaymentIntent::create([
+                                            'amount' => $_SESSION['totalPriceBill'] * 100,
+                                            'currency' => 'eur'
+                                        ]);
                                 } ?>
                                 <div class="row" style="margin-top: 2%">
                                     <div class="col">
                                         <input type="button" value="<?= _CANCEL ?>" onclick="cancel()"/>
                                     </div>
                                     <div class="col">
-                                        <input type="button" value="<?= _BUY ?>" onclick="buy()"/>
+                                        <input type="button" value="<?= _BUY ?>" onclick="modif_data('StripeBuy')"/>
                                     </div>
                                     <div class="col">
                                         <input type="button" value="<?= _ESTIMATE ?>" onclick="estimate()"/>
@@ -110,6 +120,13 @@ $requestNameService = $db->prepare('SELECT nameService FROM Service WHERE servic
                                 </div>
                             </div>
                         </div>
+                        <form method="post" id="StripeBuy" style="display: none">
+                            <div id="errors"></div>
+                            <input type="text" id="cardholder-name" placeholder="Titulaire de la carte">
+                            <div id="card-elements"></div>
+                            <div id="card-errors" role="alert"></div>
+                            <button onclick="buy()" id="card-button" type="button" data-secret="<?=$intent['client_secret'] ?>">Procéder au paiement</button>
+                        </form>
                         <div class="row" style="display: none" id="cartEmpty">
                             <div class="col">
                                 <h4><?= _CARTEMPTY ?></h4>

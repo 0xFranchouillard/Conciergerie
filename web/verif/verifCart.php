@@ -9,6 +9,7 @@ $requestIdBill = $db->prepare('SELECT * FROM Bill WHERE billID= :billID');
 $requestBill = $db->prepare('INSERT INTO Bill(billID, estimate, totalPrice, priceService, numberTaken, billDate, validityDate, clientID, agency, serviceID) VALUES(:billID, :estimate, :totalPrice, :priceService, :numberTaken, :billDate, :validityDate, :clientID, :agency, :serviceID)');
 $requestUpdateBill = $db->prepare('UPDATE Bill SET validityDate= null, estimate= false, billDate= :date WHERE billID= :id');
 
+
 if(isset($_POST['button']) && $_POST['button'] == 2) {
     fillSession($_POST['button'],$requestClient,$requestIdBill);
     insertBdd($_POST['button'],$requestBill);

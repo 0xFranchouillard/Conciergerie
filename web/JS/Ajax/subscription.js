@@ -18,3 +18,16 @@ function buySubscription(subscriptionID) {
     }
     request.send('subscriptionID=' + subscriptionID);
 }
+
+function stripe_sub(sessionID) {
+    var stripe = Stripe('pk_test_U2iCSSR4bBx2jS0pYX8tG5Of00Uy4HuV8w');
+    stripe.redirectToCheckout({
+        sessionId : sessionID
+    })
+        .then(function (result) {
+            if (result.error) {
+                var displayError = document.getElementById('error-message');
+                displayError.textContent = result.error.message;
+            }
+        });
+}

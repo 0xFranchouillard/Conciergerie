@@ -24,7 +24,7 @@ if ($user['stripeID'] == null){
 
     $insert = $bdd->prepare('UPDATE client SET stripeID = ? WHERE email = ?');
     $insert->execute([$intent->id,$_SESSION['email']]);
-
+    $_SESSION['stripeID'] = $intent->id;
     $user = $bdd->prepare('SELECT * FROM client WHERE email = :mail');
     $user->execute(array(':mail'=>$mail));
     $user = $user->fetch();
