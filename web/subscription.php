@@ -2,6 +2,8 @@
 session_start();
 $connected = isset($_SESSION['email']) ? true : false;
 require_once('Pages/db.php');
+require_once('stripe/init.php');
+
 $db = connectionDB();
 $requestSubscription = $db->prepare('SELECT * FROM Subscription WHERE language= :lang');
 $requestSubscribes = $db->prepare('SELECT * FROM Subscribes WHERE clientID= :clientID && agency= :agency');
@@ -92,7 +94,8 @@ $requestSubscribes->execute([
                                 </div><br/>
                                 <div class="row" style=" max-width: 100%; margin: 0%;">
                                     <div class="col">
-                                        <input type="button" value="<?= _BUY ?>" onclick="buySubscription(<?= $resultSubscription['subscriptionID'] ?>)"/>
+                                        <a href="pay.php?sub=<?= $resultSubscription['subscriptionID'] ?>" target="_blank"><input type="button" value="<?= _BUY ?>"> </a>
+                                        <!--<input type="button" value="<?= _BUY ?>" onclick="buySubscription(<?= $resultSubscription['subscriptionID'] ?>)"/>    -->
                                     </div>
                                 </div>
                                 <h6 id="error<?= $resultSubscription['subscriptionID'] ?>" style="none"></h6>

@@ -1,11 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Vérification du paiement...</title>
+    <style type="text/css">
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        #content{
+            display: flex;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+        #content img{
+            margin: auto;
+            width: 250px;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <img src="Pictures/loader.gif" alt="Loader">
+</div>
+</body>
+</html>
+
 <?php
 require_once('Pages/db.php');
 require_once 'stripe/init.php';
 session_start();
-echo $_SESSION['session'];
+require_once('lang/'.$_SESSION['lang'].'.php');
+
+if ($_GET['sub'] == null){
+    exit();
+}
 
 $mail = $_SESSION["email"];
-header('content-type:application/json');
 $bdd = connectionDB();
 $user = $bdd->prepare('SELECT * FROM client WHERE email = :mail');
 $user->execute(array(':mail'=>$mail));
@@ -15,21 +47,47 @@ $user = $user->fetch();
 
 $customer = \Stripe\Customer::retrieve($user["stripeID"]);
 
-$sub = $bdd->query('SELECT * FROM subscription GROUP BY subscriptionID');
-$rows =  $sub->rowCount();
-$data = $sub->fetchAll();
+$sub = $bdd->prepare('SELECT * FROM subscription WHERE subscriptionID = ? GROUP BY subscriptionID');
+$rows =  $sub->execute(array($_GET['sub']));
+$data = $sub->fetch();
 
-if ($customer["subscriptions"]["data"][sizeof($customer["subscriptions"]["data"])-1]["items"]["data"][0]["plan"]["id"] && $customer["subscriptions"]["data"][sizeof($customer["subscriptions"]["data"])-1]["items"]["data"][0]["plan"]["active"] == true) {
-    echo $customer["subscriptions"]["data"][sizeof($customer["subscriptions"]["data"])-1]["items"]["data"][0]["plan"]["nickname"] . " VALIDE";
-    //ajouter l'abonnement payé dans subscribes
-    $invoice = \Stripe\Invoice::retrieve(
-        $d["latest_invoice"]
-    );
+    if ($customer["subscriptions"]["data"][0]["items"]["data"][0]["plan"]["id"] == $data["stripeID"] && $customer["subscriptions"]["data"][0]["items"]["data"][0]["plan"]["active"] == true && $customer["subscriptions"]["data"][0]["items"]["data"][0]["plan"]["created"] < strtotime('+5 minutes')) {
+        //echo $customer["subscriptions"]["data"][0]["items"]["data"][0]["plan"]["nickname"] . " VALIDE";
 
-    echo $invoice->payment_intent;
-    //ajouter l'abonnement payé dans subscribes + $invoice->payment_intent
+        $invoice = \Stripe\Invoice::retrieve(
+            $customer["subscriptions"]["data"][0]["latest_invoice"]
+        );
 
-}
+        $requestSubscription = $bdd->prepare('SELECT value FROM Subscription WHERE subscriptionID= :subscriptionID');
+        $requestVerifSubscribes = $bdd->prepare('SELECT * FROM Subscribes WHERE clientID= :clientID && agency= :agency && subscriptionID= :subscriptionID');
+        $requestSubscribes = $bdd->prepare('INSERT INTO Subscribes(subscriptionDate, endDate, recurrence, month, valueMonth, clientID, agency, subscriptionID, paymentStripeID) VALUES(:subscriptionDate, :endDate, :recurrence, :month, :valueMonth, :clientID, :agency, :subscriptionID, :paymentStripeID)');
 
-
+            $requestVerifSubscribes->execute([
+                'clientID'=>$_SESSION['id'],
+                'agency'=>$_SESSION['agencyClient'],
+                'subscriptionID'=>$data['subscriptionID']
+            ]);
+            if($requestVerifSubscribes->rowCount() != 0) {
+                $txt = _ALREADYSUBSCRIPTION;
+            } else {
+                $requestSubscription->execute([
+                    'subscriptionID'=>$data['subscriptionID']
+                ]);
+                $resultSubscription = $requestSubscription->fetch();
+                $requestSubscribes->execute([
+                    'subscriptionDate'=>date('Y-m-d'),
+                    ':endDate'=>date("Y-m-d", strtotime("+1 year")),
+                    'recurrence'=>0,
+                    'month'=>date('m'),
+                    'valueMonth'=>$resultSubscription['value'],
+                    'clientID'=>$_SESSION['id'],
+                    'agency'=>$_SESSION['agencyClient'],
+                    'subscriptionID'=>$data['subscriptionID'],
+                    'paymentStripeID'=>$invoice->payment_intent
+                ]);
+                $txt = "OK "._SUBSCRIPTIONBUY;
+            }
+        echo "<script>window.location='subscription'</script>";
+    }
+    echo "<script>window.location='subscription?error=nopayment'</script>";
 ?>

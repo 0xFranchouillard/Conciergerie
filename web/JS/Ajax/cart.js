@@ -2,7 +2,6 @@ window.onload = () => {
     // Variables
     let stripe = Stripe('pk_test_U2iCSSR4bBx2jS0pYX8tG5Of00Uy4HuV8w')
     let elements = stripe.elements()
-    let redirect = "/index.php"
 
     // Objets de la page
     let cardHolderName = document.getElementById("cardholder-name")
@@ -40,6 +39,7 @@ window.onload = () => {
                 console.log("IF2");
                 document.getElementById("errors").innerHTML = '<h6 style="color: #b50b00">' + result.error.message + '</h6>';
             }else{
+                modif_data("StripeBuy")
                 buy();
                 console.log("ELSE2")
             }
