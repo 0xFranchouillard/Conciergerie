@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Luxury Services - Animation</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+		<script src="../../3dWorldFinal/examples/3DWorld.js"></script>
+	</head>
+	<body>
+		<!--<link href="" rel="import" /> -->
+		<script type="module">
+
+			import * as THREE from '../build/three.module.js';
+
+			import { OBJLoader } from './jsm/loaders/OBJLoader.js';
+
+			import { FBXLoader } from './jsm/loaders/FBXLoader.js';
+
+			import Stats from './jsm/libs/stats.module.js';
+
+			var container, stats, controls;
+			var camera, scene, renderer;
+			var groundGarden, skybox,groundHouse;
+			var clock = new THREE.Clock();
+			var mixer;
+			var action;
+			let house, mower, cubeMower, provider;
+			let fenceRight,fenceLeft, fenceBack;
+			let world = new THREE.Group();
+			let groupFence = new THREE.Group();
+			let groupHouse = new THREE.Group();
+			let ambientLight;
+			let groupGrass = new THREE.Group();
+
+			let goFront = 1;
+			let counter = 0;
+
+			let objects = [];
+			let raycaster;
+
+			init();
+			animate();
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+				//shadow////////////////////////////////////////////////////////////////
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+				renderer.shadowMap.enabled = true;
+				renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+				renderer.gammaInput = true;
+				renderer.gammaOutput = true;
+				////////////////////////////////////////////
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.set(0,150,300);
+				camera.lookAt(0,0,0);
+
+				scene = new THREE.Scene();
+
+
+
+				//laoder
+				objLoader();
+				fbxLoader();
+				////////////
+
+
+				//Mesh////////////////////////////////////////////
+				var geoCubemower = new THREE.BoxBufferGeometry(1, 1, 1);
+
+				cubeMower = new THREE.Mesh(geoCubemower);
+				cubeMower.position.set(100,-10,-220);
+				groupGrass.add(cubeMower);
+
+				//jardin
+				var textureGroundGarden = new THREE.TextureLoader().load( 'textures/grass.jpg' );
+				var geoGroundGarden = new THREE.BoxBufferGeometry(500, 2, 500);
+				var materialGroundGarden = new THREE.MeshBasicMaterial({ map: textureGroundGarden});
+
+				textureGroundGarden.wrapS = THREE.RepeatWrapping;
+				textureGroundGarden.wrapT = THREE.RepeatWrapping;
+				textureGroundGarden.repeat.x = 35;
+				textureGroundGarden.repeat.y = 35;
+
+				groundGarden = new THREE.Mesh(geoGroundGarden,materialGroundGarden);
+				groundGarden.position.set(0,0,0);
+				groundGarden.receiveShadow = true;
+
+				//////
+				// fence
+				var textureFence = new THREE.TextureLoader().load('textures/fence2.png');
+				var geoFence = new THREE.BoxBufferGeometry(1,50,500);
+				var materialFence = new THREE.MeshBasicMaterial({map:textureFence, transparent: true });
+
+				textureFence.wrapS = THREE.RepeatWrapping;
+				textureFence.wrapT = THREE.RepeatWrapping;
+				textureFence.repeat.x = 4;
+
+				fenceRight = new THREE.Mesh(geoFence,materialFence);
+				fenceLeft = fenceRight.clone();
+				fenceBack = fenceRight.clone();
+
+
+				fenceRight.position.set(-250,25,0);
+				fenceLeft.position.set(250,25,0);
+				fenceBack.rotateY(3.14/2);
+				fenceBack.position.set(0,25,-250);
+
+
+				groupFence.add(fenceRight,fenceLeft,fenceBack);
+				//////
+				//skybox
+				var textureSky = new THREE.TextureLoader().load( 'textures/background.jpg' );
+				var geoSky = new THREE.SphereBufferGeometry(360,50,50);
+				var materialSky = new THREE.MeshBasicMaterial({ map: textureSky, side: THREE.BackSide});
+
+				skybox = new THREE.Mesh(geoSky,materialSky);
+				groundGarden.position.set(0,0,0);
+
+				//////
+				//sol sous la maison
+				var textureGroundHouse = new THREE.TextureLoader().load( 'textures/groundHouse.jpg' );
+				var geoGroundHouse= new THREE.BoxBufferGeometry(250,3,350);
+				var materialGroundHouse = new THREE.MeshBasicMaterial({ map: textureGroundHouse});
+
+				textureGroundHouse.wrapS = THREE.RepeatWrapping;
+				textureGroundHouse.wrapT = THREE.RepeatWrapping;
+				textureGroundHouse.repeat.x = 6;
+				textureGroundHouse.repeat.y = 6;
+
+				groundHouse = new THREE.Mesh(geoGroundHouse,materialGroundHouse);
+				groundHouse.position.set(0,0,0);
+				groundHouse.receiveShadow = true;
+				groupHouse.add(groundHouse);
+
+				//////////
+				groupHouse.position.set(-100,0,0);
+
+				generateLawn();
+
+				world.add( groundGarden, skybox, groupFence, groupHouse );
+
+				///////Raycasting
+				raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, 1, 0 ), 0, 100 );
+
+				/////// LIGHTS
+				ambientLight = new THREE.AmbientLight( 0xffffff, 1 );
+				scene.add( ambientLight );
+
+				scene.add( ambientLight );
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+				stats = new Stats();
+				container.appendChild( stats.dom );
+
+				scene.add(world);
+			}
+
+			function generateLawn() {
+
+				let positionX = 100;
+				let positionZ = -200;
+				let maxRow = 17;
+				let column = 4;
+
+				for (let j = 0; j < column; j++) {
+
+					for (let i = 0; i < maxRow ; i++) {
+						createFreshGrass(positionX,positionZ);
+						positionZ += 25;
+					}
+					positionZ = -200;
+					positionX += 25;
+				}
+
+
+				world.add(groupGrass)
+			}
+
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				var delta = clock.getDelta();
+
+				if ( mixer ) mixer.update( delta );
+
+				stats.update();
+				//////////////
+
+				raycaster.ray.origin.copy( cubeMower.position );
+				raycaster.ray.origin.y -= 2;
+
+				var intersections = raycaster.intersectObjects( objects );
+				var onObject = intersections.length > 0;
+				if ( onObject === true ) {
+
+					for (let i = 0; i < objects.length ; i++) {
+						if (Math.round(cubeMower.position.x) === objects[i].position.x && Math.round(cubeMower.position.z) === objects[i].position.z ) {
+							scene.remove(objects[i]);
+							objects[i].position.y = -50;
+						}
+					}
+
+				}
+				if(counter >= 4){
+					goFront = 2;
+					action.stop();
+				}
+
+				if(goFront == 1){
+
+					if(cubeMower.position.z >= 215){
+						goFront = 0;
+						mower.position.x += 25;
+						provider.position.x += 25;
+						provider.position.z += 25;
+						mower.rotateY(3.14);
+						provider.rotateY(3.14);
+						cubeMower.position.x += 25;
+						counter += 1;
+					}
+
+					cubeMower.translateZ(0.5);
+					mower.translateX(0.5);
+					provider.translateZ(0.5);
+
+				}if (goFront == 0){
+
+					if(cubeMower.position.z <= -200){
+						goFront = 1;
+						mower.position.x += 25;
+						provider.position.x += 25;
+						provider.position.z -= 25;
+						mower.rotateY(3.14);
+						provider.rotateY(3.14);
+						cubeMower.position.x += 25;
+						counter += 1;
+					}
+
+					cubeMower.translateZ(-0.5);
+					mower.translateX(0.5);
+					provider.translateZ(0.5);
+
+				}
+
+
+				renderer.render( scene, camera );
+			}
+
+			function createFreshGrass(positionX, positionZ){
+
+				// grass
+				var textureGrass = new THREE.TextureLoader().load('textures/bigGrass.jpg');
+				var geoGrass = new THREE.BoxBufferGeometry(25,20,25);
+				var materialGrass = new THREE.MeshBasicMaterial({map:textureGrass } );
+
+				let grassBlock = new THREE.Mesh(geoGrass,materialGrass);
+				grassBlock.position.set(positionX,0,positionZ);
+				objects.push(grassBlock);
+				groupGrass.add(grassBlock)
+			}
+
+			function moveMower() {
+
+
+
+
+			}
+
+			function objLoader() {
+
+				// manager
+				function loadHouse() {
+
+					house.traverse( function ( child ) {
+
+						if ( child.isMesh ) child.material.map = textureHouse;
+						child.castShadow = true;
+						child.receiveShadow = true;
+
+					} );
+
+					house.scale.set(17,17,17);
+					house.position.set(0,0,0);
+
+					groupHouse.add( house );
+
+				}
+
+				var managerHouse = new THREE.LoadingManager( loadHouse );
+
+				managerHouse.onProgress = function ( item, loaded, total ) {
+
+					console.log( item, loaded, total );
+
+				};
+				// texture
+
+				var textureLoaderHouse = new THREE.TextureLoader( managerHouse );
+
+				var textureHouse = textureLoaderHouse.load( 'textures/Cottage_Clean_Base_Color.png' );
+
+				// model
+				function onProgress( xhr ) {
+
+					if ( xhr.lengthComputable ) {
+
+						var percentComplete = xhr.loaded / xhr.total * 100;
+						console.log( 'model ' + Math.round( percentComplete, 2 ) + '% downloaded' );
+					}
+				}
+				function onError() {}
+
+				var loaderHouse = new OBJLoader( managerHouse );
+
+				loaderHouse.load( 'models/obj/house/Cottage_FREE.obj', function ( obj ) {
+
+					house = obj;
+
+				}, onProgress, onError );
+
+				////////////////////
+
+			}
+
+			function fbxLoader() {
+				// model
+				var loader = new FBXLoader();
+				loader.load( 'models/fbx/lawn_mower.fbx', function ( object ) {
+
+					mower = object;
+					mower.scale.set(0.1,0.1,0.1);
+					mower.position.set(100,5,-220);
+					mower.rotateY(-3.14/2);
+					world.add( mower );
+				} );
+
+				var loaderProvider = new FBXLoader();
+				loaderProvider.load( 'models/fbx/Walking While Texting.fbx', function ( object ) {
+
+					mixer = new THREE.AnimationMixer( object );
+
+					action = mixer.clipAction( object.animations[ 0 ] );
+					action.play();
+
+					provider = object;
+					provider.scale.set(0.2,0.2,0.2);
+					provider.position.set(100,5,-230);
+					scene.add( provider );
+
+				} );
+
+			}
+
+
+
+
+		</script>
+
+	</body>
+</html>
