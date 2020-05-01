@@ -57,6 +57,7 @@ public class ExportationTariff {
 
         containCommand = containCommand.substring(0,containCommand.length() -2);
         containCommand += " FROM Tariff";
+        System.out.println(containCommand);
         return containCommand;
     }
 }

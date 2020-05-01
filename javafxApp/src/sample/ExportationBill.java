@@ -69,6 +69,7 @@ public class ExportationBill {
 
         containCommand = containCommand.substring(0,containCommand.length() -2);
         containCommand += " FROM bill";
+        System.out.println(containCommand);
         return containCommand;
     }
 

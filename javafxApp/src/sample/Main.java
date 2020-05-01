@@ -7,7 +7,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -48,7 +47,7 @@ public class Main extends Application {
 
         isCherching = 0;
 
-        informationLabel.setFont(new Font(16));
+        //informationLabel.setFont(new Font(16));
 
         addItemChoiceTable(choiceTable);
         addItemExport(choiceExport);
@@ -70,6 +69,7 @@ public class Main extends Application {
                 String value = (String) choiceTable.getValue();
                 Scene exportScene = new Scene(exportationScene(informationLabel,value,choiceExport,execute,returnMainScene,printResult));
                 stage.setScene(exportScene);
+                System.out.println(value);
             }
             catch (NullPointerException e){
                 informationLabel.setText("Veuillez choisir une catégorie");
@@ -110,8 +110,11 @@ public class Main extends Application {
         printResult.setOnAction(actionEvent ->  {
 
             String query = switchGetQuery(choiceName);
-
+            System.out.println(isCherching);
+            System.out.println(findInformation.valueUserWrite.getText().isEmpty());
+            System.out.println(findInformation.choiceRowToFind.getValue() == null);
             if (compare.equals(query.substring(0,10)) ||  (isCherching == 1 && findInformation.valueUserWrite.getText().isEmpty() )|| (isCherching == 1 && findInformation.choiceRowToFind.getValue() == null )) {
+                //informationLabel.setText("Aucun champs choisis, Retour au menu");
                 stage.setScene(scene); // reset the choice
                 choiceName = ""; //the variable is reset for reuse
                 databaseAndFile.result = "";
@@ -140,6 +143,7 @@ public class Main extends Application {
             try {
                 findInformation.removeItem();
                 findInformation.objectPrint = (String) findInformation.choiceObjectToFind.getValue();
+                System.out.println(findInformation.objectPrint);
                 findInformation.addToChoiceRow();
                 isCherching = 1;
             }
