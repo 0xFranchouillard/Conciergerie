@@ -1,21 +1,41 @@
 <?php
 session_start();
 $connected = isset($_SESSION['email']) ? true : false;
+
+if(!$connected){
+    header('Location: index.php');
+    exit;
+}
+
 require_once('Pages/db.php');
 $db = connectionDB();
-$requestPlanning = $db->prepare('SELECT * FROM Intervention WHERE clientID= :clientID && agency= :agency && statutIntervention= 0');
-$requestHistory = $db->prepare('SELECT * FROM Intervention WHERE clientID= :clientID && agency= :agency && statutIntervention= 1');
 $requestProvider = $db->prepare('SELECT lastName, firstName FROM ServiceProvider WHERE providerID= :providerID && agency= :agency');
+$requestClient = $db->prepare('SELECT lastName, firstName FROM Client WHERE clientID= :clientID && agency= :agency');
 $requestService = $db->prepare('SELECT nameService FROM Service WHERE serviceID= :serviceID && language= :lang');
 $requestAllService = $db->prepare('SELECT * FROM Service WHERE language= :lang');
-$requestPlanning->execute([
-   'clientID'=>$_SESSION['id'],
-   'agency'=>$_SESSION['agencyClient']
-]);
-$requestHistory->execute([
-    'clientID'=>$_SESSION['id'],
-    'agency'=>$_SESSION['agencyClient']
-]);
+if(isset($_SESSION['provider']) && $_SESSION['provider'] == 1) {
+    $requestPlanning = $db->prepare('SELECT * FROM Intervention WHERE providerID= :providerID && agencyProvider= :agency && statutIntervention= 0');
+    $requestHistory = $db->prepare('SELECT * FROM Intervention WHERE providerID= :providerID && agencyProvider= :agency && statutIntervention= 1');
+    $requestPlanning->execute([
+        'providerID' => $_SESSION['id'],
+        'agency' => $_SESSION['agencyClient']
+    ]);
+    $requestHistory->execute([
+        'providerID' => $_SESSION['id'],
+        'agency' => $_SESSION['agencyClient']
+    ]);
+} else {
+    $requestPlanning = $db->prepare('SELECT * FROM Intervention WHERE clientID= :clientID && agency= :agency && statutIntervention= 0');
+    $requestHistory = $db->prepare('SELECT * FROM Intervention WHERE clientID= :clientID && agency= :agency && statutIntervention= 1');
+    $requestPlanning->execute([
+        'clientID' => $_SESSION['id'],
+        'agency' => $_SESSION['agencyClient']
+    ]);
+    $requestHistory->execute([
+        'clientID' => $_SESSION['id'],
+        'agency' => $_SESSION['agencyClient']
+    ]);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,6 +73,7 @@ $requestHistory->execute([
             <br/>
             <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur6.png"></p>
             <br/>
+            <?php if(!isset($_SESSION['provider']) || $_SESSION['provider'] != 1) { ?>
             <!-- Demande de service -->
             <section class="body_section">
                 <h1><?=_INTERVENTIONDEMAND?> :</h1>
@@ -108,6 +129,7 @@ $requestHistory->execute([
             <br/>
             <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur3.png"></p>
             <br/>
+            <?php } ?>
             <!-- Planning -->
             <section class="body_section">
                 <h1><?=_PLANNING?> :</h1>
@@ -121,25 +143,43 @@ $requestHistory->execute([
                             <div class="col">
                                 <h5><?= _NUMBER ?></h5>
                             </div>
-                            <div class="col">
-                                <h5><?= _PROVIDER ?></h5>
-                            </div>
+                            <?php if(isset($_SESSION['provider']) && $_SESSION['provider'] == 1) { ?>
+                                <div class="col">
+                                    <h5><?= _CLIENT ?></h5>
+                                </div>
+                            <?php } else { ?>
+                                <div class="col">
+                                    <h5><?= _PROVIDER ?></h5>
+                                </div>
+                            <?php } ?>
                             <div class="col">
                                 <h5><?= _DAY.'/'._HOUR ?></h5>
                             </div>
                             <div class="col">
                             </div>
+                            <?php if(isset($_SESSION['provider']) && $_SESSION['provider'] == 1) { ?>
+                            <div class="col">
+                            </div>
+                            <?php } ?>
                         </div>
                         <?php for($i=0; $resultPlanning =$requestPlanning->fetch(); $i++) {
-                            $requestProvider->execute([
-                               'providerID'=>$resultPlanning['providerID'],
-                               'agency'=>$resultPlanning['agencyProvider']
-                            ]);
+                            if(isset($_SESSION['provider']) && $_SESSION['provider'] == 1) {
+                                $requestClient->execute([
+                                    'clientID' => $resultPlanning['clientID'],
+                                    'agency' => $resultPlanning['agency']
+                                ]);
+                                $resultClient = $requestClient->fetch();
+                            } else {
+                                $requestProvider->execute([
+                                    'providerID' => $resultPlanning['providerID'],
+                                    'agency' => $resultPlanning['agencyProvider']
+                                ]);
+                                $resultProvider = $requestProvider->fetch();
+                            }
                             $requestService->execute([
-                               'serviceID'=>$resultPlanning['serviceID'],
+                                'serviceID'=>$resultPlanning['serviceID'],
                                 'lang'=>$_SESSION['lang']
                             ]);
-                            $resultProvider = $requestProvider->fetch();
                             $resultService = $requestService->fetch();
                             ?>
                             <div class="row" style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF; <?php if($i%2 == 1) { echo 'background-color: #DFDFDF'; } ?>" id="Planning<?= $resultPlanning['interventionID'] ?>">
@@ -149,18 +189,33 @@ $requestHistory->execute([
                                 <div class="col">
                                     <h7><?= $resultPlanning['pastType'] ?></h7>
                                 </div>
-                                <div class="col">
-                                    <h7><?= $resultProvider['lastName'].' '.$resultProvider['firstName'] ?></h7>
-                                </div>
+                                <?php if(isset($_SESSION['provider']) && $_SESSION['provider'] == 1) { ?>
+                                    <div class="col">
+                                        <h7><?= $resultClient['lastName'].' '.$resultClient['firstName'] ?></h7>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="col">
+                                        <h7><?= $resultProvider['lastName'].' '.$resultProvider['firstName'] ?></h7>
+                                    </div>
+                                <?php } ?>
                                 <div class="col">
                                     <h7><?= $resultPlanning['dateIntervention'].' '._TO1.' '.$resultPlanning['timeIntervention'] ?></h7>
                                 </div>
-                                <div class="col">
-                                    <input type="button" value="<?= _CANCEL ?>" onclick="cancelIntervention(<?= $resultPlanning['interventionID'] ?>)"/>
-                                </div>
+                                <?php if(isset($_SESSION['provider']) && $_SESSION['provider'] == 1) { ?>
+                                    <div class="col">
+                                        <input type="button" value="<?= _VALIDATE ?>" onclick="validIntervention(<?= $resultPlanning['interventionID'] ?>)"/>
+                                    </div>
+                                    <div class="col">
+                                        <input type="button" value="<?= _REFUSE ?>" onclick="refuseIntervention(<?= $resultPlanning['interventionID'] ?>)"/>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="col">
+                                        <input type="button" value="<?= _CANCEL ?>" onclick="cancelIntervention(<?= $resultPlanning['interventionID'] ?>)"/>
+                                    </div>
+                                <?php } ?>
                             </div>
-                    <?php }
-                        } else { ?>
+                        <?php }
+                    } else { ?>
                         <div class="row">
                             <div class="col">
                                 <h4><?= E_PLANNING ?></h4>
@@ -185,23 +240,37 @@ $requestHistory->execute([
                             <div class="col">
                                 <h5><?= _NUMBER ?></h5>
                             </div>
-                            <div class="col">
-                                <h5><?= _PROVIDER ?></h5>
-                            </div>
+                            <?php if(isset($_SESSION['provider']) && $_SESSION['provider'] == 1) { ?>
+                                <div class="col">
+                                    <h5><?= _CLIENT ?></h5>
+                                </div>
+                            <?php } else { ?>
+                                <div class="col">
+                                    <h5><?= _PROVIDER ?></h5>
+                                </div>
+                            <?php } ?>
                             <div class="col">
                                 <h5><?= _DAY.'/'._HOUR ?></h5>
                             </div>
                         </div>
                         <?php for($i=0; $resultHistory = $requestHistory->fetch(); $i++) {
-                            $requestProvider->execute([
-                                'providerID'=>$resultHistory['providerID'],
-                                'agency'=>$resultHistory['agencyProvider']
-                            ]);
+                            if(isset($_SESSION['provider']) && $_SESSION['provider'] == 1) {
+                                $requestClient->execute([
+                                    'clientID' => $resultHistory['clientID'],
+                                    'agency' => $resultHistory['agency']
+                                ]);
+                                $resultClient = $requestClient->fetch();
+                            } else {
+                                $requestProvider->execute([
+                                    'providerID' => $resultHistory['providerID'],
+                                    'agency' => $resultHistory['agencyProvider']
+                                ]);
+                                $resultProvider = $requestProvider->fetch();
+                            }
                             $requestService->execute([
                                 'serviceID'=>$resultHistory['serviceID'],
                                 'lang'=>$_SESSION['lang']
                             ]);
-                            $resultProvider = $requestProvider->fetch();
                             $resultService = $requestService->fetch();
                             ?>
                             <div class="row" style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF; <?php if($i%2 == 1) { echo 'background-color: #DFDFDF'; } ?>">
@@ -211,9 +280,15 @@ $requestHistory->execute([
                                 <div class="col">
                                     <h7><?= $resultHistory['pastType'] ?></h7>
                                 </div>
-                                <div class="col">
-                                    <h7><?= $resultProvider['lastName'].' '.$resultProvider['firstName'] ?></h7>
-                                </div>
+                                <?php if(isset($_SESSION['provider']) && $_SESSION['provider'] == 1) { ?>
+                                    <div class="col">
+                                        <h7><?= $resultClient['lastName'].' '.$resultClient['firstName'] ?></h7>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="col">
+                                        <h7><?= $resultProvider['lastName'].' '.$resultProvider['firstName'] ?></h7>
+                                    </div>
+                                <?php } ?>
                                 <div class="col">
                                     <h7><?= $resultHistory['dateIntervention'].' '._TO1.' '.$resultHistory['timeIntervention'] ?></h7>
                                 </div>

@@ -28,6 +28,8 @@ define('_AGENCY','Choix de l\'agence');
 define('E_CONNEXION1','Vous devez remplir tout les champs');
 define('E_CONNEXION2','Email incorrect');
 define('E_CONNEXION3','Mot de passe incorrect');
+define('_CHANGEPASSWORD','Changer mot de passe');
+define('_CONFIRM','Confirmer');
 
 //Error verif_inscription.php
 define('E_REGISTRATION1','Vous devez remplir tout les champs');
@@ -64,6 +66,7 @@ define('_AVAILABILITY','Jour/Heure disponible');
 define('_TO1','à');
 define('_TO2','au');
 define('_H','h');
+define('_WEBGL','Démonstration 3D service');
 
 //Cart
 define('_CART','Panier');
@@ -107,6 +110,8 @@ define('_REST','reste');
 define('_YOUMISS','Il vous manque');
 define('_CREDITS','crédits');
 define('_NEGATIVENUMBER','Les nombres négatifs ne sont pas autorisés');
+define('_VALIDATE','Valider');
+define('_REFUSE','Refuser');
 
 //Subscription
 define('_SUBSCRIPTION','Abonnement');

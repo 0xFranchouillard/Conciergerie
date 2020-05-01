@@ -10,7 +10,7 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
     $password = hash('sha256',$_POST['password']);
 
     if($_POST['type'] == _PROVIDER) {
-        $request = $db->prepare('SELECT providerID, password FROM serviceprovider WHERE email = :email');
+        $request = $db->prepare('SELECT providerID, agency, password FROM serviceprovider WHERE email = :email');
     } else {
         $request = $db->prepare('SELECT clientID, agency, password, stripeID FROM client WHERE email = :email');
     }
@@ -22,24 +22,47 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
         echo E_CONNEXION2;
     } else {
         $result = $request->fetch();
-        if($password == $result['password']) {
-            session_start();
-            $_SESSION['email'] = $email;
-            $_SESSION['id'] = $result[0];
-            $_SESSION['password'] = $password;
-            $_SESSION['agencyClient'] = $result['agency'];
-            $_SESSION['stripeID'] = $result['stripeID'];
-            $_SESSION['password'] = $password;
-            if ($_POST['type'] == _PROVIDER) {
-                $_SESSION['providerID'] = $result[0];
-            } else {
-                $_SESSION['clientID'] = $result[0];
+
+        if($_POST['type'] == _PROVIDER) {
+
+            if (strlen($_POST['password']) == 6 && $_POST['password'] == $result['password']) {
+                session_start();
+                $_SESSION['id'] = $result['providerID'];
+                $_SESSION['agency'] = $result['agency'];
+                echo "changePassword";
+                exit();
             }
-            verifValidityEstimate();
-            verifValidityIntervention();
-            echo "OK";
+
+            if ($password == $result['password']) {
+                session_start();
+                $_SESSION['id'] = $result[0];
+                $_SESSION['agencyClient'] = $result['agency'];
+                $_SESSION['email'] = $email;
+                $_SESSION['password'] = $password;
+                $_SESSION['provider'] = 1;
+                $_SESSION['providerID'] = $result[0];
+                echo "OK";
+            } else {
+                echo E_CONNEXION3;
+            }
+
         } else {
-            echo E_CONNEXION3;
+
+            if ($password == $result['password']) {
+                session_start();
+                $_SESSION['id'] = $result[0];
+                $_SESSION['agencyClient'] = $result['agency'];
+                $_SESSION['email'] = $email;
+                $_SESSION['password'] = $password;
+                $_SESSION['clientID'] = $result[0];
+                $_SESSION['stripeID'] = $result['stripeID'];
+                verifValidityEstimate();
+                verifValidityIntervention();
+                echo "OK";
+            } else {
+                echo E_CONNEXION3;
+            }
+
         }
     }
 } else {

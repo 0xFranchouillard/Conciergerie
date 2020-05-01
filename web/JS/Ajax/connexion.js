@@ -9,6 +9,8 @@ function Connexion(lang) {
         if(request.readyState === 4 && request.status === 200) {
             if(request.responseText == "OK") {
                 document.location.href="index.php";
+            } else if(request.responseText == "changePassword") {
+                document.location.href="changePassword.php";
             } else {
                 displayError(request.responseText);
             }

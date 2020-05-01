@@ -11,10 +11,12 @@ $requestClientSubscription = $db->prepare('SELECT * FROM Subscription WHERE subs
 $requestSubscription->execute([
    'lang'=>$_SESSION['lang']
 ]);
-$requestSubscribes->execute([
-   'clientID'=>$_SESSION['id'],
-   'agency'=>$_SESSION['agencyClient']
-]);
+if($connected && (!isset($_SESSION['provider']) || $_SESSION['provider'] != 1)) {
+    $requestSubscribes->execute([
+        'clientID' => $_SESSION['id'],
+        'agency' => $_SESSION['agencyClient']
+    ]);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -91,7 +93,9 @@ $requestSubscribes->execute([
                                     <div class="col">
                                         <h6><?= $resultSubscription['pricePerYear'].'€ '._INCLTAXES.' /'._YEAR ?></h6>
                                     </div>
-                                </div><br/>
+                                </div>
+                                <?php if($connected && (!isset($_SESSION['provider']) || $_SESSION['provider'] != 1)) { ?>
+                                <br/>
                                 <div class="row" style=" max-width: 100%; margin: 0%;">
                                     <div class="col">
                                         <a href="pay.php?sub=<?= $resultSubscription['subscriptionID'] ?>" target="_blank"><input type="button" value="<?= _BUY ?>"> </a>
@@ -99,6 +103,7 @@ $requestSubscribes->execute([
                                     </div>
                                 </div>
                                 <h6 id="error<?= $resultSubscription['subscriptionID'] ?>" style="none"></h6>
+                                <?php } ?>
                             </div>
                     <?php if ($i % 3 == 2) { ?>
                         </div>
@@ -113,6 +118,7 @@ $requestSubscribes->execute([
             <?php } ?>
         </div>
     </section>
+    <?php if($connected && (!isset($_SESSION['provider']) || $_SESSION['provider'] != 1)) { ?>
     <br/>
     <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur6.png"></p>
     <br/>
@@ -178,8 +184,8 @@ $requestSubscribes->execute([
                     <?php if ($i % 3 == 2) { ?>
                         </div>
                     <?php } ?>
-                <?php } ?>
-                <?php } else { ?>
+                <?php }
+            } else { ?>
                 <div class="row">
                     <div class="col">
                         <h6><?= _NOSUBSCRIPTION ?></h6>
@@ -188,6 +194,7 @@ $requestSubscribes->execute([
             <?php } ?>
         </div>
     </section>
+    <?php } ?>
     <br/>
     <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur3.png"></p>
 </main>

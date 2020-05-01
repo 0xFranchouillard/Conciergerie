@@ -33,7 +33,7 @@ require_once('lang/'.$_SESSION['lang'].'.php');
                 </li>&nbsp&nbsp&nbsp|
             <?php } ?>
                 <li class="link_header">
-                    <a href="#" class="link"><?=_CONTACT?></a>
+                    <a href="contact.php" class="link"><?=_CONTACT?></a>
                 </li>&nbsp&nbsp&nbsp|
             <?php if(!$connected){ ?>
                 <li class="link_header">
@@ -59,7 +59,7 @@ require_once('lang/'.$_SESSION['lang'].'.php');
             <li class="link_header">
                 <img src="Pictures/ALL.png" title="deutsch" width="30px" onclick="tr('DE')"/>
             </li>
-            <?php if($connected){ ?>
+            <?php if($connected && (!isset($_SESSION['provider']) || $_SESSION['provider'] != 1)) { ?>
                 &nbsp&nbsp&nbsp|
                 <li class="link_header">
                     <a href="cart.php">

@@ -19,7 +19,7 @@
             <?php if($connected){ ?>
                 <a href="interventions.php" class="col link_footer"><?=_INTERVENTIONS?></a>
             <?php } ?>
-            <a href="#" class="col link_footer"><?=_CONTACT?></a>
+            <a href="contact.php" class="col link_footer"><?=_CONTACT?></a>
         </div>
     </div>
     <br/>

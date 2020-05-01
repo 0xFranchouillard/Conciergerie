@@ -77,3 +77,33 @@ function cancelIntervention(interventionID) {
     }
     request.send('interventionID=' + interventionID + '&button=' + 3);
 }
+
+function validIntervention(interventionID) {
+    const planning = document.getElementById('Planning' + interventionID);
+    const request = new  XMLHttpRequest();
+    request.open('POST','verif/verifInterventionProvider.php');
+    request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+            if(request.responseText == "OK") {
+             planning.style.display = "none";
+            }
+        }
+    }
+    request.send('interventionID=' + interventionID + '&button=' + 1);
+}
+
+function refuseIntervention(interventionID) {
+    const planning = document.getElementById('Planning' + interventionID);
+    const request = new  XMLHttpRequest();
+    request.open('POST','verif/verifInterventionProvider.php');
+    request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+            if(request.responseText == "OK") {
+                planning.style.display = "none";
+            }
+        }
+    }
+    request.send('interventionID=' + interventionID + '&button=' + 2);
+}

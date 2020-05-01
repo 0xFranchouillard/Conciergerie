@@ -41,6 +41,16 @@ $request = $db->prepare('SELECT serviceID, nameService FROM service WHERE langua
             <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur6.png"></p>
             <br/>
             <section class="body_section">
+                <h1><?=_WEBGL?> :</h1>
+                <br/>
+                <a href="../LuxuryServiceWebGL/examples/webGlAnimation.html" target="_blank">
+                    <img alt="webGL" src="Pictures/prewiewWebGL.png">
+                </a>
+            </section>
+            <br/>
+            <p style="text-align:center"><img alt="separateur" id="separateur" src="Pictures/Separateur6.png"></p>
+            <br/>
+            <section class="body_section">
                 <h1><?=_SERVICEDEMAND?> :</h1>
                 <br/>
                 <form action="" method="post">
@@ -54,17 +64,17 @@ $request = $db->prepare('SELECT serviceID, nameService FROM service WHERE langua
                             for ($i = 0; $result = $request->fetch(); $i++) {
                                 if ($i % 3 == 0) { ?>
                                     <div class="row">
-                                        <div class="col">
-                                            <a href="service.php?serviceID=<?= $result['serviceID'] ?>"><?= $result['nameService'] ?></a>
+                                        <div class="col" style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF;">
+                                            <a href="service.php?serviceID=<?= $result['serviceID'] ?>" style="color: #353443;"><?= $result['nameService'] ?></a>
                                         </div>
                                 <?php } else if ($i % 3 == 2) { ?>
-                                        <div class="col">
-                                            <a href="service.php?serviceID=<?= $result['serviceID'] ?>"><?= $result['nameService'] ?></a>
+                                        <div class="col" style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF;">
+                                            <a href="service.php?serviceID=<?= $result['serviceID'] ?>" style="color: #353443;"><?= $result['nameService'] ?></a>
                                         </div>
                                     </div>
                                 <?php } else { ?>
-                                        <div class="col">
-                                            <a href="service.php?serviceID=<?= $result['serviceID'] ?>"><?= $result['nameService'] ?></a>
+                                        <div class="col" style="padding: 2% 0% 2% 0%; box-sizing: border-box; border: solid 1px #DFDFDF;">
+                                            <a href="service.php?serviceID=<?= $result['serviceID'] ?>" style="color: #353443;"><?= $result['nameService'] ?></a>
                                         </div>
                                 <?php }
                             }
@@ -74,7 +84,7 @@ $request = $db->prepare('SELECT serviceID, nameService FROM service WHERE langua
                                     <label><?=E_SERVICE?></label>
                                 </div>
                             </div>
-                        <?php }?>
+                        <?php } ?>
                     </div>
                 </form>
             </section>

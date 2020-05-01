@@ -29,6 +29,8 @@ define('_AGENCY','Choice of agency');
 define('E_CONNEXION1','You must fill in all the fields');
 define('E_CONNEXION2','Incorrect email');
 define('E_CONNEXION3','Incorrect password');
+define('_CHANGEPASSWORD','Changer password');
+define('_CONFIRM','Confirm');
 
 //Error verif_inscription.php
 define('E_REGISTRATION1','You must fill in all the fields');
@@ -65,6 +67,7 @@ define('_AVAILABILITY','Day/Time available');
 define('_TO1','to');
 define('_TO2','to');
 define('_H','h');
+define('_WEBGL','3D service demonstration');
 
 //Cart
 define('_CART','Cart');
@@ -108,6 +111,8 @@ define('_REST','rest');
 define('_YOUMISS','You miss');
 define('_CREDITS','credits');
 define('_NEGATIVENUMBER','Negative numbers are not allowed');
+define('_VALIDATE','Validate');
+define('_REFUSE','Refuse');
 
 //Subscription
 define('_SUBSCRIPTION','Subscription');
@@ -127,7 +132,6 @@ define('_ALREADYSUBSCRIPTION','You already have this subscription');
 define('_REFUND','REFUND ME');
 define('_REFUNDOK','VALID');
 define('_REFUNDKO','REFUSE');
-
 
 //Day of the Week
 define('_MONDAY','Monday');

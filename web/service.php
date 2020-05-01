@@ -83,7 +83,7 @@ $requestService = $db->prepare('SELECT * FROM Service WHERE serviceID= :id && la
                                     </div>
                                 <?php } ?>
                             </div>
-                            <?php if($connected) { ?>
+                            <?php if($connected && (!isset($_SESSION['provider']) || $_SESSION['provider'] != 1)) { ?>
                                 <div class="row">
                                     <div class="col">
                                         <form action="" method="post">

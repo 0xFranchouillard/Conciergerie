@@ -2,7 +2,7 @@
 session_start();
 $connected = isset($_SESSION['email']) ? true : false;
 // Si l'utilisateur n'est pas connecté => redirection page accueil
-if($connected==false){
+if(!$connected || (isset($_SESSION['provider']) && $_SESSION['provider'] == 1)) {
     header('Location: index.php');
     exit;
 }
