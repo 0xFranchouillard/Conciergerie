@@ -60,7 +60,6 @@ public class ExportationService {
 
         containCommand = containCommand.substring(0,containCommand.length() -2);
         containCommand += " FROM Service";
-        System.out.println(containCommand);
         return containCommand;
     }
 

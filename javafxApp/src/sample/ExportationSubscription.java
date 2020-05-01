@@ -60,7 +60,6 @@ public class ExportationSubscription {
 
         containCommand = containCommand.substring(0,containCommand.length() -2);
         containCommand += " FROM Subscription";
-        System.out.println(containCommand);
         return containCommand;
     }
 

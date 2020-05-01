@@ -69,7 +69,6 @@ public class ExportationIntervention {
 
         containCommand = containCommand.substring(0,containCommand.length() -2);
         containCommand += " FROM intervention";
-        System.out.println(containCommand);
         return containCommand;
     }
 }
