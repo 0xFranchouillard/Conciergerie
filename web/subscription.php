@@ -171,7 +171,7 @@ $requestSubscribes->execute([
                                 <h6><?= $resultClientSubscription['pricePerYear'].'€ '._INCLTAXES.' /'._YEAR ?></h6>
                             </div>
                         </div>
-                        <a href="refund.php?sub=<?= $resultClientSubscription['subscriptionID'] ?>" target="_blank"><input type="button" value="<?= _REFUND ?>"> </a>
+                        <!--<a href="refund.php?sub=<?= $resultClientSubscription['subscriptionID'] ?>" target="_blank"><input type="button" value="<?= _REFUND ?>"> </a>-->
                         <input type="button" value="<?= _REFUND ?>" onclick="refund(<?= $resultClientSubscription['subscriptionID'] ?>)"/>
                         <h6 id="error_ref<?= $resultClientSubscription['subscriptionID'] ?>" style="none"></h6>
                     </div>
