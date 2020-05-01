@@ -276,23 +276,23 @@ if(isset($_POST['endTime']) && !empty($_POST['endTime']) &&
         "En"
     ));
 }
-if(isset($_POST['pricePerYear']) && !empty($_POST['pricePerYear']) &&
+if(isset($_POST['value']) && !empty($_POST['value']) &&
     isset($_GET['id_sub']) && !empty($_GET['id_sub'])) {
 
-    $update_priceTypeService = $bdd->prepare('UPDATE subscription SET pricePerYear = ? WHERE subscriptionID = ? AND language = ?');
+    $update_priceTypeService = $bdd->prepare('UPDATE subscription SET value = ? WHERE subscriptionID = ? AND language = ?');
 
     $update_priceTypeService->execute(array(
-        $_POST['pricePerYear'],
+        $_POST['value'],
         $_GET['id_sub'],
         "Fr"
     ));
     $update_priceTypeService->execute(array(
-        $_POST['pricePerYear'],
+        $_POST['value'],
         $_GET['id_sub'],
         "En"
     ));
 }
-if(isset($_POST['value']) && !empty($_POST['value']) &&
+if(isset($_POST['pricePerYear']) && !empty($_POST['pricePerYear']) &&
     isset($_GET['id_sub']) && !empty($_GET['id_sub'])) {
     require_once '../web/stripe/init.php';
     echo $_POST['stripeID'];
@@ -308,23 +308,23 @@ if(isset($_POST['value']) && !empty($_POST['value']) &&
 
     $intent = \Stripe\Plan::create([
         'id' => $_POST['stripeID'],
-        'amount' => $_POST['value']*100,
+        'amount' => $_POST['pricePerYear']*100,
         'currency' => 'eur',
         'interval' => 'year',
         'product' => 'prod_H946I3MSCrr63d',
         "nickname" => $sub['nameSubscription'],
     ]);
 
-    $update_priceTypeService = $bdd->prepare('UPDATE subscription SET value = ?, stripeID = ? WHERE subscriptionID = ? AND language = ?');
+    $update_priceTypeService = $bdd->prepare('UPDATE subscription SET pricePerYear = ?, stripeID = ? WHERE subscriptionID = ? AND language = ?');
 
     $update_priceTypeService->execute(array(
-        $_POST['value'],
+        $_POST['pricePerYear'],
         $intent->id,
         $_GET['id_sub'],
         "Fr"
     ));
     $update_priceTypeService->execute(array(
-        $_POST['value'],
+        $_POST['pricePerYear'],
         $intent->id,
         $_GET['id_sub'],
         "En"
@@ -344,7 +344,7 @@ isset($_POST['value']) && !empty($_POST['value'])) {
     \Stripe\Stripe::setApiKey('sk_test_WDZW3sWkIUI5asuWjU1FOR7Z00kDVsxULV');
 
     $intent = \Stripe\Plan::create([
-        'amount' => $_POST['value']*100,
+        'amount' => $_POST['pricePerYear']*100,
         'currency' => 'eur',
         'interval' => 'year',
         'product' => 'prod_H946I3MSCrr63d',

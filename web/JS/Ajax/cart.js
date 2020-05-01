@@ -21,7 +21,6 @@ window.onload = () => {
             displayError.textContent = event.error.message;
         }else{
             console.log("ELSE1")
-
             displayError.textContent = "";
         }
     })

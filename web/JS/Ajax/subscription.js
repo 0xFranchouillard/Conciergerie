@@ -69,6 +69,27 @@ function buySubscription(subscriptionID) {
     request.send('subscriptionID=' + subscriptionID);
 }
 
+function refund(subscriptionID) {
+    const error = document.getElementById('error_ref' + subscriptionID);
+    const request = new XMLHttpRequest();
+    request.open('POST','refund.php');
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.onreadystatechange = function () {
+        if(request.readyState === 4 && request.status === 200) {
+            if(request.responseText.split(" ")[0] == "OK") {
+                error.style.display = "block";
+                error.style.color = "green";
+                error.innerHTML = request.responseText.split(" ")[1];
+            } else {
+                error.style.display = "block";
+                error.style.color = "#b52626";
+                error.innerHTML = request.responseText;
+            }
+        }
+    }
+    request.send('sub='+subscriptionID);
+}
+
 function modif_data(id,value) {
     document.getElementById("card-button").dataset.secret = value
     var form = document.getElementById(id);

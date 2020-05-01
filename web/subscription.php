@@ -172,6 +172,8 @@ $requestSubscribes->execute([
                             </div>
                         </div>
                         <a href="refund.php?sub=<?= $resultClientSubscription['subscriptionID'] ?>" target="_blank"><input type="button" value="<?= _REFUND ?>"> </a>
+                        <input type="button" value="<?= _REFUND ?>" onclick="refund(<?= $resultClientSubscription['subscriptionID'] ?>)"/>
+                        <h6 id="error_ref<?= $resultClientSubscription['subscriptionID'] ?>" style="none"></h6>
                     </div>
                     <?php if ($i % 3 == 2) { ?>
                         </div>

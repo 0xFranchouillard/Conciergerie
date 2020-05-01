@@ -124,6 +124,8 @@ define('_ONSUBSCRIPTION','für Ihr Abonnement');
 define('_SUBSCRIPTIONBUY','Ihr Abonnement wurde berücksichtigt');
 define('_ALREADYSUBSCRIPTION','Sie haben dieses Abonnement bereits');
 define('_REFUND','Erstattung');
+define('_REFUNDOK','GÜLTIG');
+define('_REFUNDKO','ABGELEHNT');
 
 //Day of the Week
 define('_MONDAY','Montag');
