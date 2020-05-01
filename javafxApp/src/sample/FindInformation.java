@@ -164,7 +164,6 @@ public class FindInformation {
     public String createQuery(){
 
         String query = "SELECT * FROM " + objectDB + " WHERE " + convertForDBSearch() + " = " + valueUserWrite.getText();
-        System.out.println("O" + convertForDBSearch() +"O");
         return query;
     }
 

@@ -50,7 +50,6 @@ public class CreatingPdf {
 
             contentStream.newLineAtOffset(0, - leading);
             lineCount++;
-            System.out.println(lines[i]);
         }
 
 

@@ -17,7 +17,6 @@ public class DatabaseAndFile {
         CreatingPdf creatingPdf = new CreatingPdf();
 
         try {
-
             // connection with the database
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(
@@ -78,12 +77,12 @@ public class DatabaseAndFile {
             try{
                 File file = new File(fileName);
                 if (file.createNewFile()) {
-                    System.out.println("File created: " + file.getName());
+                    System.out.println("Fichier crée: " + file.getName());
                 } else {
-                    System.out.println("File already exists.");
+                    System.out.println("Le fichier existe déjà.");
                 }
             } catch (IOException e) {
-                System.out.println("An error occurred.");
+                System.out.println("Erreur.");
                 e.printStackTrace();
             }
         }
