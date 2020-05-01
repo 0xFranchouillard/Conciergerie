@@ -1,15 +1,16 @@
 <?php
+ini_set('display_errors',1);
 require_once 'stripe/init.php';
 require_once 'Pages/db.php';
-
+session_start();
 $bdd = connectionDB();
+echo "a";
 
 if (!empty($_SESSION['stripeID']) && !empty($_SESSION['agencyClient']) && !empty($_GET['sub'])){
 
     \Stripe\Stripe::setApiKey('sk_test_WDZW3sWkIUI5asuWjU1FOR7Z00kDVsxULV');
 
-    $customer = \Stripe\Customer::retrieve($user["stripeID"]);
-
+    $customer = \Stripe\Customer::retrieve($_SESSION["stripeID"]);
     $sub = $bdd->query('SELECT * FROM subscription GROUP BY subscriptionID');
     $rows =  $sub->rowCount();
     $data = $sub->fetchAll();
@@ -19,39 +20,36 @@ if (!empty($_SESSION['stripeID']) && !empty($_SESSION['agencyClient']) && !empty
             if ($d["items"]["data"][0]["plan"]["id"] == $data[$j]["stripeID"] && $d["items"]["data"][0]["plan"]["active"] == true) {
 
                 $id = $bdd->prepare('SELECT * FROM subscribes WHERE subscriptionID = :id AND clientID = :client AND agency = :agency');
-                $id->execute(array(':id'=>$_GET['sub'],':client'=>$_SESSION['id'],$_SESSION['agencyClient']));
+                $id->execute(array(':id'=>$_GET['sub'],':client'=>$_SESSION['id'],':agency'=>$_SESSION['agencyClient']));
                 $id = $id->fetch();
 
-                $datetime1 = new DateTime(date("Y-m-d"));
+                $datetime1 = new DateTime(date("Y-m-d",(strtotime("now".'+ 1 MONTH'))));
                 $datetime2 = new DateTime($id["endDate"]);
                 $interval = $datetime1->diff($datetime2);
                 $nbMonth = $interval->format('%m');
 
-                $new_date =  date('Y-m-d',(strtotime(date('Y-m',(strtotime($datetime1.' + 1 MONTH')))))); // on laisse l'abo actif pour le mois courant
+                $new_date =  date("Y-m-d",strtotime(date("Y-m",(strtotime("now".'+ 1 MONTH'))))); // on laisse l'abo actif pour le mois courant
 
+                $amount = ($data[$j]["pricePerYear"] / 12) * $nbMonth;
 
-                $amount = ($data[$j]["value"] - ($data[$j]["value"] / 12)) * $nbMonth * 100;
+                $amount = round($amount,2);
 
-                \Stripe\Refund::create([
+                $refund = \Stripe\Refund::create([
                     'payment_intent' => $id['paymentStripeID'],
                     'amount' => $amount
                 ]);
 
-                $request = $db->prepare('UPDATE subscribes SET endDate = :newdate WHERE subscriptionID = :id AND clientID = :client AND agency = :agency');
+                $request = $bdd->prepare('UPDATE subscribes SET endDate = :newdate WHERE subscriptionID = :id AND clientID = :client AND agency = :agency');
                 $request->execute([
                     'newdate' =>$new_date,
                     'id' => $data[$j]["subscriptionID"],
                     'client' => $_SESSION['id'],
-                    'agency' => $_POST['lastName'],
-                    'firstName' => $_POST['agencyClient']
+                    'agency' => $_SESSION['agencyClient']
                 ]);
             }
         }
     }
-
-
-
-
-
+    echo "<script>window.location='subscription?error=refunded'</script>";
 }
+echo "<script>window.location='subscription?error=False_Information'</script>";
 ?>

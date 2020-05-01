@@ -124,6 +124,7 @@ define('_STILLHAVE','You still have');
 define('_ONSUBSCRIPTION','on your subscription');
 define('_SUBSCRIPTIONBUY','Your subscription has been taken into account');
 define('_ALREADYSUBSCRIPTION','You already have this subscription');
+define('_REFUND','REFUND ME');
 
 //Day of the Week
 define('_MONDAY','Monday');

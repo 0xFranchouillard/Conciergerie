@@ -171,12 +171,13 @@ $requestSubscribes->execute([
                                 <h6><?= $resultClientSubscription['pricePerYear'].'€ '._INCLTAXES.' /'._YEAR ?></h6>
                             </div>
                         </div>
+                        <a href="refund.php?sub=<?= $resultClientSubscription['subscriptionID'] ?>" target="_blank"><input type="button" value="<?= _REFUND ?>"> </a>
                     </div>
                     <?php if ($i % 3 == 2) { ?>
                         </div>
                     <?php } ?>
-                <?php }
-            } else { ?>
+                <?php } ?>
+                <?php } else { ?>
                 <div class="row">
                     <div class="col">
                         <h6><?= _NOSUBSCRIPTION ?></h6>

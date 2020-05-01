@@ -123,6 +123,7 @@ define('_STILLHAVE','Sie haben noch');
 define('_ONSUBSCRIPTION','für Ihr Abonnement');
 define('_SUBSCRIPTIONBUY','Ihr Abonnement wurde berücksichtigt');
 define('_ALREADYSUBSCRIPTION','Sie haben dieses Abonnement bereits');
+define('_REFUND','Erstattung');
 
 //Day of the Week
 define('_MONDAY','Montag');

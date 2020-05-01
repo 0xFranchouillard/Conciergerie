@@ -47,6 +47,7 @@ window.onload = () => {
     })
 
 }
+
 function buySubscription(subscriptionID) {
     const error = document.getElementById('error' + subscriptionID);
     const request = new XMLHttpRequest();
