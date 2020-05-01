@@ -50,7 +50,7 @@ if (!empty($_SESSION['stripeID']) && !empty($_SESSION['agencyClient']) && !empty
                     'client' => $_SESSION['id'],
                     'agency' => $_SESSION['agencyClient']
                 ]);
-                echo "OK "._REFUNDOK.$amount." €";
+                echo "OK "._REFUNDOK.'_'.$amount."€";
                 exit();
             }
         }
