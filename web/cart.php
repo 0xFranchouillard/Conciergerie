@@ -23,7 +23,7 @@ $requestNameService = $db->prepare('SELECT nameService FROM Service WHERE servic
         <meta charset="utf-8">
         <meta name="description" content="Projet Annuel">
         <link rel="stylesheet" type="text/css" href="CSS/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="CSS/CSS_luxery.css">
+        <link rel="stylesheet" type="text/css" href="CSS/CSS_Luxery.css">
         <script src="https://js.stripe.com/v3/"></script>
         <script src="JS/Ajax/cart.js"></script>
         <title>LuxeryService</title>
@@ -178,6 +178,13 @@ $requestNameService = $db->prepare('SELECT nameService FROM Service WHERE servic
                                             <input type="button" value="<?= _BUY ?>" onclick="buyEstimate(<?= $resultIdBill['billID'] . ',' . $j ?>)"/>
                                         </div>
                                     </div>
+                                    <form method="post" id="StripeBuy" style="display: none">
+                                        <div id="errors"></div>
+                                        <input type="text" id="cardholder-name" value="<?=$_SESSION['email']?>" style="display: none">
+                                        <div id="card-elements"></div>
+                                        <div id="card-errors" role="alert"></div>
+                                        <button id="card-button" type="button" data-secret="<?=$intent['client_secret'] ?>">Procéder au paiement</button>
+                                    </form>
                                     <div class="row lessEstimate<?= $j ?>">
                                         <div class="col" style="margin-bottom: 1%;">
                                             <input type="button" value="<?= _DETAILS ?>" onclick="detail(<?= $j ?>)"/>
