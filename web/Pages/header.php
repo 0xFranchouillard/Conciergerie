@@ -44,7 +44,7 @@ require_once('lang/'.$_SESSION['lang'].'.php');
                 </li>&nbsp&nbsp&nbsp|
             <?php } else { ?>
                 <li class="link_header">
-                    <a href="user_profil.php" class="link"><?=_PROFIL?></a>
+                    <a href="userProfil.php" class="link"><?=_PROFIL?></a>
                 </li>&nbsp&nbsp&nbsp|
                 <li class="link_header">
                     <a href="Pages/deconnexion.php" class="link"><?=_DECONNEXION?></a>

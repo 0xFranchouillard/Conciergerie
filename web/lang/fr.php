@@ -39,7 +39,7 @@ define('E_REGISTRATION4','Votre numéro de téléphone est incorrect');
 define('E_REGISTRATION5','Votre adresse doit faire entre 9 et 140 caractères');
 define('E_REGISTRATION6','Votre adresse doit avoir la syntaxe suivant : "{numéro de rue} rue {nom de la rue}"');
 define('E_REGISTRATION7','Votre numéro d\'adresse est incorrecte');
-define('E_REGISTRATION8','Votre nom de rue doit faire minimum 3 caractères');
+define('E_REGISTRATION8','Votre nom de rue doit faire minimum 2 caractères');
 define('E_REGISTRATION9','Votre nom de rue doit avoir que des lettres');
 define('E_REGISTRATION10','Votre Mot de Passe doit contenir au moins 2 lettres majuscules, 2 chiffres et 4 lettres minuscules');
 define('E_REGISTRATION11','Vos mot de passe ne corresponde pas');
@@ -49,6 +49,10 @@ define('E_REGISTRATION14','Votre email n\'est pas valide');
 define('E_REGISTRATION15','Cet email est déjà utilisé');
 
 define('OK_REGISTRATION','Votre compte a bien été créé');
+define('_MODIFY','Modifier');
+define('_MODIFSUCCESS','La modification de vos données a réussie');
+define('_YOURINFORMATION','Vos informations');
+define('_OLDPASSWORD','Ancien mot de passe');
 
 //Service
 define('_SERVICE','Service');

@@ -28,7 +28,7 @@ if(isset($_POST['email']) && !empty($_POST['email']) &&
             if (strlen($_POST['password']) == 6 && $_POST['password'] == $result['password']) {
                 session_start();
                 $_SESSION['id'] = $result['providerID'];
-                $_SESSION['agency'] = $result['agency'];
+                $_SESSION['agencyClient'] = $result['agency'];
                 echo "changePassword";
                 exit();
             }

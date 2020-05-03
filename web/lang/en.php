@@ -40,7 +40,7 @@ define('E_REGISTRATION4','Your phone number is incorrect');
 define('E_REGISTRATION5','Your address must be between 9 and 140 characters long');
 define('E_REGISTRATION6','Your address must have the following syntax: "{street number} street {street name}"');
 define('E_REGISTRATION7','Your address number is incorrect');
-define('E_REGISTRATION8','Your street name must be at least 3 characters long');
+define('E_REGISTRATION8','Your street name must be at least 2 characters long');
 define('E_REGISTRATION9','Your street name should only have letters');
 define('E_REGISTRATION10','Your Password must contain at least 2 uppercase letters, 2 numbers and 4 lowercase letters');
 define('E_REGISTRATION11','Your passwords do not match');
@@ -50,6 +50,10 @@ define('E_REGISTRATION14','Your email is not valid');
 define('E_REGISTRATION15','This email is already in use');
 
 define('OK_REGISTRATION','Your account has been created');
+define('_MODIFY','Modify');
+define('_MODIFSUCCESS','The modification of your data was successful');
+define('_YOURINFORMATION','Your information');
+define('_OLDPASSWORD','Old password');
 
 //Service
 define('_SERVICE','Service');

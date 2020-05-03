@@ -11,7 +11,7 @@
             </div>
         <?php } else { ?>
             <div class="row">
-                <a href="user_profil.php" class="col link_footer"><?=_PROFIL?></a>
+                <a href="userProfil.php" class="col link_footer"><?=_PROFIL?></a>
                 <a href="Pages/deconnexion.php" class="col link_footer"><?=_DECONNEXION?></a>
             </div>
         <?php } ?>

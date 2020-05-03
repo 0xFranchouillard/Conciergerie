@@ -140,7 +140,7 @@ function verifAddress($address) {
         return E_REGISTRATION7;
     }
     for($i = 1; $i < count($addressSplit); $i++) {
-        if(strlen($addressSplit[$i]) < 3) {
+        if(strlen($addressSplit[$i]) < 2) {
             return E_REGISTRATION8;
         }
         for($j = 0; $j < strlen($addressSplit[$i]); $j++) {

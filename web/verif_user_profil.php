@@ -117,5 +117,4 @@ $post = array();
     }
 
     send_data($post);
-// ['data'][0]['iduser
 ?>

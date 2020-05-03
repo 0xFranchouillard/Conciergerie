@@ -1,4 +1,5 @@
 function changePassword() {
+    const olfPassword = document.getElementById('oldPassword').value;
     const password = document.getElementById('password').value;
     const password2 = document.getElementById('password2').value;
     const error = document.getElementById('error');
@@ -10,11 +11,11 @@ function changePassword() {
             if(request.responseText == "OK") {
                 document.location.href="connection.php";
             } else {
-                error.style.color = "";
+                error.style.color = "#b52626";
                 error.style.display = "block";
                 error.innerHTML = request.responseText;
             }
         }
     }
-    request.send('password=' + password + '&password2=' + password2);
+    request.send('oldPassword=' + olfPassword + '&password=' + password + '&password2=' + password2);
 }
